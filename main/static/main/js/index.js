@@ -65,14 +65,6 @@ new Vue({
 
         },
 
-        renderScript: function () {
-            let script = document.createElement("script");
-            script.setAttribute(
-                "src",
-                "/static/main/js/main.js"
-            );
-            document.head.appendChild(script);
-        },
         openItem: function (id) {
             buttons = document.getElementsByClassName('btn-reset accordion hero__accordion')
             panels = document.getElementsByClassName('panel hero__panel')
