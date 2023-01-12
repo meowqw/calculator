@@ -1,13 +1,202 @@
-{% extends 'main/base.html' %} {% load static %} {% block content %}
+{% extends 'main/base.html' %} {% block content %}
+{% load static %}
+<main class="main" id="app">
+    <header class="header">
+        <div class="container header__container section-container">
+            <h1 class="header__title title title--h1">Калькулятор расчета стоимости</h1>
+        </div>
+    </header>
 
-<main id="app">
-    <p>index</p>
+    <section class="hero">
+        <div class="container hero__container section-container">
+            <!-- item -->
+            <div class="hero__item" v-for="item in items">
+                <!-- accordion-btn -->
+                <button class="btn-reset accordion hero__accordion" @click="openItem(item.id)" :id="item.id">
+                    Стена {* item.id *}
+                </button>
+                <!-- accordion-content -->
+                <div class="panel hero__panel" :id="item.id">
+                    <div class="hero__left">
+                        <ul class="list-reset hero-calc__list">
+                            <li class="hero-calc__item">
+                                <h3 class="hero-calc__title title title--h3">Диаметр коронки</h3>
+                                <form action="#" class="hero-calc__form" v-for="diameter in diameters">
+                                    <label class="custom-checkbox hero-calc__form-item">
+                                        <input type="radio" name="crown" class="custom-checkbox__field">
+                                        <span class="custom-checkbox__content custom-checkbox__content--radio"></span>
+                                        {* diameter.value *}
+                                    </label>
+                                </form>
+                            </li>
+                            <li class="hero-calc__item">
+                                <h3 class="hero-calc__title title title--h3">Толщина стены</h3>
+                                <form>
+                                    <div class="range">
+                                        <input class="range__slider" id="slider" max="200" min="0"
+                                            oninput="amount.value=slider.value" type="range" value="0">
+                                        <label class="label" for="amount">
+                                            <span>Значение, см</span>
+                                            <input class="input-reset range__amount input" id="amount"
+                                                oninput="slider.value=amount.value" type="number" value="0">
+                                            <div class="tooltip">
+                                                <i class="fa-solid fa-circle-info"></i>
+                                                <span class="tooltip__text">Сантиметров</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </form>
+                            </li>
+                            <li class="hero-calc__item">
+                                <h3 class="hero-calc__title title title--h3">Материал стены</h3>
+                                <form action="#" class="hero-calc__form" v-for="material in wallMaterial">
+                                    <label class="custom-checkbox hero-calc__form-item">
+                                        <input type="radio" name="material" class="custom-checkbox__field">
+                                        <span class="custom-checkbox__content custom-checkbox__content--radio"></span>
+                                        {* material.value *}
+                                    </label>
+                                </form>
+                            </li>
+                            <li class="hero-calc__item">
+                                <h3 class="hero-calc__title title title--h3">Коэффициенты</h3>
+                                <form action="#" class="hero-calc__form" v-for="coefficient in coefficients">
+                                    <label class="custom-checkbox hero-calc__form-item">
+                                        <input type="radio" name="coefficient" class="custom-checkbox__field">
+                                        <span class="custom-checkbox__content custom-checkbox__content--radio"></span>
+                                        {* coefficient.value *}
+                                    </label>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="hero__right">
+                        <div class="result-block">
+                            <div class="result-block__top">
+                                <h3 class="result-block__title">Стоимость</h3>
+                                <span class="result-block__price">{* item.result.total *} руб</span>
+                            </div>
+                            <ul class="list-reset result-block__list">
+                                <li class="result-block__item result-item">
+                                    <div class="result-item__name">
+                                        Диаметр коронки:
+                                        <span class="result-item__value">{* item.result.diameters.value *} см</span>
+                                    </div>
+                                    <div class="result-item__price">{* item.result.diameters.total *} руб</div>
+                                </li>
+                                <li class="result-block__item result-item">
+                                    <div class="result-item__name">
+                                        Толщина стены:
+                                        <span class="result-item__value">{* item.result.thickness.value *} см</span>
+                                    </div>
+                                    <div class="result-item__price">{* item.result.thickness.total *} руб</div>
+                                </li>
+                                <li class="result-block__item result-item">
+                                    <div class="result-item__name">
+                                        Материал стены:
+                                        <span class="result-item__value">{* item.result.material.value *}</span>
+                                    </div>
+                                    <div class="result-item__price">{* item.result.material.total *} руб</div>
+                                </li>
+                                <li class="result-block__item result-item">
+                                    <div class="result-item__name">
+                                        Коэффициент:
+                                        <span class="result-item__value">{* item.result.coefficient.value *}</span>
+                                    </div>
+                                    <div class="result-item__price">{* item.result.coefficient.total *} руб</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- btn-delete -->
+                <button class="btn-reset accordion__btn btn btn--mini hero__btn" @click="delItem(item.id)">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+            <div class="hero__bottom">
+                <button class="btn-reset btn hero__btn" @click="addNewItem()">
+                    <i class="fa-solid fa-plus"></i>
+                    Добавить стену
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="distance">
+        <div class="container distance__container section-container">
+            <h2 class="distance__title title title--h3">Удаленность от МКАД</h2>
+            <form action="#" class="distance__form form">
+                <label class="form__label label distance__label">
+                    <span>Название НП</span>
+                    <input type="text" name="название" class="input-reset input distance__input form__input"
+                        placeholder="Химки">
+                    <div class="tooltip">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span class="tooltip__text">Название населенного пункта до МКАД</span>
+                    </div>
+                </label>
+                <label class="form__label label distance__label">
+                    <span>Расстояние, км</span>
+                    <input type="text" name="название" class="input-reset input distance__input form__input"
+                        placeholder="20">
+                    <div class="tooltip">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span class="tooltip__text">Расстояние в километрах от МКАД</span>
+                    </div>
+                </label>
+            </form>
+        </div>
+    </section>
+
+    <section class="result">
+        <div class="container result__container">
+            <div class="result-block section-container">
+                <div class="result-block__top">
+                    <h3 class="result-block__title">Предварительная стоимость</h3>
+                    <span class="result-block__price">{* result.total *} руб</span>
+                </div>
+                <ul class="list-reset result-block__list">
+                    <li class="result-block__item result-item">
+                        <div class="result-item__name">
+                            Диаметр коронки:
+                            <span class="result-item__value">{* result.diameters.value *} см</span>
+                        </div>
+                        <div class="result-item__price">{* result.diameters.total *} руб</div>
+                    </li>
+                    <li class="result-block__item result-item">
+                        <div class="result-item__name">
+                            Толщина стены:
+                            <span class="result-item__value">{* result.thickness.value *} см</span>
+                        </div>
+                        <div class="result-item__price">{* result.thickness.total *} руб</div>
+                    </li>
+                    <li class="result-block__item result-item">
+                        <div class="result-item__name">
+                            Материал стены:
+                            <span class="result-item__value">{* result.material.value *}</span>
+                        </div>
+                        <div class="result-item__price">{* result.material.total *} руб</div>
+                    </li>
+                    <li class="result-block__item result-item">
+                        <div class="result-item__name">
+                            Коэффициент:
+                            <span class="result-item__value">{* result.coefficient.value *}</span>
+                        </div>
+                        <div class="result-item__price">{* result.coefficient.total *} руб</div>
+                    </li>
+                    <li class="result-block__item result-item">
+                        <div class="result-item__name">
+                            Удаленность от МКАД:
+                            <span class="result-item__value">{* result.remoteness.value *} км</span>
+                        </div>
+                        <div class="result-item__price">{* result.remoteness.total *} руб</div>
+                    </li>
+                </ul>
+            </div>
+            <button class="btn-reset btn result__btn">Рассчитать стоимость</button>
+        </div>
+    </section>
+
 </main>
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="{% static 'main/js/index.js' %}"></script>
 
 {% endblock %}
