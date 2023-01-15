@@ -5,21 +5,30 @@ new Vue({
 
         // API endpoint
         diameters: [
-            { 'value': '20 см', 'price': 20, 'total': 0 },
-            { 'value': '30 см', 'price': 30, 'total': 0 }
-        ],
-
-        wallThickness: [],
-
-        wallMaterial: [
-            { 'value': 'Газоблок', 'price': 10, 'total': 0 },
-            { 'value': 'Кирпич', 'price': 20, 'total': 0 },
-            { 'value': 'Бетон', 'price': 30, 'total': 0 }
+            {
+                'id': 1,
+                'value': '10-16 см', 'total': 0,
+                'material': [
+                    { 'value': 'Газоблок', 'price': 10},
+                    { 'value': 'Кирпич', 'price': 20},
+                    { 'value': 'Бетон', 'price': 30}
+                ]
+            },
+            {
+                'id': 2,
+                'value': '16-20 см', 'total': 0,
+                'material': [
+                    { 'value': 'Газоблок2', 'price': 15},
+                    { 'value': 'Кирпич2', 'price': 25},
+                    { 'value': 'Бетон2', 'price': 35}
+                ]
+            },
         ],
 
         coefficients: [
-            { 'value': 'Глубина отверстий более 80 см', 'price': 10, 'total': 0 },
-            { 'value': 'Глубина отверстий менее 80 см', 'price': 20, 'total': 0 },
+            { 'value': 'Глубина отверстий более 80 см', 'price': 10},
+            { 'value': 'Глубина отверстий менее 80 см', 'price': 20},
+            { 'value': 'Не выбрано', 'price': 1}
         ],
         //
 
@@ -29,23 +38,24 @@ new Vue({
 
         // results
         result: {
-            'diameters': { "value": 0, 'total': 0 },
-            'thickness': { "value": 0, 'total': 0 },
-            'material': { "value": 0, 'total': 0 },
-            'coefficient': { "value": 0, 'total': 0 },
-            'remoteness': { "value": 0, 'total': 0 },
+            // 'diameters': { "value": 0, 'total': 0 },
+            // 'thickness': { "value": 0, 'total': 0 },
+            // 'material': { "value": 0, 'total': 0 },
+            // 'coefficient': { "value": 0, 'total': 0 },
+            'remoteness': { "value": 'Не указано', 'total': 0 },
             'total': 0
         },
         //
 
     },
     methods: {
+        // add new item 
         addNewItem: async function () {
             var item = {
-                'diameters': { "value": 'Не выбрано', 'price': 0, 'total': 0 },
+                'diameters': { "value": 'Не выбрано', 'total': 0},
+                'material': { "value": 'Не выбрано', 'price': 0},
                 'thickness': { "value": 0, 'price': 0, 'total': 0 },
-                'material': { "value": 'Не выбрано', 'price': 0, 'total': 0 },
-                'coefficient': { "value": 'Не выбрано', 'price': 0, 'total': 0 },
+                'coefficient': { "value": 'Не выбрано', 'price': 1},
                 'total': 0,
                 'count': 1,
             }
@@ -54,17 +64,32 @@ new Vue({
             this.count++;
 
         },
+        // delete item by id
         delItem: async function (id) {
             for (var i in this.items) {
                 if (this.items[i].id == id) {
                     this.items.splice(i, 1);
                 }
             }
+
+            this.calculate();
         },
         calculate: function () {
+            total = 0
+            for (var i in this.items) {
+                total += this.items[i].result.total
+            }
+
+            if (this.result.remoteness.total != 0) {
+                this.result.total = total + this.result.remoteness.total
+            } else {
+                this.result.total = total
+            }
+            
+
 
         },
-
+        // show panel item
         openItem: function (id) {
             buttons = document.getElementsByClassName('btn-reset accordion hero__accordion')
             panels = document.getElementsByClassName('panel hero__panel')
@@ -88,15 +113,64 @@ new Vue({
                 }
             }
         },
-        changeValue: function (id, value, item) {
+ 
+        changeDiameter: function (id, diameter) {
             for (var i in this.items) {
                 if (this.items[i].id == id) {
-                    this.items[i].result[value] = item
+                    this.items[i].result['material'] = { "value": 'Не выбрано', 'price': 0}
+                    this.items[i].result['diameters'] = diameter
+                    this.items[i].result['total'] = 0
+
+                    
+                    this.items[i].result['diameters'].total = this.items[i].result['diameters'].total * this.items[i].result['coefficient'].price
+                
                 }
             }
-            this.caclulateTotalItem(id)
+
+            this.calculate();
         },
 
+        changeMaterial: function (id, material) {
+            for (var i in this.items) {
+                if (this.items[i].id == id) {
+                    this.items[i].result['diameters'].total = material.price * this.items[i].result['coefficient'].price
+                    this.items[i].result['material'] = material
+
+                    this.items[i].result['total'] = (this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count']
+                }
+            }
+            this.calculate();
+        },
+
+        changeThickness: function (id, thickness) {
+            for (var i in this.items) {
+                if (this.items[i].id == id) {
+                    this.items[i].result['thickness'] = thickness
+                    this.items[i].result['total'] = (this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count']
+                }
+            }
+            this.calculate();
+        },
+
+        changeCoefficient: function (id, coefficient) {
+            for (var i in this.items) {
+                if (this.items[i].id == id) {
+                    this.items[i].result['coefficient'] = coefficient
+
+                    // diameter
+                    material = this.items[i].result['material']
+                    this.items[i].result['diameters'].total = material.price * this.items[i].result['coefficient'].price
+
+                    // total
+                    this.items[i].result['total'] = (this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count']
+
+                }
+            }
+            this.calculate();
+        },
+
+
+        // SLIDER
         slider: function (el, id) {
             if (el == 'slider') {
                 document.getElementById('amount' + id).value = document.getElementById('slider' + id).value
@@ -104,61 +178,76 @@ new Vue({
                 document.getElementById('slider' + id).value = document.getElementById('amount' + id).value
             }
             var sliderValue = document.getElementById('amount' + id).value
-            this.changeValue(id, 'thickness', { 'value': sliderValue, 'price': sliderValue, 'total': sliderValue })
+            this.changeThickness(id, { 'value': sliderValue, 'price': sliderValue, 'total': sliderValue })
         },
 
-        changeCount: function (id) {
-            var count = document.getElementById('count' + id).value
+        // total item
+        caclulateTotalItem: function (id) {
             for (var i in this.items) {
                 if (this.items[i].id == id) {
-                    this.items[i].result['count'] = count
+                    count = this.items[i].result['count']
+                    total = this.items[i].result['total']
+                    this.items[i].result['total'] = (this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * count
+                }
+            }
+            this.calculate();
+        },
+
+        // COUNT
+        btnCountMinus: function (id) {
+            current = document.getElementById('count' + id).value
+            document.getElementById('count' + id).value = Number(current) - 1
+
+            for (var i in this.items) {
+                if (this.items[i].id == id) {
+                    this.items[i].result['count'] = document.getElementById('count' + id).value
+                }
+            }
+
+            this.caclulateTotalItem(id);
+
+
+        },
+        btnCountPlus: function (id) {
+            current = document.getElementById('count' + id).value
+            document.getElementById('count' + id).value = Number(current) + 1
+
+            for (var i in this.items) {
+                if (this.items[i].id == id) {
+                    this.items[i].result['count'] = document.getElementById('count' + id).value
                 }
             }
 
             this.caclulateTotalItem(id);
         },
+        inputCount: function (id) {
 
-        caclulateTotalItem: function (id) {
             for (var i in this.items) {
+
                 if (this.items[i].id == id) {
-
-                    this.items[i].result['diameters'] = {
-                        'value': this.items[i].result['diameters'].value,
-                        'total': Number(this.items[i].result['diameters'].price),
-                        'price': Number(this.items[i].result['diameters'].price),
-                    }
-                    this.items[i].result['thickness'] = {
-                        'value': this.items[i].result['thickness'].value,
-                        'price': Number(this.items[i].result['thickness'].price),
-                        'total': Number(this.items[i].result['thickness'].price * this.items[i].result['diameters'].price)
-                    }
-                    this.items[i].result['material'] = {
-                        'value': this.items[i].result['material'].value,
-                        'price': Number(this.items[i].result['material'].price),
-                        'total': Number(this.items[i].result['material'].price * this.items[i].result['diameters'].total)
-                    }
-                    this.items[i].result['coefficient'] = {
-                        'value': this.items[i].result['coefficient'].value,
-                        'price': Number(this.items[i].result['coefficient'].price),
-                        'total': Number(this.items[i].result['coefficient'].total)
-                    }
-
-                    var totals = [this.items[i].result['diameters'].total,
-                    this.items[i].result['material'].total, 
-                    this.items[i].result['thickness'].total,
-                    this.items[i].result['coefficient'].total]
-    
-                    let result = totals.reduce(function(sum, elem) {
-                        return sum + elem;
-                    }, 0);
-                    this.items[i].result.total = result * this.items[i].result.count
+                    this.items[i].result['count'] = document.getElementById('count' + id).value
                 }
             }
+
+            this.caclulateTotalItem(id);
+
         },
 
+        inputRemotenessValue: function () {
+            this.result.remoteness.value = document.getElementById('remValue').value
+
+
+        },
+        inputRemotenessTotal: function () {
+            total = Number(document.getElementById('remTotal').value)
+            this.result.remoteness.total = total
+
+            this.calculate();
+
+        },
+        //
     },
     async mounted() {
-        // this.renderScript();
 
     }
 })

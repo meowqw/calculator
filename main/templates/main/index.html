@@ -13,22 +13,58 @@
             <div class="hero__item" v-for="item in items">
                 <!-- accordion-btn -->
                 <button class="btn-reset accordion hero__accordion" @click="openItem(item.id)" :id="item.id">
-                    Отверстие {* item.id *}
+                    Кол-во: {* item.result.count *}, Стоимость: {* item.result.total *}
                 </button>
                 <!-- accordion-content -->
                 <div class="panel hero__panel" :id="item.id">
                     <div class="hero__left">
                         <ul class="list-reset hero-calc__list">
+
+                            <li class="hero-calc__item">
+                                <h3 class="hero-calc__title title title--h3">Коэффициенты</h3>
+                                <form action="#" class="hero-calc__form">
+                                    <label class="custom-checkbox hero-calc__form-item"
+                                        v-for="coefficient in coefficients">
+                                        <input type="radio" name="coefficient"  
+                                            v-on:click="changeCoefficient(item.id, coefficient)"
+                                            class="custom-checkbox__field">
+                                        <span class="custom-checkbox__content custom-checkbox__content--radio"></span>
+                                        {* coefficient.value *}
+                                    </label>
+                                </form>
+                            </li>
+
+
                             <li class="hero-calc__item">
                                 <h3 class="hero-calc__title title title--h3">Диаметр коронки</h3>
                                 <form action="#" class="hero-calc__form">
                                     <label class="custom-checkbox hero-calc__form-item" v-for="diameter in diameters">
-                                        <input type="radio" v-bind:value="diameter" v-on:click="changeValue(item.id, 'diameters', diameter)" name="crown" class="custom-checkbox__field">
+                                        <input type="radio" v-bind:value="diameter"
+                                            v-on:click="changeDiameter(item.id, diameter)" name="crown"
+                                            class="custom-checkbox__field">
                                         <span class="custom-checkbox__content custom-checkbox__content--radio"></span>
                                         {* diameter.value *}
                                     </label>
                                 </form>
                             </li>
+                            
+                            <li class="hero-calc__item">
+                                <h3 class="hero-calc__title title title--h3">Материал стены</h3>
+                                <form action="#" class="hero-calc__form" v-for="currentItem in items" v-if="currentItem.id == item.id">
+                                    <div v-if="currentItem.result.diameters.material == null">
+                                        Не выбран диаметр
+                                    </div>
+                                    <label class="custom-checkbox hero-calc__form-item" v-for="material in currentItem.result.diameters.material"> 
+                                        <input type="radio" name="material" :id="material"
+                                            v-on:click="changeMaterial(item.id, material)"
+                                            class="custom-checkbox__field">
+                                        <span name="mat" class="custom-checkbox__content custom-checkbox__content--radio"></span>
+                                        {* material.value *}
+                                    </label>
+                                </form>
+                            </li>
+                            
+
                             <li class="hero-calc__item">
                                 <h3 class="hero-calc__title title title--h3">Толщина стены</h3>
                                 <form>
@@ -47,42 +83,36 @@
                                     </div>
                                 </form>
                             </li>
+                            
+                            <!-- item-holes -->
                             <li class="hero-calc__item">
-                                <h3 class="hero-calc__title title title--h3">Материал стены</h3>
-                                <form action="#" class="hero-calc__form">
-                                    <label class="custom-checkbox hero-calc__form-item" v-for="material in wallMaterial">
-                                        <input type="radio" name="material"v-on:click="changeValue(item.id, 'material', material)" class="custom-checkbox__field">
-                                        <span class="custom-checkbox__content custom-checkbox__content--radio"></span>
-                                        {* material.value *}
+                                <h3 class="hero-calc__title title title--h3">Количество отверстий</h3>
+                                <!-- counter -->
+                                <form class="hero-calc__form-counter">
+                                    <button type="button" class="btn-reset accordion__btn btn btn--counter" v-on:click="btnCountMinus(item.id)">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <label class="label label--mini label--counter">
+                                        <input class="input-reset range__amount input" :id="'count'+item.id" type="number" :value="item.result.count" v-on:input="inputCount(item.id)">
+                                        <div class="tooltip">
+                                            <i class="fa-solid fa-circle-info"></i>
+                                            <span class="tooltip__text">Введите кол-во отверстий</span>
+                                        </div>
                                     </label>
+                                    <button type="button" v-on:click="btnCountPlus(item.id)" class="btn-reset accordion__btn btn btn--counter">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
                                 </form>
                             </li>
-                            <li class="hero-calc__item">
-                                <h3 class="hero-calc__title title title--h3">Коэффициенты</h3>
-                                <form action="#" class="hero-calc__form">
-                                    <label class="custom-checkbox hero-calc__form-item" v-for="coefficient in coefficients">
-                                        <input type="radio" name="coefficient" v-on:click="changeValue(item.id, 'coefficient', coefficient)" class="custom-checkbox__field">
-                                        <span class="custom-checkbox__content custom-checkbox__content--radio"></span>
-                                        {* coefficient.value *}
-                                    </label>
-                                </form>
-                            </li>
-                            <li class="hero-calc__item">
-                                <h3 class="hero-calc__title title title--h3">Кол-во отверстий</h3>
-                                <form action="#" class="hero-calc__form">
-                                    <input v-on:input="changeCount(item.id)" :id="'count'+item.id" type="number" value="1" name="Кол-во" class="input-reset input distance__input form__input"
-                                    placeholder="Кол-во отверстий">
-                                </form>
-                            </li>
-
                         </ul>
                     </div>
+                    
                     <div class="hero__right">
                         <div class="result-block">
-                            <div class="result-block__top">
+                            <div class="result-block__top result-block__top--hero">
                                 <h3 class="result-block__title">Стоимость</h3>
                                 <span class="result-block__price">{* item.result.total *} руб</span>
-                                <span class="result-item__value">Кол-во: {* item.result.count *}</span>
+                                <span class="result-block__add">Кол-во: {* item.result.count *}</span>
                             </div>
                             <ul class="list-reset result-block__list">
                                 <li class="result-block__item result-item">
@@ -94,24 +124,23 @@
                                 </li>
                                 <li class="result-block__item result-item">
                                     <div class="result-item__name">
-                                        Толщина стены:
-                                        <span class="result-item__value">{* item.result.thickness.value *} см</span>
-                                    </div>
-                                    <div class="result-item__price">{* item.result.thickness.total *} руб</div>
-                                </li>
-                                <li class="result-block__item result-item">
-                                    <div class="result-item__name">
                                         Материал стены:
                                         <span class="result-item__value">{* item.result.material.value *}</span>
                                     </div>
-                                    <div class="result-item__price">{* item.result.material.total *} руб</div>
                                 </li>
+                                <li class="result-block__item result-item">
+                                    <div class="result-item__name">
+                                        Толщина стены:
+                                        <span class="result-item__value">{* item.result.thickness.value *} см</span>
+                                    </div>
+                                </li>
+                                
                                 <li class="result-block__item result-item">
                                     <div class="result-item__name">
                                         Коэффициент:
                                         <span class="result-item__value">{* item.result.coefficient.value *}</span>
                                     </div>
-                                    <div class="result-item__price">{* item.result.coefficient.total *} руб</div>
+                                    <div class="result-item__price">{* item.result.coefficient.price *} руб</div>
                                 </li>
                             </ul>
                         </div>
@@ -121,6 +150,43 @@
                 <button class="btn-reset accordion__btn btn btn--mini hero__btn" @click="delItem(item.id)">
                     <i class="fa-solid fa-trash"></i>
                 </button>
+                <!-- item-info-mini -->
+                <div class="hero__item-info result-block">
+                    <ul class="list-reset result-block__list result-block__list--mini">
+                        <li class="result-block__item result-item">
+                            <div class="result-item__name">
+                                <span class="result-item__name-text">Д-тр коронки:</span>
+                                <i class="fa-regular fa-circle">:</i>
+                                <span class="result-item__value">{* item.result.diameters.value *}</span>
+                            </div>
+                            <!-- <div class="result-item__price">700 руб</div> -->
+                        </li>
+                        <li class="result-block__item result-item">
+                            <div class="result-item__name">
+                                <span class="result-item__name-text">Т-на стены:</span>
+                                <i class="fa-solid fa-grip-lines-vertical">:</i>
+                                <span class="result-item__value">{* item.result.thickness.value *} см</span>
+                            </div>
+                            <!-- <div class="result-item__price">700 руб</div> -->
+                        </li>
+                        <li class="result-block__item result-item">
+                            <div class="result-item__name">
+                                <span class="result-item__name-text">М-ал стены:</span>
+                                <i class="fa-regular fa-gem">:</i>
+                                <span class="result-item__value">{* item.result.material.value *}</span>
+                            </div>
+                            <!-- <div class="result-item__price">700 руб</div> -->
+                        </li>
+                        <li class="result-block__item result-item">
+                            <div class="result-item__name">
+                                <span class="result-item__name-text">Коэф:</span>
+                                <i class="fa-solid fa-ruler-vertical">:</i>
+                                <span class="result-item__value">{* item.result.coefficient.value *}</span>
+                            </div>
+                            <!-- <div class="result-item__price">700 руб</div> -->
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="hero__bottom">
                 <button class="btn-reset btn hero__btn" @click="addNewItem()">
@@ -128,7 +194,6 @@
                     Добавить отверстие
                 </button>
             </div>
-        </div>
     </section>
     <section class="distance">
         <div class="container distance__container section-container">
@@ -136,8 +201,8 @@
             <form action="#" class="distance__form form">
                 <label class="form__label label distance__label">
                     <span>Название НП</span>
-                    <input type="text" name="название" class="input-reset input distance__input form__input"
-                        placeholder="Химки">
+                    <input type="text" id="remValue" name="название" v-on:input="inputRemotenessValue()" class="input-reset input distance__input form__input"
+                        placeholder="Химки" value="">
                     <div class="tooltip">
                         <i class="fa-solid fa-circle-info"></i>
                         <span class="tooltip__text">Название населенного пункта до МКАД</span>
@@ -145,8 +210,8 @@
                 </label>
                 <label class="form__label label distance__label">
                     <span>Расстояние, км</span>
-                    <input type="text" name="название" class="input-reset input distance__input form__input"
-                        placeholder="20">
+                    <input type="text" id="remTotal" name="название" v-on:input="inputRemotenessTotal()" class="input-reset input distance__input form__input"
+                        placeholder="20" value="">
                     <div class="tooltip">
                         <i class="fa-solid fa-circle-info"></i>
                         <span class="tooltip__text">Расстояние в километрах от МКАД</span>
@@ -164,7 +229,7 @@
                     <span class="result-block__price">{* result.total *} руб</span>
                 </div>
                 <ul class="list-reset result-block__list">
-                    <li class="result-block__item result-item">
+                    <!-- <li class="result-block__item result-item">
                         <div class="result-item__name">
                             Диаметр коронки:
                             <span class="result-item__value">{* result.diameters.value *} см</span>
@@ -191,17 +256,16 @@
                             <span class="result-item__value">{* result.coefficient.value *}</span>
                         </div>
                         <div class="result-item__price">{* result.coefficient.total *} руб</div>
-                    </li>
+                    </li> -->
                     <li class="result-block__item result-item">
                         <div class="result-item__name">
                             Удаленность от МКАД:
-                            <span class="result-item__value">{* result.remoteness.value *} км</span>
+                            <span class="result-item__value">{* result.remoteness.value *} {* result.remoteness.total *} км</span>
                         </div>
                         <div class="result-item__price">{* result.remoteness.total *} руб</div>
                     </li>
                 </ul>
             </div>
-            <button class="btn-reset btn result__btn">Рассчитать стоимость</button>
         </div>
     </section>
 
