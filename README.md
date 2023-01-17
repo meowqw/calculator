@@ -14,8 +14,8 @@
 
 # v0.0.4
 - API (Коэффициенты, Диаметр коронки, Материал стены), API endpoints:
---api/v1/CoefficientsList/
---api/v1/DiameterList/
+-- api/v1/CoefficientsList/
+-- api/v1/DiameterList/
 
 - Рассчет с api yandex
 - Небольшие изменения в верстке
