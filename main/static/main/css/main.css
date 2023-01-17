@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /* stylelint-disable color-function-notation */
 :root {
   --font-family: "Ubuntu", sans-serif;
@@ -96,6 +95,7 @@ a {
 }
 
 .is-hidden {
+  /* stylelint-disable-next-line declaration-no-important */
   display: none !important;
   /* stylelint-disable-line declaration-no-important */
 }
@@ -415,13 +415,20 @@ input[type=number] {
   cursor: pointer;
 }
 .accordion::after {
-  content: "Подробнее";
+  content: "";
   float: right;
   margin-left: 5px;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 115%;
-  color: var(--dark-color);
+  width: 10px;
+  height: 10px;
+  background-image: url("../img/caret-down-solid.svg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+@media (max-width: 768px) {
+  .accordion::after {
+    font-size: 10px;
+  }
 }
 .accordion:hover {
   -webkit-box-shadow: var(--box-shadow-light);
@@ -433,7 +440,10 @@ input[type=number] {
   box-shadow: var(--box-shadow-light);
 }
 .accordion.active::after {
-  content: "Скрыть";
+  background-image: url("../img/caret-up-solid.svg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 @media (max-width: 1024px) {
   .accordion {
@@ -443,6 +453,11 @@ input[type=number] {
 @media (max-width: 768px) {
   .accordion {
     font-size: 18px;
+  }
+}
+@media (max-width: 576px) {
+  .accordion {
+    font-size: 16px;
   }
 }
 
@@ -602,6 +617,40 @@ input[type=number] {
   grid-column: 11 span;
   -ms-grid-row: 1;
   grid-row: 1;
+}
+.hero__accordion-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.hero__accordion-content span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-left: 5px;
+  border-radius: 5px;
+  padding: 2px 4px;
+  min-width: 25px;
+  font-size: 14px;
+  line-height: 100%;
+  color: var(--light-color);
+  background-color: var(--black-color);
+}
+@media (max-width: 1024px) {
+  .hero__accordion-content span {
+    min-width: 20px;
+  }
+}
+@media (max-width: 576px) {
+  .hero__accordion-content span {
+    font-size: 12px;
+  }
 }
 .hero__panel {
   display: -ms-grid;
@@ -893,6 +942,11 @@ input[type=number] {
     -ms-flex-align: center;
     align-items: center;
     font-size: 16px;
+  }
+}
+@media (max-width: 576px) {
+  .result-block__list--mini .result-item i {
+    font-size: 12px;
   }
 }
 .result-block__list--mini .result-item__name {

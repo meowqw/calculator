@@ -5,6 +5,9 @@ from rest_framework import routers
 from api.views import *
 
 urlpatterns = [
-   path('account/<int:pk>', AccountAPIDetailView.as_view()),
-   path('accountList/', AccountAPIList.as_view()),
+   # path('account/<int:pk>', AccountAPIDetailView.as_view()),
+   # path('accountList/', AccountAPIList.as_view()),
+   path('DiameterList/', DiametersViewSet.as_view({'get': 'list'})),
+   path('CoefficientsList/', CoefficientsViewSet.as_view({'get': 'list'})),
+
 ]
