@@ -582,6 +582,100 @@ input[type=number] {
   visibility: visible;
 }
 
+/* stylelint-disable color-function-notation */
+.graph-modal {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.graph-modal__container {
+  border-radius: var(--border-radius);
+  padding: 10px;
+  width: 95%;
+  max-width: 1150px;
+}
+.graph-modal__content {
+  overflow: auto;
+}
+
+table {
+  table-layout: auto;
+  margin: 0;
+  border-collapse: collapse;
+  padding: 0;
+  width: 100%;
+}
+table caption {
+  margin-bottom: 10px;
+  font-size: 22px;
+}
+table caption span {
+  font-size: 12px;
+}
+table tbody tr td {
+  padding: 5px;
+  font-size: 12px;
+  line-height: 120%;
+}
+table tbody tr td:nth-child(2) {
+  font-weight: 600;
+}
+table th,
+table td {
+  border: 1px solid var(--black-color);
+  padding: 5px;
+  text-align: left;
+}
+table th {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 120%;
+}
+@media (max-width: 768px) {
+  table thead {
+    position: absolute;
+    overflow: hidden;
+    margin: -1px;
+    border: none;
+    padding: 0;
+    width: 1px;
+    height: 1px;
+    clip: rect(0 0 0 0);
+  }
+  table tr {
+    display: block;
+    margin-bottom: 3px;
+  }
+  table td {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    font-size: 14px;
+    text-align: right;
+  }
+  table td:not(:last-child) {
+    border-bottom: 0;
+  }
+  table tbody tr td {
+    padding: 8px 5px;
+  }
+  table td::before {
+    /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+    content: attr(data-label);
+    float: left;
+    font-weight: 600;
+  }
+}
+@media (max-width: 576px) {
+  table tbody tr td {
+    padding: 5px;
+  }
+}
+
 .header {
   margin-bottom: 20px;
 }
@@ -785,6 +879,9 @@ input[type=number] {
   -webkit-column-gap: 20px;
   -moz-column-gap: 20px;
   column-gap: 20px;
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: end;
   -ms-grid-columns: (1fr)[12];
   grid-template-columns: repeat(12, 1fr);
   row-gap: 20px;
@@ -802,6 +899,18 @@ input[type=number] {
   .distance__label {
     -ms-grid-column-span: 12;
     grid-column: 12 span;
+  }
+}
+.distance__btn {
+  grid-column: auto;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+}
+@media (max-width: 576px) {
+  .distance__btn {
+    -ms-grid-column-span: 6;
+    grid-column: 6 span;
   }
 }
 @media (max-width: 768px) {
@@ -965,6 +1074,15 @@ input[type=number] {
 }
 .result-block__list--mini .result-item__value {
   margin-right: 0;
+}
+.result-block__bottom {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  margin-top: 20px;
 }
 
 .result-item {

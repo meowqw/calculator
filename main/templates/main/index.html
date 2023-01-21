@@ -219,13 +219,8 @@
 
 
                 </label>
-                
+                <button class="btn-reset btn distance__btn" @click="remoteness()">Рассчитать</button>
             </div>
-                <div class="hero__bottom">
-                    <button type="button" class="btn-reset btn hero__btn" @click="remoteness()">
-                        Рассчитать
-                    </button>
-                </div>
         </div>
     </section>
 
@@ -275,9 +270,122 @@
                     </li>
                 </ul>
             </div>
+            <div class="result-block__bottom">
+                <button
+                  class="btn-reset btn result-block__btn-estimate"
+                  data-graph-path="estimate"
+                >
+                  Смета
+                </button>
+              </div>
         </div>
     </section>
 
 </main>
+
+ <!-- modal -->
+ <div class="graph-modal">
+    <div
+      class="graph-modal__container"
+      role="dialog"
+      aria-modal="true"
+      data-graph-target="estimate"
+    >
+      <button
+        class="btn-reset js-modal-close graph-modal__close"
+        aria-label="Закрыть модальное окно"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="graph-modal__content">
+        <table class="table table-estimate">
+          <caption>
+            Смета
+            <span>вся стоимсоть в рублях</span>
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col" rowspan="2">№</th>
+              <th scope="col" rowspan="2">Позиция</th>
+              <th scope="col" colspan="2">Коронка</th>
+              <th scope="col" colspan="2">Толщина стены</th>
+              <th scope="col" colspan="2">Количество отверстий</th>
+              <th scope="col" colspan="2">Материал стены</th>
+              <th scope="col" colspan="2">Коэффициенты</th>
+              <th scope="col" rowspan="2">Итоговая стоимость</th>
+            </tr>
+            <tr>
+              <th>Диаметр</th>
+              <th>Стоимость</th>
+              <th>Толщина</th>
+              <th>Стоимость</th>
+              <th>Количество</th>
+              <th>Стоимость</th>
+              <th>Материал</th>
+              <th>Стоимость</th>
+              <th>Коэффициент</th>
+              <th>Стоимость</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- item -->
+            <tr>
+              <td data-label="№">1</td>
+              <td data-label="Позиция">Стена 1</td>
+              <!-- коронка -->
+              <td data-label="Диаметр коронки">100 см</td>
+              <td data-label="Стоимость коронки">100</td>
+              <!-- толщина стены -->
+              <td data-label="Толщина стены">10 см</td>
+              <td data-label="Стоимость стены">1000</td>
+              <!-- количество отверстий -->
+              <td data-label="Количество отверстий">2</td>
+              <td data-label="Стоиость отверстий">200</td>
+              <!-- материал стены -->
+              <td data-label="Материал стены">Бетон</td>
+              <td data-label="Стоимость стены">5000</td>
+              <!-- коэффициенты -->
+              <td data-label="Коэффициенты">
+                Глубина отверстия менее 20 см
+              </td>
+              <td data-label="Стоимость коэффициента">2000</td>
+              <!-- итоговая стоимость -->
+              <td data-label="Итоговая стоимость">5000</td>
+            </tr>
+            <!-- item -->
+            <tr>
+              <td data-label="№">1</td>
+              <td data-label="Позиция">Стена 1</td>
+              <!-- коронка -->
+              <td data-label="Диаметр коронки">100 см</td>
+              <td data-label="Стоимость коронки">100</td>
+              <!-- толщина стены -->
+              <td data-label="Толщина стены">10 см</td>
+              <td data-label="Стоимость стены">1000</td>
+              <!-- количество отверстий -->
+              <td data-label="Количество отверстий">2</td>
+              <td data-label="Стоиость отверстий">200</td>
+              <!-- материал стены -->
+              <td data-label="Материал стены">Бетон</td>
+              <td data-label="Стоимость стены">5000</td>
+              <!-- коэффициенты -->
+              <td data-label="Коэффициенты">
+                Глубина отверстия менее 20 см
+              </td>
+              <td data-label="Стоимость коэффициента">2000</td>
+              <!-- итоговая стоимость -->
+              <td data-label="Итоговая стоимость">5000</td>
+            </tr>
+
+            <!-- total -->
+            <tr>
+              <td colspan="12"></td>
+              <td data-label="Общий итог">10000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}
