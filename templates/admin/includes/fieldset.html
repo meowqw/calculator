@@ -1,0 +1,118 @@
+<fieldset class="module aligned {{ fieldset.classes }}">
+    {% if fieldset.name %}<h2>{{ fieldset.name }}</h2>{% endif %}
+    {% if fieldset.description %}
+        <div class="description">{{ fieldset.description|safe }}</div>
+    {% endif %}
+    {% for line in fieldset %}
+        <div class="form-row{% if line.fields|length_is:'1' and line.errors %} errors{% endif %}{% if not line.has_visible_field %} hidden{% endif %}{% for field in line %}{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% endfor %}">
+            {% if line.fields|length_is:'1' %}{{ line.errors }}{% endif %}
+            {% for field in line %}
+            
+                <div{% if not line.fields|length_is:'1' %} class="fieldBox{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% if not field.is_readonly and field.errors %} errors{% endif %}{% if field.field.is_hidden %} hidden{% endif %}"{% elif field.is_checkbox %} class="checkbox-row"{% endif %}>
+                    {% if not line.fields|length_is:'1' and not field.is_readonly %}{{ field.errors }}{% endif %}
+
+                    {% if field.field.name == 'material' %}
+                    {{ field.field }}
+                    <div id="material">
+
+                    </div>
+
+
+                    {% else %} 
+                        {% if field.is_checkbox %}
+                            {{ field.field }}{{ field.label_tag }}
+                        
+                        {% else %}
+                            {{ field.label_tag }}
+                            {% if field.is_readonly %}
+                                <div class="readonly">{{ field.contents }}</div>
+                            {% else %}
+                                {{ field.field }}
+                            {% endif %}
+                        {% endif %}
+                        {% if field.field.help_text %}
+                            <div class="help"{% if field.field.id_for_label %} id="{{ field.field.id_for_label }}_helptext"{% endif %}>
+                            {{ field.field.help_text|safe }}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</fieldset>
+
+<script>
+    async function getMaterials() {
+
+        token = document.getElementsByName('csrfmiddlewaretoken')[0].value
+
+        const response = await fetch(`/api/v1/MaterialsList/`, {
+            headers: {
+                "Content-type": "application/json",
+                "X-CSRFTOKEN": token,
+            },
+            // body: JSON.stringify({'is_executor': type}),
+            method: "GET",
+        });
+
+        return await response.json();
+    }
+
+    ids = [];
+
+    function jsonController() {
+        json = []
+        for (var i in ids) {
+            input = document.getElementById(ids[i])
+
+            value = input.name
+            price = input.value
+            id = Number(input.getAttribute('materialId'))
+
+            res_json = {
+                'id': id,
+                'value': value,
+                'price': price,
+            }
+
+            json.push(res_json);
+        }
+
+        json = JSON.stringify(json);
+        jsonField = document.getElementById('id_material')
+        jsonField.value = json;
+
+    }
+
+    template_form = '<h3>Материалы</h3>';
+
+    async function renderForm() {
+        jsonField = document.getElementById('id_material')
+        jsonField.style.display = 'none';
+
+        currentJson = JSON.parse(jsonField.value)
+
+        var materials = await getMaterials();
+        for (var i in materials) {
+
+            currentPrice = ''
+            for (var j in currentJson) {
+                if (currentJson[j].id == materials[i].id) {
+                    currentPrice = currentJson[j].price
+                }
+            }
+
+            template_form += `<div class="form-row">
+                    <label class="required" for="material${materials[i].id}">${materials[i].value}:</label>
+                        <input type="number" materialId=${materials[i].id} value='${currentPrice}' name="${materials[i].value}" class="vTextField" maxlength="200" id="material${materials[i].id}" oninput="jsonController()">
+            </div>`
+            ids.push(`material${materials[i].id}`)
+
+        }
+        document.getElementById('material').innerHTML = template_form
+    }
+    renderForm();
+
+    
+</script>

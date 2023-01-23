@@ -21,7 +21,7 @@ class MaterialsSerializer(serializers.ModelSerializer):
 
 class DiametersSerializer(serializers.ModelSerializer):
     
-    material = MaterialsSerializer(read_only=True, many=True)
+    # material = MaterialsSerializer(read_only=True, many=True)
 
     class Meta:
         model = Diameters

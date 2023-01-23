@@ -54,3 +54,11 @@ class CoefficientsViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Coefficients.objects.all()
     serializer_class = CoefficientsSerializer
+
+
+class MaterialsViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Only read Coefficients
+    """
+    queryset = Materials.objects.all()
+    serializer_class = MaterialsSerializer

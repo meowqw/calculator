@@ -290,5 +290,7 @@ new Vue({
         var coefficients = await this.getData('/api/v1/CoefficientsList/')
         this.coefficients = coefficients.data;
         this.diameters = diameters.data;
+
+        console.log(this.diameters)
     }
 })

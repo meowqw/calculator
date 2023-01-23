@@ -9,5 +9,7 @@ urlpatterns = [
    # path('accountList/', AccountAPIList.as_view()),
    path('DiameterList/', DiametersViewSet.as_view({'get': 'list'})),
    path('CoefficientsList/', CoefficientsViewSet.as_view({'get': 'list'})),
+   path('MaterialsList/', MaterialsViewSet.as_view({'get': 'list'})),
+
 
 ]
