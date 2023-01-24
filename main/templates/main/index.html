@@ -1,10 +1,13 @@
 {% extends 'main/base.html' %} {% block content %}
 {% load static %}
-<main class="main" id="app">
+<div id="app">
+<main class="main">
     <header class="header">
         <div class="container header__container section-container">
-            <h1 class="header__title title title--h1">Калькулятор расчета стоимости</h1>
+            <h1 class="header__title title title--h1" onclick="location.href='/admin'" style="cursor: pointer;">Калькулятор расчета стоимости</h1>
         </div>
+        
+        
     </header>
 
     <section class="hero">
@@ -12,14 +15,14 @@
             <!-- item -->
             <div class="hero__item" v-for="item in items">
                 <!-- accordion-btn -->
-                <button class="btn-reset accordion hero__accordion" @click="openItem(item.id)" :id="item.id">
+                <button class="btn-reset accordion hero__accordion active" @click="openItem(item.id)" :id="item.id">
                     <div class="hero__accordion-content">
                         Стоимость: {* item.result.total *}
                         <span>Кол-во: {* item.result.count *}</span>
                     </div>
                 </button>
                 <!-- accordion-content -->
-                <div class="panel hero__panel" :id="item.id">
+                <div class="panel hero__panel" style="max-height: 716px;" :id="item.id">
                     <div class="hero__left">
                         <ul class="list-reset hero-calc__list">
 
@@ -280,7 +283,6 @@
               </div>
         </div>
     </section>
-
 </main>
 
  <!-- modal -->
@@ -306,86 +308,34 @@
           <thead>
             <tr>
               <th scope="col" rowspan="2">№</th>
-              <th scope="col" rowspan="2">Позиция</th>
-              <th scope="col" colspan="2">Коронка</th>
-              <th scope="col" colspan="2">Толщина стены</th>
-              <th scope="col" colspan="2">Количество отверстий</th>
-              <th scope="col" colspan="2">Материал стены</th>
-              <th scope="col" colspan="2">Коэффициенты</th>
-              <th scope="col" rowspan="2">Итоговая стоимость</th>
-            </tr>
-            <tr>
-              <th>Диаметр</th>
-              <th>Стоимость</th>
-              <th>Толщина</th>
-              <th>Стоимость</th>
-              <th>Количество</th>
-              <th>Стоимость</th>
-              <th>Материал</th>
-              <th>Стоимость</th>
-              <th>Коэффициент</th>
-              <th>Стоимость</th>
+              <th scope="col" rowspan="2">Отверстие</th>
+              <th scope="col" rowspan="2">Кол-во</th>
+              <th scope="col" rowspan="2">Цена за 1</th>
+              <th scope="col" rowspan="2">Общая стоимость</th>
             </tr>
           </thead>
           <tbody>
             <!-- item -->
-            <tr>
-              <td data-label="№">1</td>
-              <td data-label="Позиция">Стена 1</td>
-              <!-- коронка -->
-              <td data-label="Диаметр коронки">100 см</td>
-              <td data-label="Стоимость коронки">100</td>
-              <!-- толщина стены -->
-              <td data-label="Толщина стены">10 см</td>
-              <td data-label="Стоимость стены">1000</td>
-              <!-- количество отверстий -->
-              <td data-label="Количество отверстий">2</td>
-              <td data-label="Стоиость отверстий">200</td>
-              <!-- материал стены -->
-              <td data-label="Материал стены">Бетон</td>
-              <td data-label="Стоимость стены">5000</td>
-              <!-- коэффициенты -->
-              <td data-label="Коэффициенты">
-                Глубина отверстия менее 20 см
-              </td>
-              <td data-label="Стоимость коэффициента">2000</td>
-              <!-- итоговая стоимость -->
-              <td data-label="Итоговая стоимость">5000</td>
+            <tr v-for="item in items">
+              <td data-label="№">{* item.id + 1 *}</td>
+              <td data-label="Позиция">{* item.result.diameters.value *}</td>
+              <!-- Кол-во -->
+              <td data-label="Кол-во">{* item.result.count *}</td>
+              <!-- Цена за 1 -->
+              <td data-label="Цена за 1">{* item.result.total / item.result.count *} руб</td>
+              <!-- Общая стоимость -->
+              <td data-label="Общая стоимость">{* item.result.total *} руб</td>
             </tr>
             <!-- item -->
-            <tr>
-              <td data-label="№">1</td>
-              <td data-label="Позиция">Стена 1</td>
-              <!-- коронка -->
-              <td data-label="Диаметр коронки">100 см</td>
-              <td data-label="Стоимость коронки">100</td>
-              <!-- толщина стены -->
-              <td data-label="Толщина стены">10 см</td>
-              <td data-label="Стоимость стены">1000</td>
-              <!-- количество отверстий -->
-              <td data-label="Количество отверстий">2</td>
-              <td data-label="Стоиость отверстий">200</td>
-              <!-- материал стены -->
-              <td data-label="Материал стены">Бетон</td>
-              <td data-label="Стоимость стены">5000</td>
-              <!-- коэффициенты -->
-              <td data-label="Коэффициенты">
-                Глубина отверстия менее 20 см
-              </td>
-              <td data-label="Стоимость коэффициента">2000</td>
-              <!-- итоговая стоимость -->
-              <td data-label="Итоговая стоимость">5000</td>
-            </tr>
-
             <!-- total -->
             <tr>
-              <td colspan="12"></td>
-              <td data-label="Общий итог">10000</td>
+              <td colspan="4"></td>
+              <td data-label="Общий итог">{* result.total *} руб</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
-
+</div>
 {% endblock %}

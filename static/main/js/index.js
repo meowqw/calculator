@@ -121,8 +121,9 @@ new Vue({
                     this.items[i].result['diameters'] = diameter
                     this.items[i].result['total'] = 0
 
-
+                    
                     this.items[i].result['diameters'].total = this.items[i].result['diameters'].total * this.items[i].result['coefficient'].price
+                    
 
                 }
             }
