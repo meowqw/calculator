@@ -1,9 +1,6 @@
 from .models import *
 from django.contrib import admin
 from django.contrib.auth.models import Group
-import logging
-
-logger = logging.getLogger(__name__)
 
 class CoefficientsAdmin(admin.ModelAdmin):
     list_display = [field.name for field in Coefficients._meta.fields]
