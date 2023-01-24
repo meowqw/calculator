@@ -120,10 +120,9 @@ new Vue({
                     this.items[i].result['material'] = { "value": 'Не выбрано', 'price': 0 }
                     this.items[i].result['diameters'] = diameter
                     this.items[i].result['total'] = 0
+                    this.items[i].result['diameters'].total = 0
 
-                    
                     this.items[i].result['diameters'].total = this.items[i].result['diameters'].total * this.items[i].result['coefficient'].price
-                    
 
                 }
             }
@@ -254,27 +253,67 @@ new Vue({
                 console.error(error);
             }
         },
+        
 
         remoteness: function () {
+            minimalValue = 10
+            coordHours = []
+            hour = 0
+
+            // search for the most suitable coordinates
+            hours = {
+                '12': [55.911814, 37.581631],
+                '13': [55.893643, 37.701462],
+                '14': [55.829645, 37.828263],
+                '15': [55.756941, 37.842828],
+                '16': [55.710303, 37.837371],
+                '17': [55.628071, 37.798663],
+                '18': [55.574423, 37.638674],
+                '19': [55.613306, 37.491045],
+                '20': [55.674274, 37.425127],
+                '21': [55.773392, 37.372754],
+                '22': [55.835345, 37.396326],
+                '23': [55.885282, 37.458842]
+            }
+
+            
             // calculate remothess from MKAD to location
             let promise = new Promise((resolve, reject) => {
                 loc = document.getElementById('remValue').value
-                ymaps.geocode('МКАД').then(function (res) {
-                    // var mkadCoords = res.geoObjects.get(0).geometry.getCoordinates();
-                    var mkadCoords = [55.898947,37.632206]
-                    ymaps.geocode(loc).then(function (res) {
-                        var newCoords = res.geoObjects.get(0).geometry.getCoordinates();
-                        rem = ymaps.coordSystem.geo.getDistance(mkadCoords, newCoords);
-                        resolve(rem)
+                
+                // GET COORD 
+                ymaps.geocode(loc).then(function (res) {
+                    var newCoords = res.geoObjects.get(0).geometry.getCoordinates();
+
+                    for (var i in hours) {
+                        differenceLatitude = Math.abs(hours[i][0] - newCoords[0])  // разница по широте
+                        differenceLongitude = Math.abs(hours[i][1] - newCoords[1])  // разница по долготе
+                        if (minimalValue > (differenceLongitude + differenceLatitude)) {
+                            minimalValue = (differenceLongitude + differenceLatitude)
+                            coordHours = hours[i]
+                            hour = i
+                        }
+                    }
+                    
+                    // GET ROUTE
+                    ymaps.route([
+                        coordHours,
+                        newCoords,
+                    ],).then(function (route) {
+                        resolve(route.getLength())
                     });
+                    
+                    
                 });
             });
-            promise.then(rem=>this.calcRemoteness(rem, loc))
+
+
+            promise.then(rem => this.calcRemoteness(rem, loc))
 
         },
 
         calcRemoteness: function (rem, loc) {
-            this.result.remoteness = {'value': loc, 'total': (rem / 1000).toFixed(2)}
+            this.result.remoteness = { 'value': loc, 'total': (rem / 1000).toFixed(2) }
             this.calculate();
         }
         //
@@ -291,5 +330,8 @@ new Vue({
         var coefficients = await this.getData('/api/v1/CoefficientsList/')
         this.coefficients = coefficients.data;
         this.diameters = diameters.data;
+
+        
+
     }
 })
