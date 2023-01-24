@@ -24,6 +24,16 @@ class Materials(models.Model):
         verbose_name = 'Материалы'
         verbose_name_plural = 'Материал'
 
+class Logistic(models.Model):
+    price = models.FloatField('Цена за км', default=0, blank=True)
+
+    def __str__(self):
+        return f'{self.price}'
+
+    class Meta:
+        verbose_name = 'Логистика'
+        verbose_name_plural = 'Логистика'
+
     
 class Diameters(models.Model):
     value = models.CharField('Наименование', max_length=200, blank=True)

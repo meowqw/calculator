@@ -62,3 +62,11 @@ class MaterialsViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Materials.objects.all()
     serializer_class = MaterialsSerializer
+
+
+class LogisticViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Only read Logistic
+    """
+    queryset = Logistic.objects.all()
+    serializer_class = LogisticSerializer

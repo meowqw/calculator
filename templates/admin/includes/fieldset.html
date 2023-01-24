@@ -23,11 +23,12 @@
                             {{ field.field }}{{ field.label_tag }}
                         
                         {% else %}
-                            {{ field.label_tag }}
+                        {{ field.label_tag }}
                             {% if field.is_readonly %}
                                 <div class="readonly">{{ field.contents }}</div>
                             {% else %}
-                                {{ field.field }}
+                            
+                            {{ field.field }}
                             {% endif %}
                         {% endif %}
                         {% if field.field.help_text %}
@@ -43,6 +44,7 @@
 </fieldset>
 
 <script>
+    document.getElementsByClassName('form-row field-total')[0].style.display = 'none';
     async function getMaterials() {
 
         token = document.getElementsByName('csrfmiddlewaretoken')[0].value

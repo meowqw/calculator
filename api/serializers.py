@@ -27,3 +27,10 @@ class DiametersSerializer(serializers.ModelSerializer):
         model = Diameters
         # fields = ("fname", "email")
         fields = "__all__"
+
+class LogisticSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Logistic
+        # fields = ("fname", "email")
+        fields = "__all__"

@@ -51,7 +51,7 @@
     jsonMaterial = JSON.parse(materials[i].innerHTML)
     for (var item in jsonMaterial) {
       material = jsonMaterial[item]
-      html += `<tr>${material['value']}: ${material['price']}</tr>`
+      html += `<div>${material['value']}: ${material['price']}</div>`
     }
     materials[i].innerHTML = html
 

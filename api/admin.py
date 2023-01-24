@@ -18,13 +18,23 @@ class MaterialsAdmin(admin.ModelAdmin):
 
 
 class DiametersAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in Diameters._meta.fields]
+    list_display = [field.name for field in Diameters._meta.fields if field.name != 'total']
     readonly_fields = ('total',)
+    exclude = ['total']
+    list_filter = ()
+    fieldsets = ()
+
+class LogisticAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in Logistic._meta.fields]
+    
+    filter_horizontal = ()
     list_filter = ()
     fieldsets = ()
 
 admin.site.register(Diameters, DiametersAdmin)
 admin.site.register(Coefficients, CoefficientsAdmin)
 admin.site.register(Materials, MaterialsAdmin)
+admin.site.register(Logistic, LogisticAdmin)
+
 
 admin.site.unregister(Group)
