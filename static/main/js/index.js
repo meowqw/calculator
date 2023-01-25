@@ -6,7 +6,7 @@ new Vue({
         // API endpoint
         diameters: [],
 
-        coefficients: [{ "id": 0, "value": "Не выбрано", "price": 0 }],
+        coefficients: [{ "id": 0, "value": "Не выбрано", "price": 1 }],
 
         logistic: 0,
         items: [],
