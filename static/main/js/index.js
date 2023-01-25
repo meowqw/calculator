@@ -32,7 +32,7 @@ new Vue({
         ],
         //
 
-
+        logistic: 0,
         items: [],
         count: 0,
 
@@ -313,7 +313,7 @@ new Vue({
         },
 
         calcRemoteness: function (rem, loc) {
-            this.result.remoteness = { 'value': loc, 'total': (rem / 1000).toFixed(2) }
+            this.result.remoteness = { 'value': loc, 'total': (rem / 1000).toFixed(2) * this.logistic }
             this.calculate();
         }
         //
@@ -328,6 +328,9 @@ new Vue({
 
         var diameters = await this.getData('/api/v1/DiameterList/')
         var coefficients = await this.getData('/api/v1/CoefficientsList/')
+        var logistic = await this.getData('/api/v1/LogisticList/')
+        
+        this.logistic = logistic.data[0].price;
         this.coefficients = coefficients.data;
         this.diameters = diameters.data;
 

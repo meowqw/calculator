@@ -22,7 +22,7 @@
                     </div>
                 </button>
                 <!-- accordion-content -->
-                <div class="panel hero__panel" style="max-height: 716px;" :id="item.id">
+                <div class="panel hero__panel" style="max-height: 100%;" :id="item.id">
                     <div class="hero__left">
                         <ul class="list-reset hero-calc__list">
 
@@ -39,6 +39,21 @@
                                     </label>
                                 </form>
                             </li>
+                            <li class="hero-calc__item">
+                                <h3 class="hero-calc__title title title--h3">Коэффициенты</h3>
+                                <form action="#" class="hero-calc__form">
+                  
+                                  <!-- select-->
+                                  <div class="select">
+                                    <input class="select__input" type="hidden" name="">
+                                    <div class="select__head" v-on:click="openSelect()" id='selectHead'>{* item.result.coefficient.value *}</div>
+                                    <ul class="select__list" id='selectList' style="display: none;">
+                                      <li class="select__item" v-on:click="changeCoefficient(item.id, coefficient)" v-for='coefficient in coefficients'>{* coefficient.value *}</li>
+                                    </ul>
+                                  </div>
+                  
+                                </form>
+                              </li>
 
 
                             <li class="hero-calc__item">
@@ -235,34 +250,6 @@
                     <span class="result-block__price">{* result.total *} руб</span>
                 </div>
                 <ul class="list-reset result-block__list">
-                    <!-- <li class="result-block__item result-item">
-                        <div class="result-item__name">
-                            Диаметр коронки:
-                            <span class="result-item__value">{* result.diameters.value *} см</span>
-                        </div>
-                        <div class="result-item__price">{* result.diameters.total *} руб</div>
-                    </li>
-                    <li class="result-block__item result-item">
-                        <div class="result-item__name">
-                            Толщина стены:
-                            <span class="result-item__value">{* result.thickness.value *} см</span>
-                        </div>
-                        <div class="result-item__price">{* result.thickness.total *} руб</div>
-                    </li>
-                    <li class="result-block__item result-item">
-                        <div class="result-item__name">
-                            Материал стены:
-                            <span class="result-item__value">{* result.material.value *}</span>
-                        </div>
-                        <div class="result-item__price">{* result.material.total *} руб</div>
-                    </li>
-                    <li class="result-block__item result-item">
-                        <div class="result-item__name">
-                            Коэффициент:
-                            <span class="result-item__value">{* result.coefficient.value *}</span>
-                        </div>
-                        <div class="result-item__price">{* result.coefficient.total *} руб</div>
-                    </li> -->
                     <li class="result-block__item result-item">
                         <div class="result-item__name">
                             Удаленность от МКАД:
