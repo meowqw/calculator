@@ -45,7 +45,7 @@ new Vue({
 
             this.calculate();
         },
-        calculate: function () {
+        calculate: function (id) {
             total = 0
             for (var i in this.items) {
                 total += Number(this.items[i].result.total)
@@ -143,19 +143,23 @@ new Vue({
                 }
             }
             this.calculate();
-            this.openSelect();
+            this.openSelect(id);
         },
 
-        openSelect: function() {
-            selectHead = document.getElementById('selectHead')
-            selectList = document.getElementById('selectList')
+        openSelect: function(id) {
+            selectHead = document.getElementsByClassName('select__head')
+            selectList = document.getElementsByClassName('select__list')
 
-            if (selectHead.classList.toString().includes('open')) {
-                selectHead.classList.remove('open')
-                selectList.style.display = 'none'
-            } else {
-                selectHead.classList.add('open')
-                selectList.style.display = 'block'
+            for (headID in selectHead) {
+                if (selectHead[headID].id == id) {
+                    if (selectHead[headID].classList.toString().includes('open')) {
+                        selectHead[headID].classList.remove('open')
+                        selectList[headID].style.display = 'none'
+                    } else {
+                        selectHead[headID].classList.add('open')
+                        selectList[headID].style.display = 'block'
+                    }
+                }
             }
         },
 

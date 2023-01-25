@@ -46,8 +46,8 @@
                                   <!-- select-->
                                   <div class="select">
                                     <input class="select__input" type="hidden" name="">
-                                    <div class="select__head" v-on:click="openSelect()" id='selectHead'>{* item.result.coefficient.value *}</div>
-                                    <ul class="select__list" id='selectList' style="display: none;">
+                                    <div class="select__head" v-on:click="openSelect(item.id)" :id='item.id'>{* item.result.coefficient.value *}</div>
+                                    <ul class="select__list" :id='item.id' style="display: none;">
                                       <li class="select__item" v-on:click="changeCoefficient(item.id, coefficient)" v-for='coefficient in coefficients'>{* coefficient.value *}</li>
                                     </ul>
                                   </div>
