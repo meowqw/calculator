@@ -14,7 +14,7 @@ new Vue({
 
         // results
         result: {
-            'remoteness': { "value": 'Не указано', 'total': 0 },
+            'remoteness': { "value": 'Не указано', 'total': 0, 'range': 0 },
             'total': 0
         },
 
@@ -93,7 +93,7 @@ new Vue({
                     this.items[i].result['total'] = 0
                     this.items[i].result['diameters'].total = 0
 
-                    this.items[i].result['diameters'].total = (this.items[i].result['diameters'].total * this.items[i].result['coefficient'].price).toFixed(2)
+                    this.items[i].result['diameters'].total = (this.items[i].result['diameters'].total * this.items[i].result['coefficient'].price).toFixed(0)
 
                 }
             }
@@ -109,10 +109,10 @@ new Vue({
         changeMaterial: function (id, material) {
             for (var i in this.items) {
                 if (this.items[i].id == id) {
-                    this.items[i].result['diameters'].total = (material.price * this.items[i].result['coefficient'].price).toFixed(2)
+                    this.items[i].result['diameters'].total = (material.price * this.items[i].result['coefficient'].price).toFixed(0)
                     this.items[i].result['material'] = material
 
-                    this.items[i].result['total'] = ((this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count']).toFixed(2)
+                    this.items[i].result['total'] = ((this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count']).toFixed(0)
                 }
             }
             this.calculate();
@@ -122,7 +122,7 @@ new Vue({
             for (var i in this.items) {
                 if (this.items[i].id == id) {
                     this.items[i].result['thickness'] = thickness
-                    this.items[i].result['total'] = ((this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count']).toFixed(2)
+                    this.items[i].result['total'] = ((this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count']).toFixed(0)
                 }
             }
             this.calculate();
@@ -135,10 +135,10 @@ new Vue({
 
                     // diameter
                     material = this.items[i].result['material']
-                    this.items[i].result['diameters'].total = (material.price * this.items[i].result['coefficient'].price).toFixed(2)
+                    this.items[i].result['diameters'].total = (material.price * this.items[i].result['coefficient'].price).toFixed(0)
 
                     // total
-                    this.items[i].result['total'] = ((this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count']).toFixed(2)
+                    this.items[i].result['total'] = ((this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count']).toFixed(0)
 
                 }
             }
@@ -181,7 +181,7 @@ new Vue({
                 if (this.items[i].id == id) {
                     count = this.items[i].result['count']
                     total = this.items[i].result['total']
-                    this.items[i].result['total'] = ((this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * count).toFixed(2)
+                    this.items[i].result['total'] = ((this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * count).toFixed(0)
                 }
             }
             this.calculate();
@@ -302,7 +302,7 @@ new Vue({
         },
 
         calcRemoteness: function (rem, loc) {
-            this.result.remoteness = { 'value': loc, 'total': (rem / 1000).toFixed(2) * this.logistic }
+            this.result.remoteness = { 'value': loc, 'total': (rem / 1000).toFixed(0) * this.logistic, 'range':(rem / 1000).toFixed(0) }
             this.calculate();
         }
         //
