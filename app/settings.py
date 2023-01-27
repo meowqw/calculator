@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ni*kca6(1zo7@5fx@&$k089i(x82ml9_+@t$*rxkaui)1ksz&_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'meatqwtest.ga']
+ALLOWED_HOSTS = ['127.0.0.1', 'meatqwtest.ga', 'kalk.almazbetonstroi.ru', '45.90.32.15']
 
 
 # Application definition
@@ -153,7 +153,7 @@ REST_FRAMEWORK = {
     #     'rest_framework.permissions.IsAuthenticated', # only auth user
     # ]
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny', 
+        'rest_framework.permissions.AllowAny',
     ],
 
     # auth
