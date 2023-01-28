@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ni*kca6(1zo7@5fx@&$k089i(x82ml9_+@t$*rxkaui)1ksz&_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'meatqwtest.ga', 'calc.almazbetonstroi.ru', '45.90.32.15']
+ALLOWED_HOSTS = ['meatqwtest.ga', 'calc.almazbetonstroi.ru', '45.90.32.15', 'www.calc.almazbetonstroi.ru']
 
 
 # Application definition
