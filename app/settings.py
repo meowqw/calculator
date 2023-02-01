@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ni*kca6(1zo7@5fx@&$k089i(x82ml9_+@t$*rxkaui)1ksz&_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['meatqwtest.ga', 'calc.almazbetonstroi.ru', '45.90.32.15', 'www.calc.almazbetonstroi.ru']
+ALLOWED_HOSTS = ['127.0.0.1', 'meatqwtest.ga', 'calc.almazbetonstroi.ru', '45.90.32.15', 'www.calc.almazbetonstroi.ru']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     # 'rest_framework.authtoken',
+    'corsheaders',
     # my
     'main.apps.MainConfig',  # main app
     'account.apps.AccountConfig',  # custom auth
@@ -49,13 +50,14 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+CORS_ORIGIN_ALLOW_ALL=True
 ROOT_URLCONF = 'app.urls'
 
 TEMPLATES = [
