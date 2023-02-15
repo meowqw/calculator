@@ -18,6 +18,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_select__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_components_select__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _components_nice_select__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/nice-select */ "./src/js/components/nice-select.js");
 /* harmony import */ var _components_nice_select__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_components_nice_select__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _components_choices__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/choices */ "./src/js/components/choices.js");
+/* harmony import */ var _components_choices__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_components_choices__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -177,6 +180,189 @@ for (i = 0; i < acc.length; i++) {
     }
   });
 }
+
+/***/ }),
+
+/***/ "./src/js/components/choices.js":
+/*!**************************************!*\
+  !*** ./src/js/components/choices.js ***!
+  \**************************************/
+/***/ (() => {
+
+const defaultSelect = () => {
+  const element = document.querySelector('.default');
+  const choices = new Choices(element, {
+    silent: false,
+    items: [],
+    choices: [],
+    renderChoiceLimit: -1,
+    maxItemCount: -1,
+    addItems: true,
+    addItemFilter: null,
+    removeItems: true,
+    removeItemButton: true,
+    editItems: true,
+    allowHTML: true,
+    duplicateItemsAllowed: true,
+    delimiter: ',',
+    paste: true,
+    searchEnabled: true,
+    searchChoices: true,
+    searchFloor: 1,
+    searchResultLimit: 4,
+    searchFields: ['label', 'value'],
+    position: 'auto',
+    resetScrollPosition: true,
+    shouldSort: true,
+    shouldSortItems: false,
+    sorter: () => {},
+    placeholder: false,
+    placeholderValue: null,
+    searchPlaceholderValue: null,
+    prependValue: null,
+    appendValue: null,
+    renderSelectedChoices: 'auto',
+    loadingText: 'Loading...',
+    noResultsText: 'No results found',
+    noChoicesText: 'No choices to choose from',
+    itemSelectText: 'Press to select',
+    uniqueItemText: 'Only unique values can be added',
+    customAddItemText: 'Only values matching specific conditions can be added',
+    addItemText: value => {
+      return `Press Enter to add <b>"${value}"</b>`;
+    },
+    maxItemText: maxItemCount => {
+      return `Only ${maxItemCount} values can be added`;
+    },
+    valueComparer: (value1, value2) => {
+      return value1 === value2;
+    },
+    classNames: {
+      containerOuter: 'choices',
+      containerInner: 'choices__inner',
+      input: 'choices__input',
+      inputCloned: 'choices__input--cloned',
+      list: 'choices__list',
+      listItems: 'choices__list--multiple',
+      listSingle: 'choices__list--single',
+      listDropdown: 'choices__list--dropdown',
+      item: 'choices__item',
+      itemSelectable: 'choices__item--selectable',
+      itemDisabled: 'choices__item--disabled',
+      itemChoice: 'choices__item--choice',
+      placeholder: 'choices__placeholder',
+      group: 'choices__group',
+      groupHeading: 'choices__heading',
+      button: 'choices__button',
+      activeState: 'is-active',
+      focusState: 'is-focused',
+      openState: 'is-open',
+      disabledState: 'is-disabled',
+      highlightedState: 'is-highlighted',
+      selectedState: 'is-selected',
+      flippedState: 'is-flipped',
+      loadingState: 'is-loading',
+      noResults: 'has-no-results',
+      noChoices: 'has-no-choices'
+    },
+    // Choices uses the great Fuse library for searching. You
+    // can find more options here: https://fusejs.io/api/options.html
+    fuseOptions: {
+      includeScore: true
+    },
+    labelId: '',
+    callbackOnInit: null,
+    callbackOnCreateTemplates: null
+  });
+};
+defaultSelect();
+const multipleSelect = () => {
+  const element = document.querySelector('.multiple');
+  const choices = new Choices(element, {
+    silent: false,
+    items: [],
+    choices: [],
+    renderChoiceLimit: -1,
+    maxItemCount: -1,
+    addItems: true,
+    addItemFilter: null,
+    removeItems: true,
+    removeItemButton: true,
+    editItems: true,
+    allowHTML: true,
+    duplicateItemsAllowed: true,
+    delimiter: ',',
+    paste: true,
+    searchEnabled: true,
+    searchChoices: true,
+    searchFloor: 1,
+    searchResultLimit: 4,
+    searchFields: ['label', 'value'],
+    position: 'auto',
+    resetScrollPosition: true,
+    shouldSort: true,
+    shouldSortItems: false,
+    sorter: () => {},
+    placeholder: false,
+    placeholderValue: null,
+    searchPlaceholderValue: null,
+    prependValue: null,
+    appendValue: null,
+    renderSelectedChoices: 'auto',
+    loadingText: 'Loading...',
+    noResultsText: 'No results found',
+    noChoicesText: 'No choices to choose from',
+    itemSelectText: 'Press to select',
+    uniqueItemText: 'Only unique values can be added',
+    customAddItemText: 'Only values matching specific conditions can be added',
+    addItemText: value => {
+      return `Press Enter to add <b>"${value}"</b>`;
+    },
+    maxItemText: maxItemCount => {
+      return `Only ${maxItemCount} values can be added`;
+    },
+    valueComparer: (value1, value2) => {
+      return value1 === value2;
+    },
+    classNames: {
+      containerOuter: 'choices',
+      containerInner: 'choices__inner',
+      input: 'choices__input',
+      inputCloned: 'choices__input--cloned',
+      list: 'choices__list',
+      listItems: 'choices__list--multiple',
+      listSingle: 'choices__list--single',
+      listDropdown: 'choices__list--dropdown',
+      item: 'choices__item',
+      itemSelectable: 'choices__item--selectable',
+      itemDisabled: 'choices__item--disabled',
+      itemChoice: 'choices__item--choice',
+      placeholder: 'choices__placeholder',
+      group: 'choices__group',
+      groupHeading: 'choices__heading',
+      button: 'choices__button',
+      activeState: 'is-active',
+      focusState: 'is-focused',
+      openState: 'is-open',
+      disabledState: 'is-disabled',
+      highlightedState: 'is-highlighted',
+      selectedState: 'is-selected',
+      flippedState: 'is-flipped',
+      loadingState: 'is-loading',
+      noResults: 'has-no-results',
+      noChoices: 'has-no-choices'
+    },
+    // Choices uses the great Fuse library for searching. You
+    // can find more options here: https://fusejs.io/api/options.html
+    fuseOptions: {
+      includeScore: true
+    },
+    labelId: '',
+    callbackOnInit: null,
+    callbackOnCreateTemplates: null
+  });
+};
+multipleSelect();
 
 /***/ }),
 
