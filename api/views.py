@@ -70,3 +70,11 @@ class LogisticViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Logistic.objects.all()
     serializer_class = LogisticSerializer
+    
+    
+class ExtraWorksViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Only read ExtraWorks
+    """
+    queryset = ExtraWorks.objects.all()
+    serializer_class = ExtraWorksSerializer

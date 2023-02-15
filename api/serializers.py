@@ -34,3 +34,11 @@ class LogisticSerializer(serializers.ModelSerializer):
         model = Logistic
         # fields = ("fname", "email")
         fields = "__all__"
+        
+class ExtraWorksSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Coefficients
+        # fields = ("fname", "email")
+        fields = "__all__"
+       

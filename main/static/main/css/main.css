@@ -77,6 +77,7 @@ html {
   min-height: 100%;
   font-size: 16px;
   color: var(--black-color);
+  background-color: var(--light-color);
 }
 
 img {
@@ -781,6 +782,332 @@ table th {
 
 .select__list .select__item:hover {
   background-color: rgba(224, 229, 231, 0.5);
+}
+
+/* stylelint-disable indentation */
+/* stylelint-disable color-function-notation */
+.nice-select,
+.nice-select.open .list {
+  border-radius: 8px;
+  width: 100%;
+  -webkit-box-shadow: var(--box-shadow);
+  box-shadow: var(--box-shadow);
+}
+
+.nice-select {
+  position: relative;
+  display: block;
+  clear: both;
+  float: left;
+  outline: 0;
+  border-radius: var(--border-color);
+  padding-right: 30px;
+  padding-left: 18px;
+  width: 100%;
+  height: 42px;
+  -webkit-box-shadow: var(--box-shadow);
+  box-shadow: var(--box-shadow);
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 40px;
+  white-space: nowrap;
+  text-align: left !important;
+  background-color: var(--light-color);
+  -webkit-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* stylelint-disable-next-line order/order */
+}
+.nice-select::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  display: block;
+  margin-top: -2px;
+  width: 10px;
+  height: 8px;
+  background: url("../img/caret-up-solid.svg") no-repeat center/cover;
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+  -webkit-transition: all 0.15s ease-in-out;
+  -o-transition: all 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out;
+  pointer-events: none;
+}
+.nice-select .list {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 9;
+  overflow-y: scroll;
+  margin-top: 5px;
+  border-top: 0;
+  border-radius: 0 0 5px 5px;
+  padding: 52px 0 0;
+  max-height: 310px;
+  -webkit-box-shadow: 0 0 0 1px rgba(68, 68, 68, 0.11);
+  box-shadow: 0 0 0 1px rgba(68, 68, 68, 0.11);
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: var(--light-color);
+  opacity: 0;
+  -webkit-transform: scale(0.75) translateY(-21px);
+  -ms-transform: scale(0.75) translateY(-21px);
+  transform: scale(0.75) translateY(-21px);
+  -webkit-transform-origin: 50% 0;
+  -ms-transform-origin: 50% 0;
+  transform-origin: 50% 0;
+  -webkit-transition: all 0.2s cubic-bezier(0.5, 0, 0, 1.25), opacity 0.15s ease-out;
+  -o-transition: all 0.2s cubic-bezier(0.5, 0, 0, 1.25), opacity 0.15s ease-out;
+  transition: all 0.2s cubic-bezier(0.5, 0, 0, 1.25), opacity 0.15s ease-out;
+  pointer-events: none;
+}
+.nice-select .list::-webkit-scrollbar {
+  width: 0;
+  background-color: var(--light-color);
+}
+.nice-select .list:hover .option:not(:hover) {
+  background-color: transparent !important;
+}
+.nice-select.has-multiple {
+  border: 1px solid var(--ligth-color);
+  border-radius: var(--border-radius);
+  padding: 10px;
+  padding-right: 30px;
+  height: auto;
+  min-height: 45px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  white-space: inherit;
+  background-color: var(--light-color);
+}
+.nice-select.has-multiple span.current {
+  display: inline-block;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 4px 10px;
+  font-size: 14px;
+  line-height: 120%;
+  background: var(--light-color);
+}
+.nice-select.has-multiple span.current .remove {
+  font-size: 18px;
+}
+@media (max-width: 576px) {
+  .nice-select.has-multiple span.current {
+    font-size: 12px;
+  }
+}
+.nice-select.has-multiple .multiple-options {
+  display: block;
+  margin-left: 0;
+  padding: 0;
+  line-height: 200%;
+}
+@media (max-width: 576px) {
+  .nice-select.has-multiple {
+    font-size: 12px;
+  }
+}
+.nice-select .nice-select-search-box {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 8;
+  margin-top: 5px;
+  border-radius: 5px 5px 0 0;
+  padding: 5px;
+  width: 100%;
+  -webkit-box-shadow: 0 0 0 1px rgba(68, 88, 112, 0.11);
+  box-shadow: 0 0 0 1px rgba(68, 88, 112, 0.11);
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: var(--light-color);
+  opacity: 0;
+  -webkit-transform: scale(0.75) translateY(-21px);
+  -ms-transform: scale(0.75) translateY(-21px);
+  transform: scale(0.75) translateY(-21px);
+  -webkit-transform-origin: 50% 0;
+  -ms-transform-origin: 50% 0;
+  transform-origin: 50% 0;
+  -webkit-transition: all 0.2s cubic-bezier(0.5, 0, 0, 1.25), opacity 0.15s ease-out;
+  -o-transition: all 0.2s cubic-bezier(0.5, 0, 0, 1.25), opacity 0.15s ease-out;
+  transition: all 0.2s cubic-bezier(0.5, 0, 0, 1.25), opacity 0.15s ease-out;
+  pointer-events: none;
+}
+.nice-select .nice-select-search {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 10px 0 0;
+  outline: 0 !important;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 7px 12px;
+  width: 100% !important;
+  height: auto;
+  min-height: 36px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  line-height: 22px;
+  color: #333;
+  background-color: var(--white-color);
+}
+.nice-select .option {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  list-style: none;
+  outline: 0;
+  padding: 5px;
+  padding-right: 29px;
+  padding-left: 18px;
+  min-height: 40px;
+  font-weight: 400;
+  line-height: 130%;
+  text-align: left;
+  -webkit-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.nice-select .option:not(:last-child) {
+  border-bottom: 1px solid var(--border-color);
+}
+.nice-select .option.selected {
+  font-weight: 700;
+}
+.nice-select .option.disabled {
+  color: #999;
+  background-color: transparent;
+  cursor: default;
+}
+.nice-select.open::after {
+  margin-top: -4px;
+  -webkit-transform: translateY(50%) rotate(0);
+  -ms-transform: translateY(50%) rotate(0);
+  transform: translateY(50%) rotate(0);
+}
+.nice-select.open .nice-select-search-box {
+  z-index: 10;
+  opacity: 1;
+  -webkit-transform: scale(1) translateY(0);
+  -ms-transform: scale(1) translateY(0);
+  transform: scale(1) translateY(0);
+  pointer-events: auto;
+}
+.nice-select.open .list {
+  opacity: 1;
+  -webkit-transform: scale(1) translateY(0);
+  -ms-transform: scale(1) translateY(0);
+  transform: scale(1) translateY(0);
+  pointer-events: auto;
+}
+.nice-select.disabled {
+  border-color: #ededed;
+  color: #999;
+  pointer-events: none;
+}
+.nice-select.disabled::after {
+  border-color: #ccc;
+}
+.nice-select.wide {
+  width: 100%;
+}
+.nice-select.wide .list {
+  left: 0 !important;
+  right: 0 !important;
+}
+.nice-select.right {
+  float: right;
+}
+.nice-select.right .list {
+  left: auto;
+  right: 0;
+}
+.nice-select.small {
+  height: 36px;
+  font-size: 12px;
+  line-height: 34px;
+}
+.nice-select.small::after {
+  width: 4px;
+  height: 4px;
+}
+.nice-select.small .option {
+  min-height: 34px;
+  line-height: 34px;
+}
+
+.remove:hover {
+  color: var(--red-color);
+}
+
+.nice-select.open,
+.nice-select:active,
+.nice-select:focus {
+  border-color: var(--silver-color);
+  -webkit-box-shadow: var(--box-shadow);
+  box-shadow: var(--box-shadow);
+}
+
+.nice-select .option.focus,
+.nice-select .option.selected.focus,
+.nice-select .option:hover {
+  background-color: var(--mercury-color);
+}
+
+.no-csspointerevents .nice-select .list {
+  display: none;
+}
+.no-csspointerevents .nice-select.open .list {
+  display: block;
+}
+
+.choices {
+  width: 100%;
+}
+.choices__inner {
+  border-radius: var(--border-radius);
+}
+.choices__item .is-highlighted {
+  background-color: var(--light-color);
+}
+.choices__list--multiple .choices__item {
+  border-color: var(--border-color);
+  border-radius: 5px;
+  color: var(--black-color);
+  background-color: var(--light-color);
+}
+.choices__button {
+  border-radius: 10px;
+  background-color: var(--accent-color);
+}
+.choices__input {
+  margin-left: 2px;
+}
+
+.choices[data-type*=select-multiple] .choices__button,
+.choices[data-type*=text] .choices__button {
+  margin-right: 3px;
+  border-radius: 10px;
 }
 
 .header {

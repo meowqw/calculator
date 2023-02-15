@@ -12,6 +12,18 @@ class Coefficients(models.Model):
     class Meta:
         verbose_name = 'Коэффициент'
         verbose_name_plural = 'Коэффициенты'
+        
+
+class ExtraWorks(models.Model):
+    value = models.CharField('Наименование', max_length=200, blank=True)
+    price = models.FloatField('Цена', default=0, blank=True)
+
+    def __str__(self):
+        return self.value
+
+    class Meta:
+        verbose_name = 'Доп работа'
+        verbose_name_plural = 'Доп работы'
 
 
 class Materials(models.Model):

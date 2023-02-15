@@ -31,10 +31,19 @@ class LogisticAdmin(admin.ModelAdmin):
     list_filter = ()
     fieldsets = ()
 
+class ExtraWorksAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in ExtraWorks._meta.fields]
+
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+
 admin.site.register(Diameters, DiametersAdmin)
 admin.site.register(Coefficients, CoefficientsAdmin)
 admin.site.register(Materials, MaterialsAdmin)
 admin.site.register(Logistic, LogisticAdmin)
+admin.site.register(ExtraWorks, ExtraWorksAdmin)
+
 
 
 admin.site.unregister(Group)
