@@ -151,7 +151,7 @@ new Vue({
 
 
                             if (checked == 1) {
-                                changedCoef.push({ 'id': Number(pk), 'value': value, 'price': Number(price) })
+                                changedCoef.push({ 'id': Number(pk), 'value': value, 'price': Number(price).toFixed(1) })
                                 sumPrice += Number(price)
 
                             }
@@ -196,7 +196,7 @@ new Vue({
 
 
                             if (checked == 1) {
-                                changedWork.push({ 'id': Number(pk), 'value': value, 'price': Number(price) })
+                                changedWork.push({ 'id': Number(pk), 'value': value, 'price': Number(price).toFixed(1) })
                                 sumPrice += Number(price)
 
                             }
