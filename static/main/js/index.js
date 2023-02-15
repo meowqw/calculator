@@ -151,14 +151,14 @@ new Vue({
 
 
                             if (checked == 1) {
-                                changedCoef.push({ 'id': Number(pk), 'value': value, 'price': Number(price).toFixed(1) })
+                                changedCoef.push({ 'id': Number(pk), 'value': value, 'price': Number(price) })
                                 sumPrice += Number(price)
 
                             }
                         }
                     }
                     this.items[i].result['coefficient'].value = changedCoef
-                    this.items[i].result['coefficient'].price = sumPrice - 1
+                    this.items[i].result['coefficient'].price = Number(sumPrice - 1).toFixed(1)
 
                     if (this.items[i].result['coefficient'].price == 0) {
                         this.items[i].result['coefficient'].price = 1
@@ -196,14 +196,14 @@ new Vue({
 
 
                             if (checked == 1) {
-                                changedWork.push({ 'id': Number(pk), 'value': value, 'price': Number(price).toFixed(1) })
+                                changedWork.push({ 'id': Number(pk), 'value': value, 'price': Number(price) })
                                 sumPrice += Number(price)
 
                             }
                         }
                     }
                     this.items[i].result['extra'].value = changedWork
-                    this.items[i].result['extra'].price = sumPrice - 1
+                    this.items[i].result['extra'].price = Number(sumPrice - 1).toFixed(1)
 
 
                     // // diameter
