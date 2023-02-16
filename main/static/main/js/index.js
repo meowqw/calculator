@@ -6,7 +6,7 @@ new Vue({
         // API endpoint
         diameters: [],
 
-        coefficients: [],
+        coefficients: [{ "id": 0, "value": "Не выбрано", "price": 1 }],
 
         logistic: 0,
         extraWorks: [],
@@ -28,7 +28,7 @@ new Vue({
                 'diameters': { "value": 'Не выбрано', 'total': 0 },
                 'material': { "value": 'Не выбрано', 'price': 0 },
                 'thickness': { "value": 0, 'price': 0, 'total': 0 },
-                'coefficient': { "value": [], 'price': 1 },
+                'coefficient': { "value": 'Не выбрано', 'price': 1 },
                 'extra': { "value": [], 'price': 0 },
                 'total': 0,
                 'count': 1,
@@ -94,7 +94,7 @@ new Vue({
                 if (this.items[i].id == id) {
                     this.items[i].result['material'] = { "value": 'Не выбрано', 'price': 0 }
                     this.items[i].result['diameters'] = diameter
-                    this.items[i].result['total'] = this.items[i].result['extra'].price
+                    this.items[i].result['total'] = Number(this.items[i].result['extra'].price).toFixed(0)
                     this.items[i].result['diameters'].total = 0
 
                     this.items[i].result['diameters'].total = (this.items[i].result['diameters'].total * this.items[i].result['coefficient'].price).toFixed(0)
@@ -116,7 +116,8 @@ new Vue({
                     this.items[i].result['diameters'].total = (material.price * this.items[i].result['coefficient'].price).toFixed(0)
                     this.items[i].result['material'] = material
 
-                    this.items[i].result['total'] = (this.items[i].result['extra'].price + (this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count']).toFixed(0)
+                    total = ((this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count'])
+                    this.items[i].result['total'] = (total + Number(this.items[i].result['extra'].price)).toFixed(0)
                 }
             }
             this.calculate();
@@ -126,43 +127,17 @@ new Vue({
             for (var i in this.items) {
                 if (this.items[i].id == id) {
                     this.items[i].result['thickness'] = thickness
-                    this.items[i].result['total'] = (this.items[i].result['extra'].price + (this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count']).toFixed(0)
+                    total = ((this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count'])
+                    this.items[i].result['total'] = (total + Number(this.items[i].result['extra'].price)).toFixed(0)
                 }
             }
             this.calculate();
         },
 
-        changeCoefficient: function (id) {
+        changeCoefficient: function (id, coefficient) {
             for (var i in this.items) {
                 if (this.items[i].id == id) {
-
-                    list = document.getElementById('coefList' + id);
-                    inputs = list.getElementsByTagName('input')
-
-                    changedCoef = [];
-                    sumPrice = 1
-                    for (var input in inputs) {
-                        if (inputs[input].value != undefined) {
-                            checked = inputs[input].checked
-                            value = inputs[input].value
-                            pk = inputs[input].getAttribute('pk')
-                            price = inputs[input].getAttribute('price')
-
-
-
-                            if (checked == 1) {
-                                changedCoef.push({ 'id': Number(pk), 'value': value, 'price': Number(price) })
-                                sumPrice += Number(price)
-
-                            }
-                        }
-                    }
-                    this.items[i].result['coefficient'].value = changedCoef
-                    this.items[i].result['coefficient'].price = Number(sumPrice - 1).toFixed(1)
-
-                    if (this.items[i].result['coefficient'].price == 0) {
-                        this.items[i].result['coefficient'].price = 1
-                    }
+                    this.items[i].result['coefficient'] = coefficient
 
 
                     // diameter
@@ -170,12 +145,13 @@ new Vue({
                     this.items[i].result['diameters'].total = (material.price * this.items[i].result['coefficient'].price).toFixed(0)
 
                     // // total
-                    this.items[i].result['total'] = (this.items[i].result['extra'].price + (this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count']).toFixed(0)
+                    total = ((this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count'])
+                    this.items[i].result['total'] = (total + Number(this.items[i].result['extra'].price)).toFixed(0)
 
                 }
             }
             this.calculate();
-            // this.openSelect(id);
+            this.openSelect(id);
         },
         changeExtraWork: function (id) {
             for (var i in this.items) {
@@ -211,8 +187,8 @@ new Vue({
                     // this.items[i].result['diameters'].total = (material.price * this.items[i].result['coefficient'].price).toFixed(0)
 
                     // // total
-                    this.items[i].result['total'] =  (this.items[i].result['extra'].price + (this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count']).toFixed(0)
-
+                    total = ((this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count'])
+                    this.items[i].result['total'] = (total + Number(this.items[i].result['extra'].price)).toFixed(0)
                 }
             }
             this.calculate();
@@ -254,7 +230,8 @@ new Vue({
                 if (this.items[i].id == id) {
                     count = this.items[i].result['count']
                     total = this.items[i].result['total']
-                    this.items[i].result['total'] = (this.items[i].result['extra'].price + (this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * count).toFixed(0)
+                    total = (this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count']
+                    this.items[i].result['total'] = (total + Number(this.items[i].result['extra'].price)).toFixed(0)
                 }
             }
             this.calculate();

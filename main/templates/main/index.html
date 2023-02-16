@@ -30,7 +30,7 @@
                                     <form action="#" class="hero-calc__form">
 
                                         <!-- select-->
-                                        <!-- <div class="select">
+                                        <div class="select">
                                             <input class="select__input" type="hidden" name="">
                                             <div class="select__head" v-on:click="openSelect(item.id)" :id='item.id'>{*
                                                 item.result.coefficient.value *}</div>
@@ -38,14 +38,14 @@
                                                 <li class="select__item"
                                                     v-on:click="changeCoefficient(item.id, coefficient)"
                                                     v-for='coefficient in coefficients'>{* coefficient.value *}</li>
-                                            </ul> -->
-                                        <button v-on:click="viewCoefficients(item.id)" type='button'>Коэффициенты</button>
+                                            </ul>
+                                        <!-- <button v-on:click="viewCoefficients(item.id)" type='button'>Коэффициенты</button>
                                         <div :id="'coefList'+item.id" style="display: none;">
                                             <div v-for='coefficient in coefficients'>
                                                 <input v-on:click="changeCoefficient(item.id)" type="checkbox" :pk="coefficient.id" :price="coefficient.price" :value="coefficient.value" :id="'coef'+coefficient.id">
                                                 <label :for="'coef'+coefficient.id">{* coefficient.value *}</label>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </form>
                                 </li>
 
@@ -70,7 +70,8 @@
                                             <option v-for='extraWork in extraWorks' :value="extraWork.id">{* extraWork.value *}</option>
                                         </select> -->
 
-                                        <button v-on:click="viewExtraWorks(item.id)" type='button'>Доп работы</button>
+                                        <button type="button" v-on:click="viewExtraWorks(item.id)"
+                                        class="btn-reset btn btn--accordion accordion accordion--btn">Доп работы</button>
                                         <div :id="'extraList'+item.id" style="display: none;">
                                             <div v-for='extraWork in extraWorks'>
                                                 <input v-on:click="changeExtraWork(item.id)" type="checkbox" :pk="extraWork.id" :price="extraWork.price" :value="extraWork.value" :id="'work'+extraWork.id">
@@ -194,12 +195,7 @@
                                     <li class="result-block__item result-item">
                                         <div class="result-item__name">
                                             Коэффициент:
-                                            <span class="result-item__value"
-                                                v-if="item.result.coefficient.value.length == 0">Не выбрано</span>
-                                            <span class="result-item__value" v-else
-                                                v-for="changedCoef in item.result.coefficient.value">{*
-                                                getValue(coefficients, changedCoef.id) *}</span>
-
+                                            <span class="result-item__value">{* item.result.coefficient.value *}</span>
                                         </div>
                                         <div class="result-item__price">*{* item.result.coefficient.price *}</div>
                                     </li>
