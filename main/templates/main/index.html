@@ -49,9 +49,9 @@
                                     </form>
                                 </li>
 
-                                <li class="hero-calc__item">
+                                {% comment %} <li class="hero-calc__item">
                                     <h3 class="hero-calc__title title title--h3">Доп работа</h3>
-                                    <form action="#" class="hero-calc__form">
+                                    <form action="#" class="hero-calc__form"> {% endcomment %}
 
                                         <!-- select-->
                                         <!-- <div class="select">
@@ -70,18 +70,18 @@
                                             <option v-for='extraWork in extraWorks' :value="extraWork.id">{* extraWork.value *}</option>
                                         </select> -->
 
-                                        <button type="button" v-on:click="viewExtraWorks(item.id)"
+                                        {% comment %} <button type="button" v-on:click="viewExtraWorks(item.id)"
                                         class="btn-reset btn btn--accordion accordion accordion--btn">Доп работы</button>
                                         <div :id="'extraList'+item.id" style="display: none;">
                                             <div v-for='extraWork in extraWorks'>
                                                 <input v-on:click="changeExtraWork(item.id)" type="checkbox" :pk="extraWork.id" :price="extraWork.price" :value="extraWork.value" :id="'work'+extraWork.id">
                                                 <label :for="'work'+extraWork.id">{* extraWork.value *}</label>
                                             </div>
-                                        </div>
+                                        </div> {% endcomment %}
 
 
-                                    </form>
-                                </li>
+                                    {% comment %} </form>
+                                </li> {% endcomment %}
 
                                 <li class="hero-calc__item">
                                     <h3 class="hero-calc__title title title--h3">Диаметр коронки</h3>
@@ -200,7 +200,7 @@
                                         <div class="result-item__price">*{* item.result.coefficient.price *}</div>
                                     </li>
 
-                                    <li class="result-block__item result-item">
+                                    {% comment %} <li class="result-block__item result-item">
                                         <div class="result-item__name">
                                             Доп работы:
                                             <span class="result-item__value"
@@ -210,7 +210,7 @@
                                                 changedExtra.id) *}</span>
                                         </div>
                                         <div class="result-item__price">{* item.result.extra.price *} руб</div>
-                                    </li>
+                                    </li> {% endcomment %}
                                 </ul>
                             </div>
                         </div>
@@ -264,6 +264,32 @@
                     </button>
                 </div>
         </section>
+
+        <section class="coef section-container container">
+            <h2 class="coef__title title title--h3">Доп работы</h2>
+            <form action="#" class="coef__form">
+              <button type="button" class="btn-reset btn btn--accordion accordion accordion--btn">Доп работы</button>
+              <ul class="list-reset coef__list panel" id="coefList0" style="">
+                <li class="coef__item" v-for="extraWork in extraWorks">
+                  <label class="label calc__label" for="coef2">
+                    {* extraWork.value *}
+                  </label>
+                  <div class="calc coef__calc">
+                    <button class="btn-reset btn btn--counter" type="button" v-on:click="extraWorkCalc(extraWork.id, 'minus')">
+                      <i class="fa-solid fa-minus"></i>
+                    </button>
+                    <input class="input-reset calc__input input" type="number" pk="2" price="1.1" id="coef2"
+                      :value="extraWork.count" disabled='true'>
+                    <button class="btn-reset btn btn--counter" type="button" v-on:click="extraWorkCalc(extraWork.id, 'plus')">
+                      <i class="fa-solid fa-plus"></i>
+                    </button>
+                  </div>
+                </li>
+            </ul>
+        </form>
+    </section>
+
+
         <section class="distance">
             <div class="container distance__container section-container">
                 <h2 class="distance__title title title--h3">Удаленность от МКАД</h2>
@@ -299,6 +325,16 @@
                                     result.remoteness.range *} км</span>
                             </div>
                             <div class="result-item__price">{* result.remoteness.total *} руб</div>
+                        </li>
+                        <li class="result-block__item result-item">
+                            <div class="result-item__name">
+                                Доп работы:
+                                <span class="result-item__value" v-if="result.extra.value.length == 0">Не указано</span>
+                                <span class="result-item__value" v-else v-for='extra in result.extra.value'>{* extra.value *} ({* extra.count *})</span>
+                                
+
+                            </div>
+                            <div class="result-item__price">{* result.extra.total *} руб</div>
                         </li>
                     </ul>
                 </div>

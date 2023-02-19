@@ -1,440 +1,496 @@
 new Vue({
-    delimiters: ['{*', '*}'],
-    el: '#app',
+  delimiters: ["{*", "*}"],
+  el: "#app",
 
-    data: {
-        // API endpoint
-        diameters: [],
+  data: {
+    // API endpoint
+    diameters: [],
 
-        coefficients: [{ "id": 0, "value": "Не выбрано", "price": 1 }],
+    coefficients: [{ id: 0, value: "Не выбрано", price: 1 }],
 
-        logistic: 0,
-        extraWorks: [],
+    logistic: 0,
+    extraWorks: [],
 
-        items: [],
-        count: 0,
+    items: [],
+    count: 0,
 
-        // results
-        result: {
-            'remoteness': { "value": 'Не указано', 'total': 0, 'range': 0 },
-            'total': 0
-        },
-
+    // results
+    result: {
+      remoteness: { value: "Не указано", total: 0, range: 0 },
+      extra: { value: [], total: 0 },
+      total: 0,
     },
-    methods: {
-        // add new item 
-        addNewItem: async function () {
-            var item = {
-                'diameters': { "value": 'Не выбрано', 'total': 0 },
-                'material': { "value": 'Не выбрано', 'price': 0 },
-                'thickness': { "value": 0, 'price': 0, 'total': 0 },
-                'coefficient': { "value": 'Не выбрано', 'price': 1 },
-                'extra': { "value": [], 'price': 0 },
-                'total': 0,
-                'count': 1,
-            }
-            this.items.push({ 'id': this.count, 'result': item });
-
-            this.count++;
-
-
-
-        },
-        // delete item by id
-        delItem: async function (id) {
-            for (var i in this.items) {
-                if (this.items[i].id == id) {
-                    this.items.splice(i, 1);
-                }
-            }
-            this.calculate();
-        },
-        calculate: function (id) {
-            total = 0
-            for (var i in this.items) {
-                total += Number(this.items[i].result.total)
-            }
-
-            if (this.result.remoteness.total != 0) {
-                this.result.total = Number(total) + Number(this.result.remoteness.total)
-            } else {
-                this.result.total = total
-            }
-
-
-
-        },
-        // show panel item
-        openItem: function (id) {
-            buttons = document.getElementsByClassName('btn-reset accordion hero__accordion')
-            panels = document.getElementsByClassName('panel hero__panel')
-
-            for (var i in buttons) {
-                if (buttons[i].id == id) {
-                    if (buttons[i].classList.toString().includes('active')) {
-                        buttons[i].classList.remove('active')
-                    } else {
-                        buttons[i].classList.add('active')
-                    }
-                }
-            }
-            for (var i in panels) {
-                if (panels[i].id == id) {
-                    if (panels[i].style.cssText == 'max-height: 100%;') {
-                        panels[i].style.cssText = ''
-                    } else {
-                        panels[i].style.cssText += 'max-height: 100%;'
-                    }
-                }
-            }
-        },
-
-        changeDiameter: function (id, diameter) {
-            for (var i in this.items) {
-                if (this.items[i].id == id) {
-                    this.items[i].result['material'] = { "value": 'Не выбрано', 'price': 0 }
-                    this.items[i].result['diameters'] = diameter
-                    this.items[i].result['total'] = Number(this.items[i].result['extra'].price).toFixed(0)
-                    this.items[i].result['diameters'].total = 0
-
-                    this.items[i].result['diameters'].total = (this.items[i].result['diameters'].total * this.items[i].result['coefficient'].price).toFixed(0)
-
-                }
-            }
-
-            var materialsbtn = document.getElementsByName('material');
-            for (var i in materialsbtn) {
-                materialsbtn[i].checked = false;
-            }
-
-            this.calculate();
-        },
-
-        changeMaterial: function (id, material) {
-            for (var i in this.items) {
-                if (this.items[i].id == id) {
-                    this.items[i].result['diameters'].total = (material.price * this.items[i].result['coefficient'].price).toFixed(0)
-                    this.items[i].result['material'] = material
-
-                    total = ((this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count'])
-                    this.items[i].result['total'] = (total + Number(this.items[i].result['extra'].price)).toFixed(0)
-                }
-            }
-            this.calculate();
-        },
-
-        changeThickness: function (id, thickness) {
-            for (var i in this.items) {
-                if (this.items[i].id == id) {
-                    this.items[i].result['thickness'] = thickness
-                    total = ((this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count'])
-                    this.items[i].result['total'] = (total + Number(this.items[i].result['extra'].price)).toFixed(0)
-                }
-            }
-            this.calculate();
-        },
-
-        changeCoefficient: function (id, coefficient) {
-            for (var i in this.items) {
-                if (this.items[i].id == id) {
-                    this.items[i].result['coefficient'] = coefficient
-
-
-                    // diameter
-                    material = this.items[i].result['material']
-                    this.items[i].result['diameters'].total = (material.price * this.items[i].result['coefficient'].price).toFixed(0)
-
-                    // // total
-                    total = ((this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count'])
-                    this.items[i].result['total'] = (total + Number(this.items[i].result['extra'].price)).toFixed(0)
-
-                }
-            }
-            this.calculate();
-            this.openSelect(id);
-        },
-        changeExtraWork: function (id) {
-            for (var i in this.items) {
-                if (this.items[i].id == id) {
-
-                    list = document.getElementById('extraList' + id);
-                    inputs = list.getElementsByTagName('input')
-
-                    changedWork = [];
-                    sumPrice = 1
-                    for (var input in inputs) {
-                        if (inputs[input].value != undefined) {
-                            checked = inputs[input].checked
-                            value = inputs[input].value
-                            pk = inputs[input].getAttribute('pk')
-                            price = inputs[input].getAttribute('price')
-
-
-
-                            if (checked == 1) {
-                                changedWork.push({ 'id': Number(pk), 'value': value, 'price': Number(price) })
-                                sumPrice += Number(price)
-
-                            }
-                        }
-                    }
-                    this.items[i].result['extra'].value = changedWork
-                    this.items[i].result['extra'].price = Number(sumPrice - 1).toFixed(1)
-
-
-                    // // diameter
-                    // material = this.items[i].result['material']
-                    // this.items[i].result['diameters'].total = (material.price * this.items[i].result['coefficient'].price).toFixed(0)
-
-                    // // total
-                    total = ((this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count'])
-                    this.items[i].result['total'] = (total + Number(this.items[i].result['extra'].price)).toFixed(0)
-                }
-            }
-            this.calculate();
-            // this.openSelect(id);
-        },
-
-        openSelect: function (id) {
-            selectHead = document.getElementsByClassName('select__head')
-            selectList = document.getElementsByClassName('select__list')
-
-            for (headID in selectHead) {
-                if (selectHead[headID].id == id) {
-                    if (selectHead[headID].classList.toString().includes('open')) {
-                        selectHead[headID].classList.remove('open')
-                        selectList[headID].style.display = 'none'
-                    } else {
-                        selectHead[headID].classList.add('open')
-                        selectList[headID].style.display = 'block'
-                    }
-                }
-            }
-        },
-
-
-        // SLIDER
-        slider: function (el, id) {
-            if (el == 'slider') {
-                document.getElementById('amount' + id).value = document.getElementById('slider' + id).value
-            } else if (el == 'amount') {
-                document.getElementById('slider' + id).value = document.getElementById('amount' + id).value
-            }
-            var sliderValue = document.getElementById('amount' + id).value
-            this.changeThickness(id, { 'value': sliderValue, 'price': sliderValue, 'total': sliderValue })
-        },
-
-        // total item
-        caclulateTotalItem: function (id) {
-            for (var i in this.items) {
-                if (this.items[i].id == id) {
-                    count = this.items[i].result['count']
-                    total = this.items[i].result['total']
-                    total = (this.items[i].result['diameters'].total * this.items[i].result['thickness'].total) * this.items[i].result['count']
-                    this.items[i].result['total'] = (total + Number(this.items[i].result['extra'].price)).toFixed(0)
-                }
-            }
-            this.calculate();
-        },
-
-        // COUNT
-        btnCountMinus: function (id) {
-            current = document.getElementById('count' + id).value
-            document.getElementById('count' + id).value = Number(current) - 1
-
-            for (var i in this.items) {
-                if (this.items[i].id == id) {
-                    this.items[i].result['count'] = document.getElementById('count' + id).value
-                }
-            }
-
-            this.caclulateTotalItem(id);
-
-
-        },
-        btnCountPlus: function (id) {
-            current = document.getElementById('count' + id).value
-            document.getElementById('count' + id).value = Number(current) + 1
-
-            for (var i in this.items) {
-                if (this.items[i].id == id) {
-                    this.items[i].result['count'] = document.getElementById('count' + id).value
-                }
-            }
-
-            this.caclulateTotalItem(id);
-        },
-        inputCount: function (id) {
-
-            for (var i in this.items) {
-
-                if (this.items[i].id == id) {
-                    this.items[i].result['count'] = document.getElementById('count' + id).value
-                }
-            }
-
-            this.caclulateTotalItem(id);
-
-        },
-
-        inputRemotenessValue: function () {
-            // Authocomplete location in input 
-            ymaps = window.ymaps;
-            var suggestView1 = new ymaps.SuggestView('remValue');
-
-
-        },
-        getData: async function (url) {
-            try {
-                const response = await axios.get(url);
-                return response;
-            } catch (error) {
-                console.error(error);
-            }
-        },
-
-        // получение занчения из массива
-        getValue: function (arr, id) {
-            for (var i in arr) {
-                // console.log(arr[i])
-                if (arr[i].id == id) {
-                    // console.log(arr[i])
-                    return arr[i].value;
-                }
-            }
-        },
-
-        // получение цены из массива
-        getPrice: function (arr, id) {
-            for (var i in arr) {
-                if (arr[i].id == id) {
-                    // console.log(arr[i])
-                    return arr[i].price;
-                }
-            }
-        },
-
-
-        remoteness: function () {
-            minimalValue = 10
-            coordHours = []
-            hour = 0
-
-            // search for the most suitable coordinates
-            hours = {
-                '12': [55.911814, 37.581631],
-                '13': [55.893643, 37.701462],
-                '14': [55.829645, 37.828263],
-                '15': [55.756941, 37.842828],
-                '16': [55.710303, 37.837371],
-                '17': [55.628071, 37.798663],
-                '18': [55.574423, 37.638674],
-                '19': [55.613306, 37.491045],
-                '20': [55.674274, 37.425127],
-                '21': [55.773392, 37.372754],
-                '22': [55.835345, 37.396326],
-                '23': [55.885282, 37.458842]
-            }
-
-
-            // calculate remothess from MKAD to location
-            let promise = new Promise((resolve, reject) => {
-                loc = document.getElementById('remValue').value
-
-                // GET COORD 
-                ymaps.geocode(loc).then(function (res) {
-                    var newCoords = res.geoObjects.get(0).geometry.getCoordinates();
-
-                    for (var i in hours) {
-                        differenceLatitude = Math.abs(hours[i][0] - newCoords[0])  // разница по широте
-                        differenceLongitude = Math.abs(hours[i][1] - newCoords[1])  // разница по долготе
-                        if (minimalValue > (differenceLongitude + differenceLatitude)) {
-                            minimalValue = (differenceLongitude + differenceLatitude)
-                            coordHours = hours[i]
-                            hour = i
-                        }
-                    }
-
-                    // GET ROUTE
-                    ymaps.route([
-                        coordHours,
-                        newCoords,
-                    ],).then(function (route) {
-                        resolve(route.getLength())
-                    });
-
-
-                });
-            });
-
-
-            promise.then(rem => this.calcRemoteness(rem, loc))
-
-        },
-
-        calcRemoteness: function (rem, loc) {
-            this.result.remoteness = { 'value': loc, 'total': (rem / 1000).toFixed(0) * this.logistic, 'range': (rem / 1000).toFixed(0) }
-            this.calculate();
-        },
-
-        viewCoefficients: function (id) {
-            list = document.getElementById('coefList' + id);
-            if (list.style.display == 'none') {
-                list.style.display = '';
-            } else {
-                list.style.display = 'none';
-            }
-        },
-
-        viewExtraWorks: function (id) {
-            list = document.getElementById('extraList' + id);
-            if (list.style.display == 'none') {
-                list.style.display = '';
-            } else {
-                list.style.display = 'none';
-            }
-        },
-        //
+  },
+  methods: {
+    // add new item
+    addNewItem: async function () {
+      var item = {
+        diameters: { value: "Не выбрано", total: 0 },
+        material: { value: "Не выбрано", price: 0 },
+        thickness: { value: 0, price: 0, total: 0 },
+        coefficient: { value: "Не выбрано", price: 1 },
+        extra: { value: [], price: 0 }, // по сути сейчас не нужен здесь, но если удалить, придется переписывать логику вычислений
+        total: 0,
+        count: 1,
+      };
+      this.items.push({ id: this.count, result: item });
+
+      this.count++;
     },
-    async mounted() {
-        let script = document.createElement("script");
-        script.setAttribute(
-            "src",
-            "https://api-maps.yandex.ru/2.1/?apikey=334f77fd-ed61-4f8d-8b91-6b78273063bf&lang=ru_RU"
-        );
-        document.head.appendChild(script);
+    // delete item by id
+    delItem: async function (id) {
+      for (var i in this.items) {
+        if (this.items[i].id == id) {
+          this.items.splice(i, 1);
+        }
+      }
+      this.calculate();
+    },
+    calculate: function (id) {
+      total = 0;
+      for (var i in this.items) {
+        total += Number(this.items[i].result.total);
+      }
 
-        let ajaxScript = document.createElement("script");
-        ajaxScript.setAttribute(
-            "src",
-            "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-        );
+      if (this.result.remoteness.total != 0) {
+        this.result.total =
+          Number(total) + Number(this.result.remoteness.total) + Number(this.result.extra.total);
+      } else {
+        this.result.total = Number(total) + Number(this.result.extra.total);
+      }
+    },
+    // show panel item
+    openItem: function (id) {
+      buttons = document.getElementsByClassName(
+        "btn-reset accordion hero__accordion"
+      );
+      panels = document.getElementsByClassName("panel hero__panel");
 
-        document.head.appendChild(ajaxScript);
+      for (var i in buttons) {
+        if (buttons[i].id == id) {
+          if (buttons[i].classList.toString().includes("active")) {
+            buttons[i].classList.remove("active");
+          } else {
+            buttons[i].classList.add("active");
+          }
+        }
+      }
+      for (var i in panels) {
+        if (panels[i].id == id) {
+          if (panels[i].style.cssText == "max-height: 100%;") {
+            panels[i].style.cssText = "";
+          } else {
+            panels[i].style.cssText += "max-height: 100%;";
+          }
+        }
+      }
+    },
 
-        // let jsScript = document.createElement("script");
-        // jsScript.setAttribute(
-        //     "src",
-        //     "https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"
-        // );
+    changeDiameter: function (id, diameter) {
+      for (var i in this.items) {
+        if (this.items[i].id == id) {
+          this.items[i].result["material"] = { value: "Не выбрано", price: 0 };
+          this.items[i].result["diameters"] = diameter;
+          this.items[i].result["total"] = Number(
+            this.items[i].result["extra"].price
+          ).toFixed(0);
+          this.items[i].result["diameters"].total = 0;
 
-        // document.body.appendChild(jsScript);
+          this.items[i].result["diameters"].total = (
+            this.items[i].result["diameters"].total *
+            this.items[i].result["coefficient"].price
+          ).toFixed(0);
+        }
+      }
 
-        var diameters = await this.getData('/api/v1/DiameterList/')
-        var coefficients = await this.getData('/api/v1/CoefficientsList/')
-        var logistic = await this.getData('/api/v1/LogisticList/')
-        var extraWorks = await this.getData('/api/v1/ExtraWorksList/')
+      var materialsbtn = document.getElementsByName("material");
+      for (var i in materialsbtn) {
+        materialsbtn[i].checked = false;
+      }
 
+      this.calculate();
+    },
 
-        this.logistic = logistic.data[0].price;
-        for (var item in coefficients.data) {
-            this.coefficients.push(coefficients.data[item])
+    changeMaterial: function (id, material) {
+      for (var i in this.items) {
+        if (this.items[i].id == id) {
+          this.items[i].result["diameters"].total = (
+            material.price * this.items[i].result["coefficient"].price
+          ).toFixed(0);
+          this.items[i].result["material"] = material;
+
+          total =
+            this.items[i].result["diameters"].total *
+            this.items[i].result["thickness"].total *
+            this.items[i].result["count"];
+          this.items[i].result["total"] = (
+            total + Number(this.items[i].result["extra"].price)
+          ).toFixed(0);
+        }
+      }
+      this.calculate();
+    },
+
+    changeThickness: function (id, thickness) {
+      for (var i in this.items) {
+        if (this.items[i].id == id) {
+          this.items[i].result["thickness"] = thickness;
+          total =
+            this.items[i].result["diameters"].total *
+            this.items[i].result["thickness"].total *
+            this.items[i].result["count"];
+          this.items[i].result["total"] = (
+            total + Number(this.items[i].result["extra"].price)
+          ).toFixed(0);
+        }
+      }
+      this.calculate();
+    },
+
+    changeCoefficient: function (id, coefficient) {
+      for (var i in this.items) {
+        if (this.items[i].id == id) {
+          this.items[i].result["coefficient"] = coefficient;
+
+          // diameter
+          material = this.items[i].result["material"];
+          this.items[i].result["diameters"].total = (
+            material.price * this.items[i].result["coefficient"].price
+          ).toFixed(0);
+
+          // // total
+          total =
+            this.items[i].result["diameters"].total *
+            this.items[i].result["thickness"].total *
+            this.items[i].result["count"];
+          this.items[i].result["total"] = (
+            total + Number(this.items[i].result["extra"].price)
+          ).toFixed(0);
+        }
+      }
+      this.calculate();
+      this.openSelect(id);
+    },
+    // changeExtraWork: function (id) {
+    //   for (var i in this.items) {
+    //     if (this.items[i].id == id) {
+    //       list = document.getElementById("extraList" + id);
+    //       inputs = list.getElementsByTagName("input");
+
+    //       changedWork = [];
+    //       sumPrice = 1;
+    //       for (var input in inputs) {
+    //         if (inputs[input].value != undefined) {
+    //           checked = inputs[input].checked;
+    //           value = inputs[input].value;
+    //           pk = inputs[input].getAttribute("pk");
+    //           price = inputs[input].getAttribute("price");
+
+    //           if (checked == 1) {
+    //             changedWork.push({
+    //               id: Number(pk),
+    //               value: value,
+    //               price: Number(price),
+    //             });
+    //             sumPrice += Number(price);
+    //           }
+    //         }
+    //       }
+    //       this.items[i].result["extra"].value = changedWork;
+    //       this.items[i].result["extra"].price = Number(sumPrice - 1).toFixed(1);
+
+    //       // // diameter
+    //       // material = this.items[i].result['material']
+    //       // this.items[i].result['diameters'].total = (material.price * this.items[i].result['coefficient'].price).toFixed(0)
+
+    //       // // total
+    //       total =
+    //         this.items[i].result["diameters"].total *
+    //         this.items[i].result["thickness"].total *
+    //         this.items[i].result["count"];
+    //       this.items[i].result["total"] = (
+    //         total + Number(this.items[i].result["extra"].price)
+    //       ).toFixed(0);
+    //     }
+    //   }
+    //   this.calculate();
+    //   // this.openSelect(id);
+    // },
+
+    openSelect: function (id) {
+      selectHead = document.getElementsByClassName("select__head");
+      selectList = document.getElementsByClassName("select__list");
+
+      for (headID in selectHead) {
+        if (selectHead[headID].id == id) {
+          if (selectHead[headID].classList.toString().includes("open")) {
+            selectHead[headID].classList.remove("open");
+            selectList[headID].style.display = "none";
+          } else {
+            selectHead[headID].classList.add("open");
+            selectList[headID].style.display = "block";
+          }
+        }
+      }
+    },
+
+    // SLIDER
+    slider: function (el, id) {
+      if (el == "slider") {
+        document.getElementById("amount" + id).value = document.getElementById(
+          "slider" + id
+        ).value;
+      } else if (el == "amount") {
+        document.getElementById("slider" + id).value = document.getElementById(
+          "amount" + id
+        ).value;
+      }
+      var sliderValue = document.getElementById("amount" + id).value;
+      this.changeThickness(id, {
+        value: sliderValue,
+        price: sliderValue,
+        total: sliderValue,
+      });
+    },
+
+    // total item
+    caclulateTotalItem: function (id) {
+      for (var i in this.items) {
+        if (this.items[i].id == id) {
+          count = this.items[i].result["count"];
+          total = this.items[i].result["total"];
+          total =
+            this.items[i].result["diameters"].total *
+            this.items[i].result["thickness"].total *
+            this.items[i].result["count"];
+          this.items[i].result["total"] = (
+            total + Number(this.items[i].result["extra"].price)
+          ).toFixed(0);
+        }
+      }
+      this.calculate();
+    },
+
+    // COUNT
+    btnCountMinus: function (id) {
+      current = document.getElementById("count" + id).value;
+      document.getElementById("count" + id).value = Number(current) - 1;
+
+      for (var i in this.items) {
+        if (this.items[i].id == id) {
+          this.items[i].result["count"] = document.getElementById(
+            "count" + id
+          ).value;
+        }
+      }
+
+      this.caclulateTotalItem(id);
+    },
+    btnCountPlus: function (id) {
+      current = document.getElementById("count" + id).value;
+      document.getElementById("count" + id).value = Number(current) + 1;
+
+      for (var i in this.items) {
+        if (this.items[i].id == id) {
+          this.items[i].result["count"] = document.getElementById(
+            "count" + id
+          ).value;
+        }
+      }
+
+      this.caclulateTotalItem(id);
+    },
+    inputCount: function (id) {
+      for (var i in this.items) {
+        if (this.items[i].id == id) {
+          this.items[i].result["count"] = document.getElementById(
+            "count" + id
+          ).value;
+        }
+      }
+
+      this.caclulateTotalItem(id);
+    },
+
+    inputRemotenessValue: function () {
+      // Authocomplete location in input
+      ymaps = window.ymaps;
+      var suggestView1 = new ymaps.SuggestView("remValue");
+    },
+    getData: async function (url) {
+      try {
+        const response = await axios.get(url);
+        return response;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    // получение занчения из массива
+    getValue: function (arr, id) {
+      for (var i in arr) {
+        // console.log(arr[i])
+        if (arr[i].id == id) {
+          // console.log(arr[i])
+          return arr[i].value;
+        }
+      }
+    },
+
+    // получение цены из массива
+    getPrice: function (arr, id) {
+      for (var i in arr) {
+        if (arr[i].id == id) {
+          // console.log(arr[i])
+          return arr[i].price;
+        }
+      }
+    },
+
+    remoteness: function () {
+      minimalValue = 10;
+      coordHours = [];
+      hour = 0;
+
+      // search for the most suitable coordinates
+      hours = {
+        12: [55.911814, 37.581631],
+        13: [55.893643, 37.701462],
+        14: [55.829645, 37.828263],
+        15: [55.756941, 37.842828],
+        16: [55.710303, 37.837371],
+        17: [55.628071, 37.798663],
+        18: [55.574423, 37.638674],
+        19: [55.613306, 37.491045],
+        20: [55.674274, 37.425127],
+        21: [55.773392, 37.372754],
+        22: [55.835345, 37.396326],
+        23: [55.885282, 37.458842],
+      };
+
+      // calculate remothess from MKAD to location
+      let promise = new Promise((resolve, reject) => {
+        loc = document.getElementById("remValue").value;
+
+        // GET COORD
+        ymaps.geocode(loc).then(function (res) {
+          var newCoords = res.geoObjects.get(0).geometry.getCoordinates();
+
+          for (var i in hours) {
+            differenceLatitude = Math.abs(hours[i][0] - newCoords[0]); // разница по широте
+            differenceLongitude = Math.abs(hours[i][1] - newCoords[1]); // разница по долготе
+            if (minimalValue > differenceLongitude + differenceLatitude) {
+              minimalValue = differenceLongitude + differenceLatitude;
+              coordHours = hours[i];
+              hour = i;
+            }
+          }
+
+          // GET ROUTE
+          ymaps.route([coordHours, newCoords]).then(function (route) {
+            resolve(route.getLength());
+          });
+        });
+      });
+
+      promise.then((rem) => this.calcRemoteness(rem, loc));
+    },
+
+    calcRemoteness: function (rem, loc) {
+      this.result.remoteness = {
+        value: loc,
+        total: (rem / 1000).toFixed(0) * this.logistic,
+        range: (rem / 1000).toFixed(0),
+      };
+      this.calculate();
+    },
+
+    viewCoefficients: function (id) {
+      list = document.getElementById("coefList" + id);
+      if (list.style.display == "none") {
+        list.style.display = "";
+      } else {
+        list.style.display = "none";
+      }
+    },
+
+    // viewExtraWorks: function (id) {
+    //   list = document.getElementById("extraList" + id);
+    //   if (list.style.display == "none") {
+    //     list.style.display = "";
+    //   } else {
+    //     list.style.display = "none";
+    //   }
+    // },
+    //
+
+    // обработка доп работ (если число какой то доп работы > 0 прибавляем ее к итоговому результату)
+    extraWorkProcessing: function() {
+        resultExtra = {'value': [], 'total': 0}
+        for (var i in this.extraWorks) {
+            if (this.extraWorks[i].count > 0) {
+                resultExtra.value.push(this.extraWorks[i])
+                resultExtra.total += this.extraWorks[i].price * this.extraWorks[i].count
+            }
         }
 
-        this.diameters = diameters.data;
-        this.extraWorks = extraWorks.data;
-
-
-
+        this.result.extra = resultExtra;
     },
-})
+
+    // калькулятор доп работ
+    extraWorkCalc: function(id, func) {
+        for (var i in this.extraWorks) {
+            if (this.extraWorks[i].id == id) {
+                if (func == 'minus') {
+                    this.extraWorks[i].count -= 1;
+                } else if (func == 'plus') {
+                    this.extraWorks[i].count += 1;
+                }
+            }
+        }
+
+        this.extraWorkProcessing();
+        this.calculate();
+    },
+  },
+  async mounted() {
+    let script = document.createElement("script");
+    script.setAttribute(
+      "src",
+      "https://api-maps.yandex.ru/2.1/?apikey=334f77fd-ed61-4f8d-8b91-6b78273063bf&lang=ru_RU"
+    );
+    document.head.appendChild(script);
+
+    let ajaxScript = document.createElement("script");
+    ajaxScript.setAttribute(
+      "src",
+      "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    );
+
+    document.head.appendChild(ajaxScript);
+
+    // let jsScript = document.createElement("script");
+    // jsScript.setAttribute(
+    //     "src",
+    //     "https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"
+    // );
+
+    // document.body.appendChild(jsScript);
+
+    var diameters = await this.getData("/api/v1/DiameterList/");
+    var coefficients = await this.getData("/api/v1/CoefficientsList/");
+    var logistic = await this.getData("/api/v1/LogisticList/");
+    var extraWorks = await this.getData("/api/v1/ExtraWorksList/");
+
+    this.logistic = logistic.data[0].price;
+    for (var item in coefficients.data) {
+      this.coefficients.push(coefficients.data[item]);
+    }
+
+    this.diameters = diameters.data;
+    for (var index in extraWorks.data) {
+      this.extraWorks.push({ 'value': extraWorks.data[index].value, 'id': extraWorks.data[index].id, 'price': extraWorks.data[index].price, 'count': 0});
+    }
+    // this.extraWorks = extraWorks.data;
+  },
+});

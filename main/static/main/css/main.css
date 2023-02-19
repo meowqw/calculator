@@ -1128,6 +1128,37 @@ table th {
   border-radius: 10px;
 }
 
+.calc {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  max-width: 150px;
+}
+.calc__label {
+  margin-right: 10px;
+}
+@media (max-width: 768px) {
+  .calc__label {
+    font-size: 14px;
+  }
+}
+@media (max-width: 576px) {
+  .calc__label {
+    margin-right: 0;
+    margin-bottom: 5px;
+    font-size: 13px;
+  }
+}
+.calc__input {
+  margin: 0 5px;
+  padding: 10px 12px;
+  text-align: center;
+}
+.calc button {
+  min-width: 38px;
+  min-height: 38px;
+}
+
 .header {
   margin-bottom: 20px;
 }
@@ -1702,4 +1733,82 @@ table th {
   .result-item__price {
     margin-left: 0;
   }
+}
+
+.coef {
+  margin-bottom: 20px;
+}
+.coef .accordion--btn {
+  margin-bottom: 5px;
+}
+.coef__list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  border-radius: var(--border-radius);
+  padding: 0 10px;
+  background-color: var(--light-color);
+}
+@media (max-width: 576px) {
+  .coef__list {
+    padding: 0;
+  }
+}
+.coef__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 10px;
+}
+.coef__item:not(:last-child) {
+  margin-bottom: 5px;
+}
+.coef__item:first-child {
+  margin-top: 10px;
+}
+@media (max-width: 576px) {
+  .coef__item:first-child {
+    margin-top: 0;
+  }
+}
+.coef__item:last-child {
+  margin-bottom: 10px;
+}
+@media (max-width: 576px) {
+  .coef__item:last-child {
+    margin-bottom: 0;
+  }
+}
+@media (max-width: 576px) {
+  .coef__item {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+  }
+}
+.coef__title {
+  margin-bottom: 15px;
+}
+.coef__calc {
+  min-width: 150px;
 }
