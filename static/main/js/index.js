@@ -35,7 +35,8 @@ new Vue({
         thickness: { value: 0, price: 0, total: 0 },
         coefficient: { value: "Не выбрано", price: 1 },
         extra: { value: [], price: 0 }, // по сути сейчас не нужен здесь, но если удалить, придется переписывать логику вычислений
-        total: 0,
+        total: 0, // цена которая начинается от startTotalItem
+        price: 0, // обычная цена
         count: 1,
       };
       this.items.push({ id: this.count, result: item });
@@ -105,6 +106,8 @@ new Vue({
             this.items[i].result["diameters"].total *
             this.items[i].result["coefficient"].price
           ).toFixed(0);
+
+          this.items[i].result["price"] = this.items[i].result["total"]
           
           if (this.items[i].result["total"] < this.startTotalItem) {
             this.items[i].result["total"] = this.startTotalItem;
@@ -139,6 +142,8 @@ new Vue({
             total + Number(this.items[i].result["extra"].price)
           ).toFixed(0);
 
+          this.items[i].result["price"] = this.items[i].result["total"]
+
           if (this.items[i].result["total"] < this.startTotalItem) {
             this.items[i].result["total"] = this.startTotalItem;
           }
@@ -158,6 +163,8 @@ new Vue({
           this.items[i].result["total"] = (
             total + Number(this.items[i].result["extra"].price)
           ).toFixed(0);
+
+          this.items[i].result["price"] = this.items[i].result["total"]
 
           if (this.items[i].result["total"] < this.startTotalItem) {
             this.items[i].result["total"] = this.startTotalItem;
@@ -186,6 +193,8 @@ new Vue({
           this.items[i].result["total"] = (
             total + Number(this.items[i].result["extra"].price)
           ).toFixed(0);
+
+          this.items[i].result["price"] = this.items[i].result["total"]
 
           if (this.items[i].result["total"] < this.startTotalItem) {
             this.items[i].result["total"] = this.startTotalItem;
@@ -245,6 +254,8 @@ new Vue({
           this.items[i].result["total"] = (
             total + Number(this.items[i].result["extra"].price)
           ).toFixed(0);
+
+          this.items[i].result["price"] = this.items[i].result["total"]
 
           if (this.items[i].result["total"] < this.startTotalItem) {
             this.items[i].result["total"] = this.startTotalItem;
