@@ -19,7 +19,11 @@ new Vue({
       remoteness: { value: "Не указано", total: 0, range: 0 },
       extra: { value: [], total: 0 },
       total: 0,
+      startTotal: 0,
     },
+
+    //
+
   },
   methods: {
     // add new item
@@ -54,9 +58,9 @@ new Vue({
 
       if (this.result.remoteness.total != 0) {
         this.result.total =
-          Number(total) + Number(this.result.remoteness.total) + Number(this.result.extra.total);
+          Number(total) + Number(this.result.remoteness.total) + Number(this.result.extra.total) +  Number(this.result.startTotal);
       } else {
-        this.result.total = Number(total) + Number(this.result.extra.total);
+        this.result.total = Number(total) + Number(this.result.extra.total) + Number(this.result.startTotal);
       }
     },
     // show panel item
@@ -171,51 +175,6 @@ new Vue({
       this.calculate();
       this.openSelect(id);
     },
-    // changeExtraWork: function (id) {
-    //   for (var i in this.items) {
-    //     if (this.items[i].id == id) {
-    //       list = document.getElementById("extraList" + id);
-    //       inputs = list.getElementsByTagName("input");
-
-    //       changedWork = [];
-    //       sumPrice = 1;
-    //       for (var input in inputs) {
-    //         if (inputs[input].value != undefined) {
-    //           checked = inputs[input].checked;
-    //           value = inputs[input].value;
-    //           pk = inputs[input].getAttribute("pk");
-    //           price = inputs[input].getAttribute("price");
-
-    //           if (checked == 1) {
-    //             changedWork.push({
-    //               id: Number(pk),
-    //               value: value,
-    //               price: Number(price),
-    //             });
-    //             sumPrice += Number(price);
-    //           }
-    //         }
-    //       }
-    //       this.items[i].result["extra"].value = changedWork;
-    //       this.items[i].result["extra"].price = Number(sumPrice - 1).toFixed(1);
-
-    //       // // diameter
-    //       // material = this.items[i].result['material']
-    //       // this.items[i].result['diameters'].total = (material.price * this.items[i].result['coefficient'].price).toFixed(0)
-
-    //       // // total
-    //       total =
-    //         this.items[i].result["diameters"].total *
-    //         this.items[i].result["thickness"].total *
-    //         this.items[i].result["count"];
-    //       this.items[i].result["total"] = (
-    //         total + Number(this.items[i].result["extra"].price)
-    //       ).toFixed(0);
-    //     }
-    //   }
-    //   this.calculate();
-    //   // this.openSelect(id);
-    // },
 
     openSelect: function (id) {
       selectHead = document.getElementsByClassName("select__head");
@@ -452,6 +411,12 @@ new Vue({
         this.extraWorkProcessing();
         this.calculate();
     },
+
+    // Ввод начальной цены
+    inputResultPrice: function(){
+      resultPriceValue = document.getElementById("resultPriceValue").value;
+      this.calculate();
+    }
   },
   async mounted() {
     let script = document.createElement("script");
@@ -481,6 +446,12 @@ new Vue({
     var coefficients = await this.getData("/api/v1/CoefficientsList/");
     var logistic = await this.getData("/api/v1/LogisticList/");
     var extraWorks = await this.getData("/api/v1/ExtraWorksList/");
+
+    // поличить начальну цену
+    var startTotal = await this.getData("/api/v1/StartTotalList/");
+    this.result.startTotal = startTotal.data[0].price
+    this.inputResultPrice()
+
 
     this.logistic = logistic.data[0].price;
     for (var item in coefficients.data) {

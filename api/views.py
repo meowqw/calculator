@@ -78,3 +78,10 @@ class ExtraWorksViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = ExtraWorks.objects.all()
     serializer_class = ExtraWorksSerializer
+
+class StartTotalViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Only read Logistic
+    """
+    queryset = StartTotal.objects.all()
+    serializer_class = StartTotalSerializer

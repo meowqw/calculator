@@ -59,3 +59,14 @@ class Diameters(models.Model):
     class Meta:
         verbose_name = 'Диаметр коронки'
         verbose_name_plural = 'Диаметры коронок'
+
+
+class StartTotal(models.Model):
+    price = models.IntegerField('Начальная цена', default=0, blank=True)
+    
+    def __str__(self):
+        return f'{self.price}'
+
+    class Meta:
+        verbose_name = 'Начальная цена'
+        verbose_name_plural = 'Начальная цена'

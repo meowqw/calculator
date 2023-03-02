@@ -41,4 +41,11 @@ class ExtraWorksSerializer(serializers.ModelSerializer):
         model = Coefficients
         # fields = ("fname", "email")
         fields = "__all__"
+        
+class StartTotalSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Logistic
+        # fields = ("fname", "email")
+        fields = "__all__"
        
