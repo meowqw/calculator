@@ -19,8 +19,9 @@ new Vue({
       remoteness: { value: "Не указано", total: 0, range: 0 },
       extra: { value: [], total: 0 },
       total: 0,
-      startTotal: 0,
     },
+
+    startTotalItem: 0
 
     //
 
@@ -58,9 +59,9 @@ new Vue({
 
       if (this.result.remoteness.total != 0) {
         this.result.total =
-          Number(total) + Number(this.result.remoteness.total) + Number(this.result.extra.total) +  Number(this.result.startTotal);
+          Number(total) + Number(this.result.remoteness.total) + Number(this.result.extra.total);
       } else {
-        this.result.total = Number(total) + Number(this.result.extra.total) + Number(this.result.startTotal);
+        this.result.total = Number(total) + Number(this.result.extra.total);
       }
     },
     // show panel item
@@ -104,6 +105,10 @@ new Vue({
             this.items[i].result["diameters"].total *
             this.items[i].result["coefficient"].price
           ).toFixed(0);
+          
+          if (this.items[i].result["total"] < this.startTotalItem) {
+            this.items[i].result["total"] = this.startTotalItem;
+          }
         }
       }
 
@@ -121,6 +126,9 @@ new Vue({
           this.items[i].result["diameters"].total = (
             material.price * this.items[i].result["coefficient"].price
           ).toFixed(0);
+
+
+
           this.items[i].result["material"] = material;
 
           total =
@@ -130,6 +138,10 @@ new Vue({
           this.items[i].result["total"] = (
             total + Number(this.items[i].result["extra"].price)
           ).toFixed(0);
+
+          if (this.items[i].result["total"] < this.startTotalItem) {
+            this.items[i].result["total"] = this.startTotalItem;
+          }
         }
       }
       this.calculate();
@@ -146,6 +158,10 @@ new Vue({
           this.items[i].result["total"] = (
             total + Number(this.items[i].result["extra"].price)
           ).toFixed(0);
+
+          if (this.items[i].result["total"] < this.startTotalItem) {
+            this.items[i].result["total"] = this.startTotalItem;
+          }
         }
       }
       this.calculate();
@@ -170,6 +186,10 @@ new Vue({
           this.items[i].result["total"] = (
             total + Number(this.items[i].result["extra"].price)
           ).toFixed(0);
+
+          if (this.items[i].result["total"] < this.startTotalItem) {
+            this.items[i].result["total"] = this.startTotalItem;
+          }
         }
       }
       this.calculate();
@@ -225,6 +245,10 @@ new Vue({
           this.items[i].result["total"] = (
             total + Number(this.items[i].result["extra"].price)
           ).toFixed(0);
+
+          if (this.items[i].result["total"] < this.startTotalItem) {
+            this.items[i].result["total"] = this.startTotalItem;
+          }
         }
       }
       this.calculate();
@@ -411,12 +435,6 @@ new Vue({
         this.extraWorkProcessing();
         this.calculate();
     },
-
-    // Ввод начальной цены
-    inputResultPrice: function(){
-      resultPriceValue = document.getElementById("resultPriceValue").value;
-      this.calculate();
-    }
   },
   async mounted() {
     let script = document.createElement("script");
@@ -446,11 +464,10 @@ new Vue({
     var coefficients = await this.getData("/api/v1/CoefficientsList/");
     var logistic = await this.getData("/api/v1/LogisticList/");
     var extraWorks = await this.getData("/api/v1/ExtraWorksList/");
+    var startTotalItem = await this.getData("/api/v1/StartTotalList/");
 
-    // поличить начальну цену
-    var startTotal = await this.getData("/api/v1/StartTotalList/");
-    this.result.startTotal = startTotal.data[0].price
-    this.inputResultPrice()
+    // получить стартовый тотал
+    this.startTotalItem = Number(startTotalItem.data[0].price)
 
 
     this.logistic = logistic.data[0].price;
