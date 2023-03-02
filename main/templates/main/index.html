@@ -14,10 +14,11 @@
             <div class="container hero__container section-container">
                 <!-- item -->
                 <div class="hero__item" v-for="item in items">
+                    
                     <!-- accordion-btn -->
                     <button class="btn-reset accordion hero__accordion active" @click="openItem(item.id)" :id="item.id">
                         <div class="hero__accordion-content">
-                            Стоимость: {* item.result.total *}
+                            Стоимость: {* item.result.price *} ({* item.result.total *})
                             <span>Кол-во: {* item.result.count *}</span>
                         </div>
                     </button>
@@ -168,7 +169,7 @@
                             <div class="result-block">
                                 <div class="result-block__top result-block__top--hero">
                                     <h3 class="result-block__title">Стоимость</h3>
-                                    <span class="result-block__price">{* item.result.total *} руб</span>
+                                    <span class="result-block__price">{* item.result.price *} ({* item.result.total *}) руб</span>
                                     <span class="result-block__add">Кол-во: {* item.result.count *}</span>
                                 </div>
                                 <ul class="list-reset result-block__list">
