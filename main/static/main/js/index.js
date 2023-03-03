@@ -21,6 +21,8 @@ new Vue({
       total: 0,
     },
 
+    realTotal: 0,  // тотал без минималки
+
     startTotalItem: 0
 
     //
@@ -58,10 +60,21 @@ new Vue({
         total += Number(this.items[i].result.total);
       }
 
+      this.realTotal = total;
+
       if (this.result.remoteness.total != 0) {
+
+        if (Number(total) < this.startTotalItem) {
+          total = this.startTotalItem
+        } 
+
         this.result.total =
           Number(total) + Number(this.result.remoteness.total) + Number(this.result.extra.total);
       } else {
+
+        if (Number(total) < this.startTotalItem) {
+          total = this.startTotalItem
+        } 
         this.result.total = Number(total) + Number(this.result.extra.total);
       }
     },
@@ -109,9 +122,7 @@ new Vue({
 
           this.items[i].result["price"] = this.items[i].result["total"]
           
-          if (this.items[i].result["total"] < this.startTotalItem) {
-            this.items[i].result["total"] = this.startTotalItem;
-          }
+          
         }
       }
 
@@ -144,9 +155,7 @@ new Vue({
 
           this.items[i].result["price"] = this.items[i].result["total"]
 
-          if (this.items[i].result["total"] < this.startTotalItem) {
-            this.items[i].result["total"] = this.startTotalItem;
-          }
+          
         }
       }
       this.calculate();
@@ -166,9 +175,7 @@ new Vue({
 
           this.items[i].result["price"] = this.items[i].result["total"]
 
-          if (this.items[i].result["total"] < this.startTotalItem) {
-            this.items[i].result["total"] = this.startTotalItem;
-          }
+          
         }
       }
       this.calculate();
@@ -196,9 +203,7 @@ new Vue({
 
           this.items[i].result["price"] = this.items[i].result["total"]
 
-          if (this.items[i].result["total"] < this.startTotalItem) {
-            this.items[i].result["total"] = this.startTotalItem;
-          }
+          
         }
       }
       this.calculate();
@@ -257,9 +262,7 @@ new Vue({
 
           this.items[i].result["price"] = this.items[i].result["total"]
 
-          if (this.items[i].result["total"] < this.startTotalItem) {
-            this.items[i].result["total"] = this.startTotalItem;
-          }
+          
         }
       }
       this.calculate();

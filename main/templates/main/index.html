@@ -17,11 +17,7 @@
                     
                     <!-- accordion-btn -->
                     <button class="btn-reset accordion hero__accordion active" @click="openItem(item.id)" :id="item.id">
-                        <div class="hero__accordion-content" v-if="item.result.price < item.result.total">
-                            Стоимость: {* item.result.price *} ({* item.result.total *})
-                            <span>Кол-во: {* item.result.count *}</span>
-                        </div>
-                        <div class="hero__accordion-content" v-else>
+                        <div class="hero__accordion-content">
                             Стоимость: {* item.result.price *}
                             <span>Кол-во: {* item.result.count *}</span>
                         </div>
@@ -44,49 +40,9 @@
                                                     v-on:click="changeCoefficient(item.id, coefficient)"
                                                     v-for='coefficient in coefficients'>{* coefficient.value *}</li>
                                             </ul>
-                                        <!-- <button v-on:click="viewCoefficients(item.id)" type='button'>Коэффициенты</button>
-                                        <div :id="'coefList'+item.id" style="display: none;">
-                                            <div v-for='coefficient in coefficients'>
-                                                <input v-on:click="changeCoefficient(item.id)" type="checkbox" :pk="coefficient.id" :price="coefficient.price" :value="coefficient.value" :id="'coef'+coefficient.id">
-                                                <label :for="'coef'+coefficient.id">{* coefficient.value *}</label>
-                                            </div>
-                                        </div> -->
                                     </form>
                                 </li>
 
-                                {% comment %} <li class="hero-calc__item">
-                                    <h3 class="hero-calc__title title title--h3">Доп работа</h3>
-                                    <form action="#" class="hero-calc__form"> {% endcomment %}
-
-                                        <!-- select-->
-                                        <!-- <div class="select">
-                                            <input class="select__input" type="hidden" name="">
-                                            <div class="select__head" v-on:click="openSelect(item.id)" :id='item.id'>{*
-                                                item.result.coefficient.value *}</div>
-                                            <ul class="select__list" :id='item.id' style="display: none;">
-                                                <li class="select__item"
-                                                    v-on:click="changeCoefficient(item.id, coefficient)"
-                                                    v-for='coefficient in coefficients'>{* coefficient.value *}</li>
-                                            </ul>
-                                        </div> -->
-
-
-                                        <!-- <select multiple v-model="items[item.id].result.extra.value" name="Доп" id="" class="default">
-                                            <option v-for='extraWork in extraWorks' :value="extraWork.id">{* extraWork.value *}</option>
-                                        </select> -->
-
-                                        {% comment %} <button type="button" v-on:click="viewExtraWorks(item.id)"
-                                        class="btn-reset btn btn--accordion accordion accordion--btn">Доп работы</button>
-                                        <div :id="'extraList'+item.id" style="display: none;">
-                                            <div v-for='extraWork in extraWorks'>
-                                                <input v-on:click="changeExtraWork(item.id)" type="checkbox" :pk="extraWork.id" :price="extraWork.price" :value="extraWork.value" :id="'work'+extraWork.id">
-                                                <label :for="'work'+extraWork.id">{* extraWork.value *}</label>
-                                            </div>
-                                        </div> {% endcomment %}
-
-
-                                    {% comment %} </form>
-                                </li> {% endcomment %}
 
                                 <li class="hero-calc__item">
                                     <h3 class="hero-calc__title title title--h3">Диаметр коронки</h3>
@@ -173,8 +129,7 @@
                             <div class="result-block">
                                 <div class="result-block__top result-block__top--hero">
                                     <h3 class="result-block__title">Стоимость</h3>
-                                    <span class="result-block__price" v-if="item.result.price < item.result.total">{* item.result.price *} ({* item.result.total *}) руб</span>
-                                    <span class="result-block__price" v-else>{* item.result.price *} руб</span>
+                                    <span class="result-block__price">{* item.result.price *} руб</span>
 
                                     <span class="result-block__add">Кол-во: {* item.result.count *}</span>
                                 </div>
@@ -385,13 +340,16 @@
                             <!-- Цена за 1 -->
                             <td data-label="Цена за 1">{* item.result.total / item.result.count *} руб</td>
                             <!-- Общая стоимость -->
-                            <td data-label="Общая стоимость">{* item.result.total *} руб</td>
+                            <td data-label="Общая стоимость">{* item.result.total *}  руб</td>
                         </tr>
                         <!-- item -->
                         <!-- total -->
                         <tr>
                             <td colspan="4"></td>
-                            <td data-label="Общий итог">{* result.total *} руб</td>
+
+                            <td v-if="result.total != realTotal" data-label="Общий итог">{* result.total *} ({* realTotal *})  руб</td>
+                            <td v-else="result.total != realTotal" data-label="Общий итог">{* result.total *} руб</td>
+
                         </tr>
                     </tbody>
                 </table>
