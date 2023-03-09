@@ -41,7 +41,9 @@ new Vue({
         price: 0, // обычная цена
         count: 1,
       };
-      this.items.push({ id: this.count, result: item });
+      await this.items.push({ id: this.count, result: item });
+      
+      this.openItem(this.count)
 
       this.count++;
     },
@@ -77,6 +79,8 @@ new Vue({
         } 
         this.result.total = Number(total) + Number(this.result.extra.total);
       }
+
+      this.changeHeight(id)
     },
     // show panel item
     openItem: function (id) {
@@ -84,7 +88,6 @@ new Vue({
         "btn-reset accordion hero__accordion"
       );
       panels = document.getElementsByClassName("panel hero__panel");
-
       for (var i in buttons) {
         if (buttons[i].id == id) {
           if (buttons[i].classList.toString().includes("active")) {
@@ -96,13 +99,22 @@ new Vue({
       }
       for (var i in panels) {
         if (panels[i].id == id) {
-          if (panels[i].style.cssText == "max-height: 100%;") {
+          if (panels[i].style.cssText.toString().includes('px')) {
             panels[i].style.cssText = "";
           } else {
-            panels[i].style.cssText += "max-height: 100%;";
+            panels[i].style.maxHeight = panels[i].scrollHeight + "px";
           }
         }
       }
+    },
+
+    changeHeight: function(id) {
+      panels = document.getElementsByClassName("panel hero__panel");
+      for (var i in panels) {
+        if (panels[i].id == id) {
+            panels[i].style.maxHeight = panels[i].scrollHeight + "px";
+          }
+        }
     },
 
     changeDiameter: function (id, diameter) {
@@ -131,7 +143,7 @@ new Vue({
         materialsbtn[i].checked = false;
       }
 
-      this.calculate();
+      this.calculate(id);
     },
 
     changeMaterial: function (id, material) {
@@ -158,7 +170,7 @@ new Vue({
           
         }
       }
-      this.calculate();
+      this.calculate(id);
     },
 
     changeThickness: function (id, thickness) {
@@ -178,7 +190,7 @@ new Vue({
           
         }
       }
-      this.calculate();
+      this.calculate(id);
     },
 
     changeCoefficient: function (id, coefficient) {
@@ -206,7 +218,7 @@ new Vue({
           
         }
       }
-      this.calculate();
+      this.calculate(id);
       this.openSelect(id);
     },
 
@@ -265,7 +277,7 @@ new Vue({
           
         }
       }
-      this.calculate();
+      this.calculate(id);
     },
 
     // COUNT

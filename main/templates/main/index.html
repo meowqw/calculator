@@ -5,8 +5,12 @@
         <header class="header">
             <div class="container header__container section-container">
                 <h1 class="header__title title title--h1" onclick="location.href='/admin'" style="cursor: pointer;">
-                    Калькулятор расчета стоимости</h1> 
-                <a style="cursor: pointer; right: -5px;" v-on:click="switchScreen('screenPerimeter')">Периметр</a>
+                    Калькулятор расчета стоимости</h1>
+
+                    <a href="#" class="header__link btn" style="cursor: pointer;" v-on:click="switchScreen('screenPerimeter')">
+                        Периметр
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
             </div>
         </header>
         <section class="hero">

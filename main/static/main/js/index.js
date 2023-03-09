@@ -79,6 +79,8 @@ new Vue({
         } 
         this.result.total = Number(total) + Number(this.result.extra.total);
       }
+
+      this.changeHeight(id)
     },
     // show panel item
     openItem: function (id) {
@@ -104,6 +106,15 @@ new Vue({
           }
         }
       }
+    },
+
+    changeHeight: function(id) {
+      panels = document.getElementsByClassName("panel hero__panel");
+      for (var i in panels) {
+        if (panels[i].id == id) {
+            panels[i].style.maxHeight = panels[i].scrollHeight + "px";
+          }
+        }
     },
 
     changeDiameter: function (id, diameter) {
@@ -132,7 +143,7 @@ new Vue({
         materialsbtn[i].checked = false;
       }
 
-      this.calculate();
+      this.calculate(id);
     },
 
     changeMaterial: function (id, material) {
@@ -159,7 +170,7 @@ new Vue({
           
         }
       }
-      this.calculate();
+      this.calculate(id);
     },
 
     changeThickness: function (id, thickness) {
@@ -179,7 +190,7 @@ new Vue({
           
         }
       }
-      this.calculate();
+      this.calculate(id);
     },
 
     changeCoefficient: function (id, coefficient) {
@@ -207,7 +218,7 @@ new Vue({
           
         }
       }
-      this.calculate();
+      this.calculate(id);
       this.openSelect(id);
     },
 
@@ -266,7 +277,7 @@ new Vue({
           
         }
       }
-      this.calculate();
+      this.calculate(id);
     },
 
     // COUNT
