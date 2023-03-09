@@ -110,7 +110,7 @@ new Vue({
       panels = document.getElementsByClassName("panel hero__panel");
       for (var i in panels) {
         if (panels[i].id == id) {
-            panels[i].style.maxHeight = panels[i].scrollHeight + "px";
+            panels[i].style.maxHeight = Number(panels[i].scrollHeight) + 150 + "px";
           }
         }
     },
@@ -243,8 +243,6 @@ new Vue({
           }
         }
       }
-
-      this.changeHeight(id)
     },
 
     // SLIDER
