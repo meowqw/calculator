@@ -79,8 +79,6 @@ new Vue({
         } 
         this.result.total = Number(total) + Number(this.result.extra.total);
       }
-
-      this.changeHeight(id)
     },
     // show panel item
     openItem: function (id) {
@@ -142,8 +140,10 @@ new Vue({
       for (var i in materialsbtn) {
         materialsbtn[i].checked = false;
       }
-
+      
       this.calculate(id);
+
+      this.changeHeight(id)
     },
 
     changeMaterial: function (id, material) {
@@ -171,6 +171,8 @@ new Vue({
         }
       }
       this.calculate(id);
+
+      this.changeHeight(id)
     },
 
     changeThickness: function (id, thickness) {
@@ -191,6 +193,8 @@ new Vue({
         }
       }
       this.calculate(id);
+
+      this.changeHeight(id)
     },
 
     changeCoefficient: function (id, coefficient) {
@@ -220,6 +224,8 @@ new Vue({
       }
       this.calculate(id);
       this.openSelect(id);
+
+      this.changeHeight(id)
     },
 
     openSelect: function (id) {
@@ -256,6 +262,9 @@ new Vue({
         price: sliderValue,
         total: sliderValue,
       });
+
+
+      this.changeHeight(id)
     },
 
     // total item
@@ -278,6 +287,8 @@ new Vue({
         }
       }
       this.calculate(id);
+
+      this.changeHeight(id)
     },
 
     // COUNT
@@ -294,6 +305,8 @@ new Vue({
       }
 
       this.caclulateTotalItem(id);
+
+      this.changeHeight(id)
     },
     btnCountPlus: function (id) {
       current = document.getElementById("count" + id).value;
@@ -308,6 +321,8 @@ new Vue({
       }
 
       this.caclulateTotalItem(id);
+
+      this.changeHeight(id)
     },
     inputCount: function (id) {
       for (var i in this.items) {
@@ -319,6 +334,8 @@ new Vue({
       }
 
       this.caclulateTotalItem(id);
+
+      this.changeHeight(id)
     },
 
     inputRemotenessValue: function () {
@@ -421,6 +438,8 @@ new Vue({
       } else {
         list.style.display = "none";
       }
+
+      this.changeHeight(id)
     },
 
     // viewExtraWorks: function (id) {
