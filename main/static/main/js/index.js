@@ -41,7 +41,9 @@ new Vue({
         price: 0, // обычная цена
         count: 1,
       };
-      this.items.push({ id: this.count, result: item });
+      await this.items.push({ id: this.count, result: item });
+      
+      this.openItem(this.count)
 
       this.count++;
     },
@@ -84,7 +86,6 @@ new Vue({
         "btn-reset accordion hero__accordion"
       );
       panels = document.getElementsByClassName("panel hero__panel");
-
       for (var i in buttons) {
         if (buttons[i].id == id) {
           if (buttons[i].classList.toString().includes("active")) {
