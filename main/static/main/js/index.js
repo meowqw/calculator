@@ -243,6 +243,8 @@ new Vue({
           }
         }
       }
+
+      this.changeHeight(id)
     },
 
     // SLIDER
