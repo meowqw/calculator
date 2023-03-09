@@ -96,10 +96,10 @@ new Vue({
       }
       for (var i in panels) {
         if (panels[i].id == id) {
-          if (panels[i].style.cssText == "max-height: 100%;") {
+          if (panels[i].style.cssText.toString().includes('px')) {
             panels[i].style.cssText = "";
           } else {
-            panels[i].style.cssText += "max-height: 100%;";
+            panels[i].style.maxHeight = panels[i].scrollHeight + "px";
           }
         }
       }

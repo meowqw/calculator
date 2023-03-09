@@ -15,13 +15,13 @@
                 <div class="hero__item" v-for="item in items">
                     
                     <!-- accordion-btn -->
-                    <button class="btn-reset accordion hero__accordion active" @click="openItem(item.id)" :id="item.id">
+                    <button class="btn-reset accordion hero__accordion" @click="openItem(item.id)" :id="item.id">
                         <div class="hero__accordion-content">
                             Стоимость: {* item.result.price *} <span>Кол-во:<span>{* item.result.count *}</span></span>
                         </div>
                     </button>
                     <!-- accordion-content -->
-                    <div class="panel hero__panel" style="max-height: 100%;" :id="item.id">
+                    <div class="panel hero__panel" :id="item.id">
                         <div class="hero__left">
                             <ul class="list-reset hero-calc__list">
                                 <li class="hero-calc__item">
