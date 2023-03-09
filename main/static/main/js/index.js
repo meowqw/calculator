@@ -23,10 +23,10 @@ new Vue({
 
     realTotal: 0,  // тотал без минималки
 
-    startTotalItem: 0
+    startTotalItem: 0,
 
     //
-
+    currentScreen: 'screenMain',
   },
   methods: {
     // add new item
@@ -448,6 +448,12 @@ new Vue({
 
         this.extraWorkProcessing();
         this.calculate();
+    },
+
+    switchScreen: function(screen) {
+      document.getElementById(this.currentScreen).style.display = 'none'
+      document.getElementById(screen).style.display = ''
+      this.currentScreen = screen;
     },
   },
   async mounted() {

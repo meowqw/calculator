@@ -1,25 +1,23 @@
 {% extends 'main/base.html' %} {% block content %}
 {% load static %}
 <div id="app">
-    <main class="main">
+    <main class="main" id='screenMain' style="display: ''">
         <header class="header">
             <div class="container header__container section-container">
                 <h1 class="header__title title title--h1" onclick="location.href='/admin'" style="cursor: pointer;">
-                    Калькулятор расчета стоимости</h1>
+                    Калькулятор расчета стоимости</h1> 
+                <a style="cursor: pointer; right: -5px;" v-on:click="switchScreen('screenPerimeter')">Периметр</a>
             </div>
-
-
         </header>
         <section class="hero">
-            <div class="container hero__container section-container">
+            <div class="container hero__container">
                 <!-- item -->
                 <div class="hero__item" v-for="item in items">
                     
                     <!-- accordion-btn -->
                     <button class="btn-reset accordion hero__accordion active" @click="openItem(item.id)" :id="item.id">
                         <div class="hero__accordion-content">
-                            Стоимость: {* item.result.price *}
-                            <span>Кол-во: {* item.result.count *}</span>
+                            Стоимость: {* item.result.price *} <span>Кол-во:<span>{* item.result.count *}</span></span>
                         </div>
                     </button>
                     <!-- accordion-content -->
@@ -219,18 +217,20 @@
                         </ul>
                     </div>
                 </div>
+
                 <div class="hero__bottom">
                     <button class="btn-reset btn hero__btn" @click="addNewItem()">
                         <i class="fa-solid fa-plus"></i>
                         Добавить отверстие
                     </button>
                 </div>
-        </section>
+            </div>
+          </section>
 
         <section class="coef section-container container">
             <h2 class="coef__title title title--h3">Доп работы</h2>
             <form action="#" class="coef__form">
-              <button type="button" class="btn-reset btn btn--accordion accordion accordion--btn">Доп работы</button>
+              <button type="button" class="btn-reset accordion accordion--btn">Дополнительные работы</button>
               <ul class="list-reset coef__list panel" id="coefList0" style="">
                 <li class="coef__item" v-for="extraWork in extraWorks">
                   <label class="label calc__label" for="coef2">
@@ -250,6 +250,27 @@
             </ul>
         </form>
     </section>
+
+    <section class="sale">
+        <div class="container sale__container section-container">
+          <h2 class="sale__title title title--h3">Скидка</h2>
+          <form action="#" class="sale__form form">
+            <label class="form__label label sale__label"
+              ><span>Процент скидки</span>
+              <input
+                type="text"
+                name="название"
+                class="input-reset input sale__input form__input"
+                placeholder="Процент скидки"
+              />
+              <div class="tooltip">
+                <i class="fa-solid fa-circle-info"></i>
+                <span class="tooltip__text">Введите процент скидки</span>
+              </div></label
+            >
+          </form>
+        </div>
+      </section>
 
 
         <section class="distance">
@@ -308,6 +329,8 @@
             </div>
         </section>
     </main>
+
+    {% include 'main/perimeter.html' %}
 
     <!-- modal -->
     <div class="graph-modal">
