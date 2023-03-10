@@ -89,7 +89,7 @@
                                                 v-on:input="slider('slider', item.id)" type="range" value="0">
                                             <label class="label" for="amount">
                                                 <span>Значение, см</span>
-                                                <input class="input-reset range__amount input" :id="'amount'+item.id"
+                                                <input class="input-reset range__amount input" :id="'amount'+item.id" onfocus="this.value=''"
                                                     v-on:input="slider('amount', item.id)" type="number" value="0">
                                                 <div class="tooltip">
                                                     <i class="fa-solid fa-circle-info"></i>
@@ -110,8 +110,8 @@
                                             <i class="fa-solid fa-minus"></i>
                                         </button>
                                         <label class="label label--mini label--counter">
-                                            <input class="input-reset range__amount input" :id="'count'+item.id"
-                                                type="number" :value="item.result.count"
+                                            <input class="input-reset range__amount input" onfocus="this.value=''" :id="'count'+item.id"
+                                                type="number" :value="item.result.count" 
                                                 v-on:input="inputCount(item.id)">
                                             <div class="tooltip">
                                                 <i class="fa-solid fa-circle-info"></i>
@@ -262,8 +262,8 @@
             <label class="form__label label sale__label"
               ><span>Процент скидки</span>
               <input
-                type="text"
-                name="название"
+                type="text" 
+                name="название" v-model="discount" v-on:input="discountCalc" onfocus="this.value=''"
                 class="input-reset input sale__input form__input"
                 placeholder="Процент скидки"
               />

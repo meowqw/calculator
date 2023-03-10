@@ -27,6 +27,8 @@ new Vue({
 
     //
     currentScreen: 'screenMain',
+
+    discount: 0, // скидка
   },
   methods: {
     // add new item
@@ -72,12 +74,16 @@ new Vue({
 
         this.result.total =
           Number(total) + Number(this.result.remoteness.total) + Number(this.result.extra.total);
+
+        // this.result.total = (this.result.total - (this.result.total / this.discount)) / 100
       } else {
 
         if (Number(total) < this.startTotalItem) {
           total = this.startTotalItem
         } 
         this.result.total = Number(total) + Number(this.result.extra.total);
+
+        // this.result.total = (this.result.total - (this.result.total / this.discount)) / 100
       }
     },
     // show panel item
@@ -485,6 +491,13 @@ new Vue({
       document.getElementById(this.currentScreen).style.display = 'none'
       document.getElementById(screen).style.display = ''
       this.currentScreen = screen;
+    },
+
+    discountCalc: function() {
+        if (this.discount == '') {
+          this.discount = 0
+        }
+        this.calculate()
     },
   },
   async mounted() {
