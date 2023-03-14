@@ -3,12 +3,12 @@
 <div id="app">
     <main class="main" id='screenMain' style="display: ''">
         <header class="header">
-            <div class="container header__container section-container">
+            <div class="container header__container section-container section-container--no-border">
                 <h1 class="header__title title title--h1" onclick="location.href='/admin'" style="cursor: pointer;">
                     Калькулятор расчета стоимости</h1>
 
                     <a href="#" class="header__link btn" style="cursor: pointer;" v-on:click="switchScreen('screenPerimeter')">
-                        Периметр
+                        Площадь
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
             </div>
@@ -258,21 +258,20 @@
     <section class="sale">
         <div class="container sale__container section-container">
           <h2 class="sale__title title title--h3">Скидка</h2>
-          <form action="#" class="sale__form form">
+          <div class="sale__form form">
             <label class="form__label label sale__label"
               ><span>Процент скидки</span>
               <input
-                type="text" 
                 name="название" v-model="discount" v-on:input="discountCalc" onfocus="this.value=''"
                 class="input-reset input sale__input form__input"
-                placeholder="Процент скидки"
+                placeholder="Процент скидки" type="number"
               />
               <div class="tooltip">
                 <i class="fa-solid fa-circle-info"></i>
                 <span class="tooltip__text">Введите процент скидки</span>
               </div></label
             >
-          </form>
+          </div>
         </div>
       </section>
 

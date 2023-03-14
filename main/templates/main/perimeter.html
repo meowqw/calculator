@@ -1,107 +1,106 @@
 <main class="main" id="screenPerimeter" style="display: none">
   <header class="header">
-    <div class="container header__container section-container">
-      <h1 class="header__title title title--h1" onclick="location.href='/admin'" style="cursor: pointer">
-        Рассчет периметра
-      </h1>
-
-      <a href="#" class="header__link btn" style="cursor: pointer;" v-on:click="switchScreen('screenMain')"
-        v-on:click="switchScreen('screenPerimeter')">
-        Калькулятор
-        <i class="fa-arrow-left fa-solid"></i>
-      </a>
-
+    <div class="container header__container section-container section-container--no-border">
+      <h1 class="header__title title title--h1" onclick="location.href='/admin'" style="cursor: pointer;">Калькулятор
+        расчета стоимости</h1><a href="#" class="header__link btn" style="cursor: pointer;"
+        v-on:click="switchScreen('screenMain')">Калькулятор <i class="fa-solid fa-arrow-left"></i></a>
     </div>
-  </header>
-  <!-- периметр проема-->
+  </header><!-- периметр проема-->
   <section class="perimeter">
     <div class="container perimeter__container section-container">
-      <h2 class="perimeter__title title title--h3">Периметр</h2>
-      <form action="#" class="perimeter__form form">
-        <label class="form__label label perimeter__label perimeter__label--result"><span>Введите периметр</span>
-          <input type="text" name="значение" class="input-reset input perimeter__input form__input" placeholder="0" />
-          <div class="tooltip">
-            <i class="fa-solid fa-circle-info"></i>
-            <span class="tooltip__text">Введите периметр</span>
-          </div>
-        </label>
+      <h2 class="perimeter__title title title--h3">Площадь проема</h2>
+      <form action="#" class="perimeter__form form"><!-- новый селект-->
+        <div class="select perimeter__select"><input type="hidden" name="" class="select__input">
+          <div id="0" class="select__head">Прямоугольник</div>
+          <ul id="0" class="select__list" style="display: none;">
+            <li class="select__item" v-on:click="changeFigure(0)">Прямоугольник</li>
+            <li class="select__item" v-on:click="changeFigure(1)">Треугольник</li>
+            <li class="select__item" v-on:click="changeFigure(2)">Круг</li>
+          </ul>
+        </div><!-- селект енд --> <label class="form__label label perimeter__label perimeter__label--result" v-for="data in inputData"><span>Введите
+          {* data.name *}</span> <input type="number" name="значение" v-model="data.value" class="input-reset input perimeter__input form__input" v-on:input="figureAreaCalc()" placeholder="0">
+          <div class="tooltip"><i class="fa-solid fa-circle-info"></i> <span class="tooltip__text">{* data.name *}</span></div>
+        </label> 
       </form>
     </div>
-  </section>
-  <!-- периметр проема end --><!-- толщина стены-->
+  </section><!-- периметр проема end --><!-- материал стены-->
+  <section class="material">
+    <div class="container material__container section-container">
+      <h2 class="material__title title title--h3">Материал стены</h2>
+      <form action="#" class="material__form form">
+        <label class="custom-checkbox hero-calc__form-item" v-for="materialSecond in diameterSecondCalc.material">
+        <input type="radio" name="material" v-model="materialSecondCalc" :value="materialSecond" v-on:click="changeMaterialSecond()" class="custom-checkbox__field"> <span
+            class="custom-checkbox__content custom-checkbox__content--radio"></span> {* materialSecond.value *}</label>
+      </form>
+    </div>
+  </section><!-- материал стены end --><!-- толщина стены-->
   <section class="section-range">
     <div class="container section-range__container section-container">
       <h2 class="section-range__title title title--h3">Толщина стены</h2>
-      <form class="form-block">
+      <form>
         <div class="range">
-          <input class="range__slider" id="slider" max="200" min="0" oninput="amount.value=slider.value" type="range"
-            value="0" />
-          <label class="label" for="amount"><span>Значение, см</span>
-            <input class="input-reset range__amount range__amount--big input" id="amount"
-              oninput="slider.value=amount.value" type="number" value="0" />
-            <div class="tooltip">
-              <i class="fa-solid fa-circle-info"></i>
-              <span class="tooltip__text">Сантиметров</span>
-            </div>
-          </label>
+            <input class="range__slider" :id="'slider'" max="200" min="0"
+                v-on:input="sliderSecondCalc('slider')" type="range" value="0">
+            <label class="label" for="amount">
+                <span>Значение, см</span>
+                <input class="input-reset range__amount input" :id="'amount'" onfocus="this.value=''"
+                    v-on:input="sliderSecondCalc('amount')" type="number" value="0">
+                <div class="tooltip">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span class="tooltip__text">Сантиметров</span>
+                </div>
+            </label>
         </div>
-      </form>
+    </form>
     </div>
-  </section>
-  <!-- толщина стены end --><!-- скидка-->
+  </section><!-- толщина стены end --><!-- скидка-->
   <section class="sale">
     <div class="container sale__container section-container">
       <h2 class="sale__title title title--h3">Скидка</h2>
-      <form action="#" class="sale__form form">
-        <label class="form__label label sale__label"><span>Процент скидки</span>
-          <input type="text" name="название" class="input-reset input sale__input form__input"
-            placeholder="Процент скидки" />
-          <div class="tooltip">
-            <i class="fa-solid fa-circle-info"></i>
-            <span class="tooltip__text">Введите процент скидки</span>
-          </div>
-        </label>
-      </form>
+      <form action="#" class="sale__form form"><label class="form__label label sale__label"><span>Процент
+            скидки</span> <input type="text" name="название" class="input-reset input sale__input form__input"
+            placeholder="Процент скидки">
+          <div class="tooltip"><i class="fa-solid fa-circle-info"></i> <span class="tooltip__text">Введите процент
+              скидки</span></div>
+        </label></form>
     </div>
-  </section>
-  <!-- скидка end -->
+  </section><!-- скидка end -->
   <section class="result">
     <div class="container result__container">
       <div class="result-block section-container">
         <div class="result-block__top">
-          <h3 class="result-block__title">Предварительная стоимость</h3>
-          <span class="result-block__price">5000 руб</span>
+          <h3 class="result-block__title">Предварительная стоимость</h3><span class="result-block__price"> {* secondCalcTotal *}
+            руб</span>
         </div>
         <ul class="list-reset result-block__list">
           <li class="result-block__item result-item result-item--perimeter">
-            <div class="result-item__name">
-              Количество отверстий:
-              <span class="result-item__value">1</span>
-            </div>
+            <div class="result-item__name">Количество отверстий: <span class="result-item__value">~ {* circleCount *}</span></div>
             <div class="result-item__right">
-              <div class="result-item__price result-item__price--perimeter">
-                <span>Стоимость одного отверстия:</span> 700 руб
-              </div>
-              <div class="result-item__price result-item__price--perimeter">
-                <span>Общая стоимость:</span> 700 руб
-              </div>
-            </div>
+              <div class="result-item__price result-item__price--perimeter"><span>Стоимость одного
+                  отверстия:</span> {* circlePrice *} руб</div>
+              <!-- <div class="result-item__price result-item__price--perimeter"><span>Общая
+                  стоимость:</span> 700 руб</div>
+            </div> -->
+          </li><!-- Новый итем -->
+          <li class="result-block__item result-item">
+            <div class="result-item__name">Толщина стены стены: <span class="result-item__value"></span></div>
+            <div class="result-item__price">{* thicknessSecondCalc *}</div>
+          </li><!-- Новый итем -->
+          <li class="result-block__item result-item">
+            <div class="result-item__name">Материал стены: <span class="result-item__value" v-if="materialSecondCalc != null ">{* materialSecondCalc.value *}</span></div>
+            <div class="result-item__price"  v-if="materialSecondCalc != null ">{* materialSecondCalc.price *} руб</div>
+            <div class="result-item__price"  v-else>0 руб</div>
           </li>
           <li class="result-block__item result-item">
-            <div class="result-item__name">
-              Периметр проема:
-              <span class="result-item__value">20 см</span>
-            </div>
-            <div class="result-item__price">700 руб</div>
+            <div class="result-item__name">Площадь проема: <span class="result-item__value"></span></div>
+            <div class="result-item__price" v-if="figureArea != 'NaN'">{* figureArea *} см2</div>
+            <div class="result-item__price" v-else>Ошибка</div>
+
           </li>
         </ul>
-      </div>
-      <!-- <button class="btn-reset btn result__btn">Рассчитать стоимость</button> -->
-      <div class="result-block__bottom">
-        <button class="btn-reset btn result-block__btn-estimate" data-graph-path="estimate">
-          Смета
-        </button>
-      </div>
+      </div><!-- <button class="btn-reset btn result__btn">Рассчитать стоимость</button> -->
+      <div class="result-block__bottom"><button class="btn-reset btn result-block__btn-estimate"
+          data-graph-path="estimate">Смета</button></div>
     </div>
   </section>
 </main>

@@ -85,3 +85,11 @@ class StartTotalViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = StartTotal.objects.all()
     serializer_class = StartTotalSerializer
+    
+
+class DiameterSecondCalcViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Only read DiameterSecondCalc
+    """
+    queryset = DiameterSecondCalc.objects.all()
+    serializer_class = DiameterSecondCalcSerializer

@@ -70,3 +70,16 @@ class StartTotal(models.Model):
     class Meta:
         verbose_name = 'Начальная цена'
         verbose_name_plural = 'Начальная цена'
+        
+        
+class DiameterSecondCalc(models.Model):
+    """Дефолтный диаметр второго калькулятора"""
+    
+    diameter = models.ForeignKey(Diameters, on_delete=models.PROTECT)
+    
+    def __str__(self):
+        return f'{self.diameter.value}'
+    
+    class Meta:
+        verbose_name = 'Диаметр коронки'
+        verbose_name_plural = 'Диаметр коронки 2 калькулятора'

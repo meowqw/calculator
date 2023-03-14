@@ -48,4 +48,12 @@ class StartTotalSerializer(serializers.ModelSerializer):
         model = Logistic
         # fields = ("fname", "email")
         fields = "__all__"
+        
+class DiameterSecondCalcSerializer(serializers.ModelSerializer):
+    
+    diameter = DiametersSerializer()
+    class Meta:
+        model = DiameterSecondCalc
+        # fields = ("fname", "email")
+        fields = "__all__"
        

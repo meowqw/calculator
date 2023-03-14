@@ -13,6 +13,5 @@ urlpatterns = [
    path('LogisticList/', LogisticViewSet.as_view({'get': 'list'})),
    path('ExtraWorksList/', ExtraWorksViewSet.as_view({'get': 'list'})),
    path('StartTotalList/', StartTotalViewSet.as_view({'get': 'list'})),
-   
-   
+   path('DimeterSecondCalcList/', DiameterSecondCalcViewSet.as_view({'get': 'list'})),
 ]
