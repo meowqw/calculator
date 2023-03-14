@@ -747,4 +747,10 @@ new Vue({
     this.materialSecondCalc = diameterSecondCalc.data[0].diameter.material[0]
 
   },
+  watch: {
+    // whenever question changes, this function will run
+    materialSecondCalc() {
+      this.calculateTotalSecondCalc();
+    }
+  },
 });
