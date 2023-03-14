@@ -29,6 +29,17 @@ new Vue({
     currentScreen: 'screenMain',
 
     discount: 0, // скидка
+
+    /* ВТОРОЙ КАЛЬКУЛЯТОР */
+    diameterSecondCalc: [],
+    materialSecondCalc: null,
+    inputData: [{'name': 'Сторона A', 'value': 0}, {'name': 'Сторона B', 'value': 0}],
+    thicknessSecondCalc: 0,
+    figureArea: 0,
+    figure: 0,
+    circleCount: 0,
+    secondCalcTotal: 0,
+    circlePrice: 0,
   },
   methods: {
     // add new item
@@ -75,7 +86,8 @@ new Vue({
         this.result.total =
           Number(total) + Number(this.result.remoteness.total) + Number(this.result.extra.total);
 
-        // this.result.total = (this.result.total - (this.result.total / this.discount)) / 100
+        this.result.total = (this.result.total - (this.result.total / 100 * this.discount)).toFixed(0)
+
       } else {
 
         if (Number(total) < this.startTotalItem) {
@@ -83,7 +95,7 @@ new Vue({
         } 
         this.result.total = Number(total) + Number(this.result.extra.total);
 
-        // this.result.total = (this.result.total - (this.result.total / this.discount)) / 100
+        this.result.total = (this.result.total - (this.result.total / 100 * this.discount)).toFixed(0)
       }
     },
     // show panel item
@@ -112,6 +124,7 @@ new Vue({
       }
     },
 
+    // изменение высоты блока 
     changeHeight: function(id) {
       panels = document.getElementsByClassName("panel hero__panel");
       for (var i in panels) {
@@ -121,6 +134,7 @@ new Vue({
         }
     },
 
+    // изменение диаметра отверстия
     changeDiameter: function (id, diameter) {
       for (var i in this.items) {
         if (this.items[i].id == id) {
@@ -152,6 +166,7 @@ new Vue({
       this.changeHeight(id)
     },
 
+    // изменение материал отверстия
     changeMaterial: function (id, material) {
       for (var i in this.items) {
         if (this.items[i].id == id) {
@@ -181,6 +196,7 @@ new Vue({
       this.changeHeight(id)
     },
 
+    // изменение толщины стены
     changeThickness: function (id, thickness) {
       for (var i in this.items) {
         if (this.items[i].id == id) {
@@ -201,8 +217,10 @@ new Vue({
       this.calculate(id);
 
       this.changeHeight(id)
-    },
+    }, 
 
+    
+    // смена коэффициента отверстия
     changeCoefficient: function (id, coefficient) {
       for (var i in this.items) {
         if (this.items[i].id == id) {
@@ -234,6 +252,7 @@ new Vue({
       this.changeHeight(id)
     },
 
+    // логика открытия и закрытия селека коэффициента отверстия
     openSelect: function (id) {
       selectHead = document.getElementsByClassName("select__head");
       selectList = document.getElementsByClassName("select__list");
@@ -251,7 +270,7 @@ new Vue({
       }
     },
 
-    // SLIDER
+    // SLIDER логика слайдера толщины
     slider: function (el, id) {
       if (el == "slider") {
         document.getElementById("amount" + id).value = document.getElementById(
@@ -273,7 +292,7 @@ new Vue({
       this.changeHeight(id)
     },
 
-    // total item
+    // total item рассчет тотала отверстия
     caclulateTotalItem: function (id) {
       for (var i in this.items) {
         if (this.items[i].id == id) {
@@ -297,7 +316,7 @@ new Vue({
       this.changeHeight(id)
     },
 
-    // COUNT
+    // COUNT - кол-во отверстий
     btnCountMinus: function (id) {
       current = document.getElementById("count" + id).value;
       document.getElementById("count" + id).value = Number(current) - 1;
@@ -314,6 +333,8 @@ new Vue({
 
       this.changeHeight(id)
     },
+
+    // COUNT + кол-во отверстий
     btnCountPlus: function (id) {
       current = document.getElementById("count" + id).value;
       document.getElementById("count" + id).value = Number(current) + 1;
@@ -330,6 +351,8 @@ new Vue({
 
       this.changeHeight(id)
     },
+
+    // ввод кол-ва отверстий
     inputCount: function (id) {
       for (var i in this.items) {
         if (this.items[i].id == id) {
@@ -344,6 +367,7 @@ new Vue({
       this.changeHeight(id)
     },
 
+    // input удалееность от МКАД
     inputRemotenessValue: function () {
       // Authocomplete location in input
       ymaps = window.ymaps;
@@ -379,6 +403,7 @@ new Vue({
       }
     },
 
+    // рассчет удаленности
     remoteness: function () {
       minimalValue = 10;
       coordHours = [];
@@ -448,16 +473,6 @@ new Vue({
       this.changeHeight(id)
     },
 
-    // viewExtraWorks: function (id) {
-    //   list = document.getElementById("extraList" + id);
-    //   if (list.style.display == "none") {
-    //     list.style.display = "";
-    //   } else {
-    //     list.style.display = "none";
-    //   }
-    // },
-    //
-
     // обработка доп работ (если число какой то доп работы > 0 прибавляем ее к итоговому результату)
     extraWorkProcessing: function() {
         resultExtra = {'value': [], 'total': 0}
@@ -487,18 +502,201 @@ new Vue({
         this.calculate();
     },
 
+    // смена экранов (calc 1 <-> calc 2)
     switchScreen: function(screen) {
       document.getElementById(this.currentScreen).style.display = 'none'
       document.getElementById(screen).style.display = ''
       this.currentScreen = screen;
     },
 
+    // скидка
     discountCalc: function() {
         if (this.discount == '') {
           this.discount = 0
         }
+
         this.calculate()
     },
+
+    /* ПЕРИМЕТР CALC */
+    changeFigure: function(figure) {
+      if (figure == 0) {
+        this.inputData = [{'name': 'Сторона A', 'value': 0}, {'name': 'Сторона B', 'value': 0}]
+      } else if (figure == 1) {
+        this.inputData = [{'name': 'Сторона A', 'value': 0}, {'name': 'Сторона B', 'value': 0}, {'name': 'Сторона C', 'value': 0}]
+      } else if (figure == 2) {
+        this.inputData = [{'name': 'Диаметр', 'value': 0}]
+      }
+
+      this.figure = figure;
+      
+    },
+
+    // считываем толщину стены
+    sliderSecondCalc: function(el) {
+      if (el == "slider") {
+        document.getElementById("amount").value = document.getElementById(
+          "slider"
+        ).value;
+      } else if (el == "amount") {
+        document.getElementById("slider").value = document.getElementById(
+          "amount"
+        ).value;
+      }
+      var sliderValue = document.getElementById("amount").value;
+      this.thicknessSecondCalc = sliderValue
+
+      this.calculateTotalSecondCalc()
+    },
+
+    // опредлеяем прощадб выьранной фигиры
+    figureAreaCalc: function() {
+      if (this.figure == 0) {
+        var a = this.inputData[0].value
+        var b = this.inputData[1].value
+
+        if (a == '') {
+          a = 0
+        } 
+
+        if (b == '') {
+          b = 0
+        } 
+
+        a = Number(a)
+        b = Number(b)
+
+        this.figureArea = (a * b).toFixed(0)
+
+      } else if (this.figure == 1) {
+        var a = this.inputData[0].value
+        var b = this.inputData[1].value
+        var c = this.inputData[2].value
+
+        if (a == '') {
+          a = 0
+        } 
+
+        if (b == '') {
+          b = 0
+        } 
+
+        if (c == '') {
+          c = 0
+        } 
+
+        a = Number(a)
+        b = Number(b)
+        c = Number(c)
+
+        const p = (a + b + c) / 2;
+        const area = Math.sqrt(p * (p - a) * (p - b) * (p - c));
+        this.figureArea = area.toFixed(0);
+
+      } else if (this.figure == 2) {
+        var d = this.inputData[0].value
+
+        if (d == ''){
+          d = 0
+        }
+
+        d = Number(d)
+
+        const area = (Math.PI / 4) * d ** 2; // вычисляем площадь круга
+        this.figureArea = area.toFixed(0);
+
+      }
+      this.numberHoles()
+    },
+
+    // кол-во отверстии в триугольнике
+    calculateCircleCountInTriangle: function() {
+      var a = this.inputData[0].value
+      var b = this.inputData[1].value
+      var c = this.inputData[2].value
+
+      if (a == '') {
+        a = 0
+      } 
+
+      if (b == '') {
+        b = 0
+      } 
+
+      if (c == '') {
+        c = 0
+      } 
+
+      a = Number(a)
+      b = Number(b)
+      c = Number(c)
+
+
+      const triangleArea = this.figureArea;
+      circleDiameter = (Number(this.diameterSecondCalc.value.split('-')[0]) / 10).toFixed(0)
+    
+      const radius = (2 * triangleArea) / (a + b + c);
+      const circleArea = Math.PI * (circleDiameter / 2) ** 2;
+    
+      const circleCount = Math.ceil(radius ** 2 / circleArea);
+    
+      return circleCount;
+    },
+
+    // кол-во отверстии в ПРЯМОУГОЛЬНИКЕ
+    calculateCircleCountInRectangle: function() {
+      const rectangleArea = this.figureArea;
+      circleDiameter = (Number(this.diameterSecondCalc.value.split('-')[0]) / 10).toFixed(0)
+    
+      const circleArea = Math.PI * (circleDiameter / 2) ** 2;
+    
+      const circleCount = Math.ceil(rectangleArea / circleArea);
+    
+      return circleCount;
+    },
+
+    // кол-во отверстии в КРУГЕ
+    calculateCircleCountInCircle: function() {
+      const bigCircleDiameter = this.figureArea;
+      const smallCircleDiameter = (Number(this.diameterSecondCalc.value.split('-')[0]) / 10).toFixed(0)
+    
+      const bigCircleRadius = bigCircleDiameter / 2;
+      const smallCircleRadius = smallCircleDiameter / 2;
+    
+      const bigCircleArea = Math.PI * bigCircleRadius ** 2;
+      const smallCircleArea = Math.PI * smallCircleRadius ** 2;
+    
+      const circleCount = Math.ceil(bigCircleArea / smallCircleArea);
+    
+      return circleCount;
+    },
+
+    // находим кол-во отверстии 
+    numberHoles: function() {
+      if (this.figure == 0) {
+        this.circleCount = this.calculateCircleCountInRectangle();
+
+      } else if (this.figure == 1) {
+        this.circleCount = this.calculateCircleCountInTriangle();
+
+
+      } else if (this.figure == 2) {
+        this.circleCount = this.calculateCircleCountInCircle();
+
+      }
+
+      this.calculateTotalSecondCalc()
+    },
+    // рассчет тотала 2 калькулятора и цены 1 отверстия
+    calculateTotalSecondCalc: function() {
+      this.circlePrice = (this.thicknessSecondCalc *  this.materialSecondCalc.price)
+      this.secondCalcTotal = this.circlePrice * this.circleCount
+    },
+
+    changeMaterialSecond: function() {
+      this.calculateTotalSecondCalc();
+    },
+
   },
   async mounted() {
     let script = document.createElement("script");
@@ -515,14 +713,6 @@ new Vue({
     );
 
     document.head.appendChild(ajaxScript);
-
-    // let jsScript = document.createElement("script");
-    // jsScript.setAttribute(
-    //     "src",
-    //     "https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"
-    // );
-
-    // document.body.appendChild(jsScript);
 
     var diameters = await this.getData("/api/v1/DiameterList/");
     var coefficients = await this.getData("/api/v1/CoefficientsList/");
@@ -544,5 +734,12 @@ new Vue({
       this.extraWorks.push({ 'value': extraWorks.data[index].value, 'id': extraWorks.data[index].id, 'price': extraWorks.data[index].price, 'count': 0});
     }
     // this.extraWorks = extraWorks.data;
+
+
+    /* ВТОРОЙ КАЛЬКУДЯТОР */
+    var diameterSecondCalc = await this.getData("/api/v1/DimeterSecondCalcList/");
+    this.diameterSecondCalc = diameterSecondCalc.data[0].diameter
+    this.materialSecondCalc = diameterSecondCalc.data[0].diameter.material[0]
+
   },
 });
