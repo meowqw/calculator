@@ -18,8 +18,8 @@
             <li class="select__item" v-on:click="changeFigure(2)">Круг</li>
           </ul>
         </div><!-- селект енд --> <label class="form__label label perimeter__label perimeter__label--result" v-for="data in inputData"><span>Введите
-          {* data.name *}</span> <input type="number" name="значение" v-model="data.value" class="input-reset input perimeter__input form__input" v-on:input="figureAreaCalc()" placeholder="0">
-          <div class="tooltip"><i class="fa-solid fa-circle-info"></i> <span class="tooltip__text">{* data.name *}</span></div>
+          {* data.name *} в см</span> <input type="number" name="значение" v-model="data.value" class="input-reset input perimeter__input form__input" v-on:input="figureAreaCalc()" placeholder="0">
+          <div class="tooltip"><i class="fa-solid fa-circle-info"></i> <span class="tooltip__text">{* data.name *} в см</span></div>
         </label> 
       </form>
     </div>
@@ -30,7 +30,7 @@
       <form action="#" class="material__form form">
         <label class="custom-checkbox hero-calc__form-item" v-for="materialSecond in diameterSecondCalc.material">
         <input type="radio" name="material" v-model="materialSecondCalc" :value="materialSecond" v-on:click="changeMaterialSecond()" class="custom-checkbox__field"> <span
-            class="custom-checkbox__content custom-checkbox__content--radio"></span> {* materialSecond.value *}</label>
+            class="custom-checkbox__content custom-checkbox__content--radio"></span> {* materialSecond.value *} </label>
       </form>
     </div>
   </section><!-- материал стены end --><!-- толщина стены-->
@@ -93,7 +93,7 @@
           </li>
           <li class="result-block__item result-item">
             <div class="result-item__name">Площадь проема: <span class="result-item__value"></span></div>
-            <div class="result-item__price" v-if="figureArea != 'NaN'">{* figureArea *} см2</div>
+            <div class="result-item__price" v-if="figureArea != 'NaN'">{* figureArea *} см2 ({* figureArea / 10000 *} м2)</div>
             <div class="result-item__price" v-else>Ошибка</div>
 
           </li>

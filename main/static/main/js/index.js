@@ -590,8 +590,13 @@ new Vue({
         c = Number(c)
 
         const p = (a + b + c) / 2;
-        const area = Math.sqrt(p * (p - a) * (p - b) * (p - c));
+        console.log(p)
+        const g = p * (p - a) * (p - b) * (p - c)
+        console.log(g)
+        const area = Math.sqrt(g);
+        console.log(area)
         this.figureArea = area.toFixed(0);
+        console.log(this.figureArea)
 
       } else if (this.figure == 2) {
         var d = this.inputData[0].value
@@ -650,20 +655,20 @@ new Vue({
     
       const circleArea = Math.PI * (circleDiameter / 2) ** 2;
     
-      const circleCount = Math.ceil(rectangleArea / circleArea);
+      const circleCount = Math.ceil(rectangleArea / (circleArea));
     
       return circleCount;
     },
 
     // кол-во отверстии в КРУГЕ
     calculateCircleCountInCircle: function() {
-      const bigCircleDiameter = this.figureArea;
+      // const bigCircleDiameter = this.figureArea;
       const smallCircleDiameter = (Number(this.diameterSecondCalc.value.split('-')[0]) / 10).toFixed(0)
     
-      const bigCircleRadius = bigCircleDiameter / 2;
+      // const bigCircleRadius = bigCircleDiameter / 2;
       const smallCircleRadius = smallCircleDiameter / 2;
     
-      const bigCircleArea = Math.PI * bigCircleRadius ** 2;
+      const bigCircleArea = this.figureArea;
       const smallCircleArea = Math.PI * smallCircleRadius ** 2;
     
       const circleCount = Math.ceil(bigCircleArea / smallCircleArea);
