@@ -44,7 +44,11 @@
 </fieldset>
 
 <script>
-    document.getElementsByClassName('form-row field-total')[0].style.display = 'none';
+    total_field = document.getElementsByClassName('form-row field-total')
+    if (total_field.length) {
+        total_field[0].style.display = 'none';
+    }
+
     async function getMaterials() {
 
         token = document.getElementsByName('csrfmiddlewaretoken')[0].value
@@ -92,7 +96,6 @@
     async function renderForm() {
         jsonField = document.getElementById('id_material')
         jsonField.style.display = 'none';
-
         currentJson = JSON.parse(jsonField.value)
 
         var materials = await getMaterials();

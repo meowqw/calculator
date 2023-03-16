@@ -2,24 +2,17 @@
   <header class="header">
     <div class="container header__container section-container section-container--no-border">
       <h1 class="header__title title title--h1" onclick="location.href='/admin'" style="cursor: pointer;">Калькулятор
-        расчета стоимости</h1><a href="#" class="header__link btn" style="cursor: pointer;"
+        кол-ва отверстий</h1><a href="#" class="header__link btn" style="cursor: pointer;"
         v-on:click="switchScreen('screenMain')">Калькулятор <i class="fa-solid fa-arrow-left"></i></a>
     </div>
   </header><!-- периметр проема-->
   <section class="perimeter">
     <div class="container perimeter__container section-container">
-      <h2 class="perimeter__title title title--h3">Площадь проема</h2>
+      <h2 class="perimeter__title title title--h3">Периметр проема</h2>
       <form action="#" class="perimeter__form form"><!-- новый селект-->
-        <div class="select perimeter__select"><input type="hidden" name="" class="select__input">
-          <div id="0" class="select__head">Прямоугольник</div>
-          <ul id="0" class="select__list" style="display: none;">
-            <li class="select__item" v-on:click="changeFigure(0)">Прямоугольник</li>
-            <li class="select__item" v-on:click="changeFigure(1)">Треугольник</li>
-            <li class="select__item" v-on:click="changeFigure(2)">Круг</li>
-          </ul>
-        </div><!-- селект енд --> <label class="form__label label perimeter__label perimeter__label--result" v-for="data in inputData"><span>Введите
-          {* data.name *} в см</span> <input type="number" name="значение" v-model="data.value" class="input-reset input perimeter__input form__input" v-on:input="figureAreaCalc()" placeholder="0">
-          <div class="tooltip"><i class="fa-solid fa-circle-info"></i> <span class="tooltip__text">{* data.name *} в см</span></div>
+      <label class="form__label label perimeter__label perimeter__label--result"><span>Введите периметр
+           в см</span> <input type="number" name="значение" v-model="perimeter" class="input-reset input perimeter__input form__input" placeholder="0">
+          <div class="tooltip"><i class="fa-solid fa-circle-info"></i> <span class="tooltip__text">В см</span></div>
         </label> 
       </form>
     </div>
@@ -88,13 +81,11 @@
           </li><!-- Новый итем -->
           <li class="result-block__item result-item">
             <div class="result-item__name">Материал стены: <span class="result-item__value" v-if="materialSecondCalc != null ">{* materialSecondCalc.value *}</span></div>
-            <div class="result-item__price"  v-if="materialSecondCalc != null ">{* materialSecondCalc.price *} руб</div>
-            <div class="result-item__price"  v-else>0 руб</div>
+            <div class="result-item__price" v-if="materialSecondCalc != null">{* materialSecondCalc.price *} руб</div>
           </li>
           <li class="result-block__item result-item">
             <div class="result-item__name">Площадь проема: <span class="result-item__value"></span></div>
-            <div class="result-item__price" v-if="figureArea != 'NaN'">{* figureArea *} см2 ({* figureArea / 10000 *} м2)</div>
-            <div class="result-item__price" v-else>Ошибка</div>
+            <div class="result-item__price">{* perimeter *} см ({* perimeter / 100 *} м)</div>
 
           </li>
         </ul>

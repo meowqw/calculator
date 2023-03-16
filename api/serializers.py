@@ -51,7 +51,7 @@ class StartTotalSerializer(serializers.ModelSerializer):
         
 class DiameterSecondCalcSerializer(serializers.ModelSerializer):
     
-    diameter = DiametersSerializer()
+    # diameter = DiametersSerializer()
     class Meta:
         model = DiameterSecondCalc
         # fields = ("fname", "email")

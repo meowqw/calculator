@@ -35,7 +35,7 @@ new Vue({
     materialSecondCalc: null,
     inputData: [{'name': 'Сторона A', 'value': 0}, {'name': 'Сторона B', 'value': 0}],
     thicknessSecondCalc: 0,
-    figureArea: 0,
+    perimeter: 0,
     figure: 0,
     circleCount: 0,
     secondCalcTotal: 0,
@@ -519,19 +519,6 @@ new Vue({
     },
 
     /* ПЕРИМЕТР CALC */
-    changeFigure: function(figure) {
-      if (figure == 0) {
-        this.inputData = [{'name': 'Сторона A', 'value': 0}, {'name': 'Сторона B', 'value': 0}]
-      } else if (figure == 1) {
-        this.inputData = [{'name': 'Сторона A', 'value': 0}, {'name': 'Сторона B', 'value': 0}, {'name': 'Сторона C', 'value': 0}]
-      } else if (figure == 2) {
-        this.inputData = [{'name': 'Диаметр', 'value': 0}]
-      }
-
-      this.figure = figure;
-      
-    },
-
     // считываем толщину стены
     sliderSecondCalc: function(el) {
       if (el == "slider") {
@@ -549,149 +536,6 @@ new Vue({
       this.calculateTotalSecondCalc()
     },
 
-    // опредлеяем прощадб выьранной фигиры
-    figureAreaCalc: function() {
-      if (this.figure == 0) {
-        var a = this.inputData[0].value
-        var b = this.inputData[1].value
-
-        if (a == '') {
-          a = 0
-        } 
-
-        if (b == '') {
-          b = 0
-        } 
-
-        a = Number(a)
-        b = Number(b)
-
-        this.figureArea = (a * b).toFixed(0)
-
-      } else if (this.figure == 1) {
-        var a = this.inputData[0].value
-        var b = this.inputData[1].value
-        var c = this.inputData[2].value
-
-        if (a == '') {
-          a = 0
-        } 
-
-        if (b == '') {
-          b = 0
-        } 
-
-        if (c == '') {
-          c = 0
-        } 
-
-        a = Number(a)
-        b = Number(b)
-        c = Number(c)
-
-        const p = (a + b + c) / 2;
-        console.log(p)
-        const g = p * (p - a) * (p - b) * (p - c)
-        console.log(g)
-        const area = Math.sqrt(g);
-        console.log(area)
-        this.figureArea = area.toFixed(0);
-        console.log(this.figureArea)
-
-      } else if (this.figure == 2) {
-        var d = this.inputData[0].value
-
-        if (d == ''){
-          d = 0
-        }
-
-        d = Number(d)
-
-        const area = (Math.PI / 4) * d ** 2; // вычисляем площадь круга
-        this.figureArea = area.toFixed(0);
-
-      }
-      this.numberHoles()
-    },
-
-    // кол-во отверстии в триугольнике
-    calculateCircleCountInTriangle: function() {
-      var a = this.inputData[0].value
-      var b = this.inputData[1].value
-      var c = this.inputData[2].value
-
-      if (a == '') {
-        a = 0
-      } 
-
-      if (b == '') {
-        b = 0
-      } 
-
-      if (c == '') {
-        c = 0
-      } 
-
-      a = Number(a)
-      b = Number(b)
-      c = Number(c)
-
-
-      const triangleArea = this.figureArea;
-      circleDiameter = (Number(this.diameterSecondCalc.value.split('-')[0]) / 10).toFixed(0)
-    
-      const radius = (2 * triangleArea) / (a + b + c);
-      const circleArea = Math.PI * (circleDiameter / 2) ** 2;
-    
-      const circleCount = Math.ceil(radius ** 2 / circleArea);
-    
-      return circleCount;
-    },
-
-    // кол-во отверстии в ПРЯМОУГОЛЬНИКЕ
-    calculateCircleCountInRectangle: function() {
-      const rectangleArea = this.figureArea;
-      circleDiameter = (Number(this.diameterSecondCalc.value.split('-')[0]) / 10).toFixed(0)
-    
-      const circleArea = Math.PI * (circleDiameter / 2) ** 2;
-    
-      const circleCount = Math.ceil(rectangleArea / (circleArea));
-    
-      return circleCount;
-    },
-
-    // кол-во отверстии в КРУГЕ
-    calculateCircleCountInCircle: function() {
-      // const bigCircleDiameter = this.figureArea;
-      const smallCircleDiameter = (Number(this.diameterSecondCalc.value.split('-')[0]) / 10).toFixed(0)
-    
-      // const bigCircleRadius = bigCircleDiameter / 2;
-      const smallCircleRadius = smallCircleDiameter / 2;
-    
-      const bigCircleArea = this.figureArea;
-      const smallCircleArea = Math.PI * smallCircleRadius ** 2;
-    
-      const circleCount = Math.ceil(bigCircleArea / smallCircleArea);
-    
-      return circleCount;
-    },
-
-    // находим кол-во отверстии 
-    numberHoles: function() {
-      if (this.figure == 0) {
-        this.circleCount = this.calculateCircleCountInRectangle();
-
-      } else if (this.figure == 1) {
-        this.circleCount = this.calculateCircleCountInTriangle();
-
-
-      } else if (this.figure == 2) {
-        this.circleCount = this.calculateCircleCountInCircle();
-
-      }
-
-      this.calculateTotalSecondCalc()
-    },
     // рассчет тотала 2 калькулятора и цены 1 отверстия
     calculateTotalSecondCalc: function() {
       this.circlePrice = (this.thicknessSecondCalc *  this.materialSecondCalc.price)
@@ -743,13 +587,19 @@ new Vue({
 
     /* ВТОРОЙ КАЛЬКУДЯТОР */
     var diameterSecondCalc = await this.getData("/api/v1/DimeterSecondCalcList/");
-    this.diameterSecondCalc = diameterSecondCalc.data[0].diameter
-    this.materialSecondCalc = diameterSecondCalc.data[0].diameter.material[0]
+    this.diameterSecondCalc = diameterSecondCalc.data[0]
+
+    this.materialSecondCalc = diameterSecondCalc.data[0].material[0]
 
   },
   watch: {
     // whenever question changes, this function will run
     materialSecondCalc() {
+      this.calculateTotalSecondCalc();
+    },
+    perimeter() {
+      this.circleCount = Math.ceil(this.perimeter / (Number(this.diameterSecondCalc.value / 10)))
+
       this.calculateTotalSecondCalc();
     }
   },

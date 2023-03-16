@@ -75,10 +75,11 @@ class StartTotal(models.Model):
 class DiameterSecondCalc(models.Model):
     """Дефолтный диаметр второго калькулятора"""
     
-    diameter = models.ForeignKey(Diameters, on_delete=models.PROTECT)
+    value = models.IntegerField('Размер', blank=True)
+    material = models.JSONField('Материалы', blank=True, null=True)
     
     def __str__(self):
-        return f'{self.diameter.value}'
+        return f'{self.value}'
     
     class Meta:
         verbose_name = 'Диаметр коронки'
