@@ -4,7 +4,17 @@ from rest_framework.parsers import JSONParser
 from account.models import Account
 from .models import *
 
+class StartTotalSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Logistic
+        # fields = ("fname", "email")
+        fields = "__all__"
+
+
 class CoefficientsSerializer(serializers.ModelSerializer):
+    
+    start_total = StartTotalSerializer()
     
     class Meta:
         model = Coefficients
@@ -42,12 +52,7 @@ class ExtraWorksSerializer(serializers.ModelSerializer):
         # fields = ("fname", "email")
         fields = "__all__"
         
-class StartTotalSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = Logistic
-        # fields = ("fname", "email")
-        fields = "__all__"
+
         
 class DiameterSecondCalcSerializer(serializers.ModelSerializer):
     

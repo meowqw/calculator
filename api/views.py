@@ -47,6 +47,13 @@ class DiametersViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Diameters.objects.all()
     serializer_class = DiametersSerializer
 
+class StartTotalViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Only read StrtTotal
+    """
+    queryset = StartTotal.objects.all()
+    serializer_class = StartTotalSerializer
+    
 
 class CoefficientsViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -79,12 +86,7 @@ class ExtraWorksViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ExtraWorks.objects.all()
     serializer_class = ExtraWorksSerializer
 
-class StartTotalViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    Only read Logistic
-    """
-    queryset = StartTotal.objects.all()
-    serializer_class = StartTotalSerializer
+
     
 
 class DiameterSecondCalcViewSet(viewsets.ReadOnlyModelViewSet):

@@ -11,7 +11,7 @@
       <h2 class="perimeter__title title title--h3">Периметр проема</h2>
       <form action="#" class="perimeter__form form"><!-- новый селект-->
       <label class="form__label label perimeter__label perimeter__label--result"><span>Введите периметр
-           в см</span> <input type="number" name="значение" v-model="perimeter" class="input-reset input perimeter__input form__input" placeholder="0">
+           в см</span> <input type="number" name="значение" onfocus="this.value=''" v-model="perimeter" class="input-reset input perimeter__input form__input" placeholder="0">
           <div class="tooltip"><i class="fa-solid fa-circle-info"></i> <span class="tooltip__text">В см</span></div>
         </label> 
       </form>
@@ -22,7 +22,7 @@
       <h2 class="material__title title title--h3">Материал стены</h2>
       <form action="#" class="material__form form">
         <label class="custom-checkbox hero-calc__form-item" v-for="materialSecond in diameterSecondCalc.material">
-        <input type="radio" name="material" v-model="materialSecondCalc" :value="materialSecond" v-on:click="changeMaterialSecond()" class="custom-checkbox__field"> <span
+        <input type="radio" name="material"  v-model="materialSecondCalc" :value="materialSecond" v-on:click="changeMaterialSecond()" class="custom-checkbox__field"> <span
             class="custom-checkbox__content custom-checkbox__content--radio"></span> {* materialSecond.value *} </label>
       </form>
     </div>
@@ -51,7 +51,7 @@
     <div class="container sale__container section-container">
       <h2 class="sale__title title title--h3">Скидка</h2>
       <form action="#" class="sale__form form"><label class="form__label label sale__label"><span>Процент
-            скидки</span> <input type="text" name="название" class="input-reset input sale__input form__input"
+            скидки</span> <input type="text" name="название" class="input-reset input sale__input form__input" onfocus="this.value=''"
             placeholder="Процент скидки">
           <div class="tooltip"><i class="fa-solid fa-circle-info"></i> <span class="tooltip__text">Введите процент
               скидки</span></div>

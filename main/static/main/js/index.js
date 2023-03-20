@@ -48,7 +48,7 @@ new Vue({
         diameters: { value: "Не выбрано", total: 0 },
         material: { value: "Не выбрано", price: 0 },
         thickness: { value: 0, price: 0, total: 0 },
-        coefficient: { value: "Не выбрано", price: 1 },
+        coefficient: { value: "Не выбрано", price: 1, start_total: {'price': 0}},
         extra: { value: [], price: 0 }, // по сути сейчас не нужен здесь, но если удалить, придется переписывать логику вычислений
         total: 0, // цена которая начинается от startTotalItem
         price: 0, // обычная цена
@@ -69,7 +69,25 @@ new Vue({
       }
       this.calculate();
     },
+
+
+    // находим самую высокую начальную цену среди коеффициентов 
+    changeStartTotalByCoef: function () {
+      startTotal = 0;
+      for (let i of this.items) {
+        coef = Number(i.result.coefficient.start_total.price)
+        if (coef > startTotal) {
+          startTotal = coef;
+        }
+      }
+
+      this.startTotalItem = startTotal;
+    },
+
     calculate: function (id) {
+
+      this.changeStartTotalByCoef();
+
       total = 0;
       for (var i in this.items) {
         total += Number(this.items[i].result.total);
@@ -79,6 +97,7 @@ new Vue({
 
       if (this.result.remoteness.total != 0) {
 
+        // установка начальной цены
         if (Number(total) < this.startTotalItem) {
           total = this.startTotalItem
         } 
@@ -90,9 +109,12 @@ new Vue({
 
       } else {
 
+        // установка начальной цены
         if (Number(total) < this.startTotalItem) {
           total = this.startTotalItem
         } 
+
+
         this.result.total = Number(total) + Number(this.result.extra.total);
 
         this.result.total = (this.result.total - (this.result.total / 100 * this.discount)).toFixed(0)
@@ -593,7 +615,7 @@ new Vue({
 
   },
   watch: {
-    // whenever question changes, this function will run
+    // whenever changes, this function will run
     materialSecondCalc() {
       this.calculateTotalSecondCalc();
     },

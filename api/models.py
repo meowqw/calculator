@@ -2,9 +2,20 @@ from django.db import models
 from django.contrib import admin
 
 
+class StartTotal(models.Model):
+    price = models.IntegerField('Начальная цена', default=0, blank=True)
+    
+    def __str__(self):
+        return f'{self.price}'
+
+    class Meta:
+        verbose_name = 'Начальная цена'
+        verbose_name_plural = 'Начальная цена'
+
 class Coefficients(models.Model):
     value = models.CharField('Наименование', max_length=200, blank=True)
     price = models.FloatField('Коэффициент', default=0, blank=True)
+    start_total = models.ForeignKey(StartTotal, on_delete=models.SET_NULL, null=True, verbose_name='Начальная цена')
 
     def __str__(self):
         return self.value
@@ -61,15 +72,6 @@ class Diameters(models.Model):
         verbose_name_plural = 'Диаметры коронок'
 
 
-class StartTotal(models.Model):
-    price = models.IntegerField('Начальная цена', default=0, blank=True)
-    
-    def __str__(self):
-        return f'{self.price}'
-
-    class Meta:
-        verbose_name = 'Начальная цена'
-        verbose_name_plural = 'Начальная цена'
         
         
 class DiameterSecondCalc(models.Model):
