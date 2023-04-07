@@ -21,25 +21,24 @@ new Vue({
       total: 0,
     },
 
-    realTotal: 0,  // тотал без минималки
+    realTotal: 0, // тотал без минималки
 
     startTotalItem: 0,
 
     //
-    currentScreen: 'screenMain',
+    currentScreen: "screenMain",
 
     discount: 0, // скидка
 
     /* ВТОРОЙ КАЛЬКУЛЯТОР */
+
+    resultSecondCalc: {},
+    itemsSecondCalc: [],
+
     diameterSecondCalc: [],
     materialSecondCalc: null,
-    inputData: [{'name': 'Сторона A', 'value': 0}, {'name': 'Сторона B', 'value': 0}],
-    thicknessSecondCalc: 0,
-    perimeter: 0,
-    figure: 0,
-    circleCount: 0,
     secondCalcTotal: 0,
-    circlePrice: 0,
+    countSecondCalc: 0,
   },
   methods: {
     // add new item
@@ -48,15 +47,19 @@ new Vue({
         diameters: { value: "Не выбрано", total: 0 },
         material: { value: "Не выбрано", price: 0 },
         thickness: { value: 0, price: 0, total: 0 },
-        coefficient: { value: "Не выбрано", price: 1, start_total: {'price': 0}},
+        coefficient: {
+          value: "Не выбрано",
+          price: 1,
+          start_total: { price: 0 },
+        },
         extra: { value: [], price: 0 }, // по сути сейчас не нужен здесь, но если удалить, придется переписывать логику вычислений
         total: 0, // цена которая начинается от startTotalItem
         price: 0, // обычная цена
         count: 1,
       };
       await this.items.push({ id: this.count, result: item });
-      
-      this.openItem(this.count)
+
+      this.openItem(this.count);
 
       this.count++;
     },
@@ -70,12 +73,11 @@ new Vue({
       this.calculate();
     },
 
-
-    // находим самую высокую начальную цену среди коеффициентов 
+    // находим самую высокую начальную цену среди коеффициентов
     changeStartTotalByCoef: function () {
       startTotal = 0;
       for (let i of this.items) {
-        coef = Number(i.result.coefficient.start_total.price)
+        coef = Number(i.result.coefficient.start_total.price);
         if (coef > startTotal) {
           startTotal = coef;
         }
@@ -85,7 +87,6 @@ new Vue({
     },
 
     calculate: function (id) {
-
       this.changeStartTotalByCoef();
 
       total = 0;
@@ -96,28 +97,32 @@ new Vue({
       this.realTotal = total;
 
       if (this.result.remoteness.total != 0) {
-
         // установка начальной цены
         if (Number(total) < this.startTotalItem) {
-          total = this.startTotalItem
-        } 
+          total = this.startTotalItem;
+        }
 
         this.result.total =
-          Number(total) + Number(this.result.remoteness.total) + Number(this.result.extra.total);
+          Number(total) +
+          Number(this.result.remoteness.total) +
+          Number(this.result.extra.total);
 
-        this.result.total = (this.result.total - (this.result.total / 100 * this.discount)).toFixed(0)
-
+        this.result.total = (
+          this.result.total -
+          (this.result.total / 100) * this.discount
+        ).toFixed(0);
       } else {
-
         // установка начальной цены
         if (Number(total) < this.startTotalItem) {
-          total = this.startTotalItem
-        } 
-
+          total = this.startTotalItem;
+        }
 
         this.result.total = Number(total) + Number(this.result.extra.total);
 
-        this.result.total = (this.result.total - (this.result.total / 100 * this.discount)).toFixed(0)
+        this.result.total = (
+          this.result.total -
+          (this.result.total / 100) * this.discount
+        ).toFixed(0);
       }
     },
     // show panel item
@@ -127,33 +132,56 @@ new Vue({
       );
       panels = document.getElementsByClassName("panel hero__panel");
       for (var i in buttons) {
-        if (buttons[i].id == id) {
-          if (buttons[i].classList.toString().includes("active")) {
-            buttons[i].classList.remove("active");
-          } else {
-            buttons[i].classList.add("active");
+        if (buttons[i].mode != "secondBtn") {
+          if (buttons[i].id == id) {
+            if (buttons[i].classList.toString().includes("active")) {
+              buttons[i].classList.remove("active");
+            } else {
+              buttons[i].classList.add("active");
+            }
+          }
+        } else {
+          // второй калькудятор
+          if (buttons[i].id == id) {
+            if (buttons[i].classList.toString().includes("active")) {
+              buttons[i].classList.remove("active");
+            } else {
+              buttons[i].classList.add("active");
+            }
           }
         }
       }
       for (var i in panels) {
-        if (panels[i].id == id) {
-          if (panels[i].style.cssText.toString().includes('px')) {
-            panels[i].style.cssText = "";
-          } else {
-            panels[i].style.maxHeight = panels[i].scrollHeight + "px";
+        if (panels[i].mode != "secondPanel") {
+          if (panels[i].id == id) {
+            if (panels[i].style.cssText.toString().includes("px")) {
+              panels[i].style.cssText = "";
+            } else {
+              panels[i].style.maxHeight = panels[i].scrollHeight + "px";
+            }
+          }
+        } else {
+          // второй калькудятор
+          if (panels[i].id == id) {
+            if (panels[i].style.cssText.toString().includes("px")) {
+              panels[i].style.cssText = "";
+            } else {
+              panels[i].style.maxHeight = panels[i].scrollHeight + "px";
+            }
           }
         }
       }
     },
 
-    // изменение высоты блока 
-    changeHeight: function(id) {
+    // изменение высоты блока
+    changeHeight: function (id) {
       panels = document.getElementsByClassName("panel hero__panel");
       for (var i in panels) {
         if (panels[i].id == id) {
-            panels[i].style.maxHeight = Number(panels[i].scrollHeight) + 150 + "px";
-          }
+          panels[i].style.maxHeight =
+            Number(panels[i].scrollHeight) + 150 + "px";
         }
+      }
     },
 
     // изменение диаметра отверстия
@@ -172,9 +200,7 @@ new Vue({
             this.items[i].result["coefficient"].price
           ).toFixed(0);
 
-          this.items[i].result["price"] = this.items[i].result["total"]
-          
-          
+          this.items[i].result["price"] = this.items[i].result["total"];
         }
       }
 
@@ -182,10 +208,10 @@ new Vue({
       for (var i in materialsbtn) {
         materialsbtn[i].checked = false;
       }
-      
+
       this.calculate(id);
 
-      this.changeHeight(id)
+      this.changeHeight(id);
     },
 
     // изменение материал отверстия
@@ -195,8 +221,6 @@ new Vue({
           this.items[i].result["diameters"].total = (
             material.price * this.items[i].result["coefficient"].price
           ).toFixed(0);
-
-
 
           this.items[i].result["material"] = material;
 
@@ -208,14 +232,12 @@ new Vue({
             total + Number(this.items[i].result["extra"].price)
           ).toFixed(0);
 
-          this.items[i].result["price"] = this.items[i].result["total"]
-
-          
+          this.items[i].result["price"] = this.items[i].result["total"];
         }
       }
       this.calculate(id);
 
-      this.changeHeight(id)
+      this.changeHeight(id);
     },
 
     // изменение толщины стены
@@ -231,17 +253,14 @@ new Vue({
             total + Number(this.items[i].result["extra"].price)
           ).toFixed(0);
 
-          this.items[i].result["price"] = this.items[i].result["total"]
-
-          
+          this.items[i].result["price"] = this.items[i].result["total"];
         }
       }
       this.calculate(id);
 
-      this.changeHeight(id)
-    }, 
+      this.changeHeight(id);
+    },
 
-    
     // смена коэффициента отверстия
     changeCoefficient: function (id, coefficient) {
       for (var i in this.items) {
@@ -263,15 +282,13 @@ new Vue({
             total + Number(this.items[i].result["extra"].price)
           ).toFixed(0);
 
-          this.items[i].result["price"] = this.items[i].result["total"]
-
-          
+          this.items[i].result["price"] = this.items[i].result["total"];
         }
       }
       this.calculate(id);
       this.openSelect(id);
 
-      this.changeHeight(id)
+      this.changeHeight(id);
     },
 
     // логика открытия и закрытия селека коэффициента отверстия
@@ -310,8 +327,7 @@ new Vue({
         total: sliderValue,
       });
 
-
-      this.changeHeight(id)
+      this.changeHeight(id);
     },
 
     // total item рассчет тотала отверстия
@@ -328,14 +344,12 @@ new Vue({
             total + Number(this.items[i].result["extra"].price)
           ).toFixed(0);
 
-          this.items[i].result["price"] = this.items[i].result["total"]
-
-          
+          this.items[i].result["price"] = this.items[i].result["total"];
         }
       }
       this.calculate(id);
 
-      this.changeHeight(id)
+      this.changeHeight(id);
     },
 
     // COUNT - кол-во отверстий
@@ -353,7 +367,7 @@ new Vue({
 
       this.caclulateTotalItem(id);
 
-      this.changeHeight(id)
+      this.changeHeight(id);
     },
 
     // COUNT + кол-во отверстий
@@ -371,7 +385,7 @@ new Vue({
 
       this.caclulateTotalItem(id);
 
-      this.changeHeight(id)
+      this.changeHeight(id);
     },
 
     // ввод кол-ва отверстий
@@ -386,7 +400,7 @@ new Vue({
 
       this.caclulateTotalItem(id);
 
-      this.changeHeight(id)
+      this.changeHeight(id);
     },
 
     // input удалееность от МКАД
@@ -492,82 +506,150 @@ new Vue({
         list.style.display = "none";
       }
 
-      this.changeHeight(id)
+      this.changeHeight(id);
     },
 
     // обработка доп работ (если число какой то доп работы > 0 прибавляем ее к итоговому результату)
-    extraWorkProcessing: function() {
-        resultExtra = {'value': [], 'total': 0}
-        for (var i in this.extraWorks) {
-            if (this.extraWorks[i].count > 0) {
-                resultExtra.value.push(this.extraWorks[i])
-                resultExtra.total += this.extraWorks[i].price * this.extraWorks[i].count
-            }
+    extraWorkProcessing: function () {
+      resultExtra = { value: [], total: 0 };
+      for (var i in this.extraWorks) {
+        if (this.extraWorks[i].count > 0) {
+          resultExtra.value.push(this.extraWorks[i]);
+          resultExtra.total +=
+            this.extraWorks[i].price * this.extraWorks[i].count;
         }
+      }
 
-        this.result.extra = resultExtra;
+      this.result.extra = resultExtra;
     },
 
     // калькулятор доп работ
-    extraWorkCalc: function(id, func) {
-        for (var i in this.extraWorks) {
-            if (this.extraWorks[i].id == id) {
-                if (func == 'minus') {
-                    this.extraWorks[i].count -= 1;
-                } else if (func == 'plus') {
-                    this.extraWorks[i].count += 1;
-                }
-            }
+    extraWorkCalc: function (id, func) {
+      for (var i in this.extraWorks) {
+        if (this.extraWorks[i].id == id) {
+          if (func == "minus") {
+            this.extraWorks[i].count -= 1;
+          } else if (func == "plus") {
+            this.extraWorks[i].count += 1;
+          }
         }
+      }
 
-        this.extraWorkProcessing();
-        this.calculate();
+      this.extraWorkProcessing();
+      this.calculate();
     },
 
     // смена экранов (calc 1 <-> calc 2)
-    switchScreen: function(screen) {
-      document.getElementById(this.currentScreen).style.display = 'none'
-      document.getElementById(screen).style.display = ''
+    switchScreen: function (screen) {
+      document.getElementById(this.currentScreen).style.display = "none";
+      document.getElementById(screen).style.display = "";
       this.currentScreen = screen;
     },
 
     // скидка
-    discountCalc: function() {
-        if (this.discount == '') {
-          this.discount = 0
-        }
+    discountCalc: function () {
+      if (this.discount == "") {
+        this.discount = 0;
+      }
 
-        this.calculate()
+      this.calculate();
     },
 
     /* ПЕРИМЕТР CALC */
+
+    // добавить новый елемент в второй калькулятор
+    addNewItemSecondCalc() {
+      let material = this.materialSecondCalc;
+      let item = {
+        material: material,
+        thickness: 0,
+        perimeter: 0,
+        circleCount: 0,
+        total: 0,
+        circlePrice: 0,
+        id: this.countSecondCalc,
+      };
+
+      this.countSecondCalc++;
+
+      this.itemsSecondCalc.push(item);
+    },
+
+    // удалить елемент из выторого калькулятора
+    delItemFromSecondCalc(id) {
+      console.log(id);
+      // delete item by id
+      for (var i in this.itemsSecondCalc) {
+        if (this.itemsSecondCalc[i].id == id) {
+          this.itemsSecondCalc.splice(i, 1);
+        }
+      }
+    },
+
     // считываем толщину стены
-    sliderSecondCalc: function(el) {
+    sliderSecondCalc: function (id, el) {
       if (el == "slider") {
-        document.getElementById("amount").value = document.getElementById(
-          "slider"
+        document.getElementById("amount" + id).value = document.getElementById(
+          "slider" + id
         ).value;
       } else if (el == "amount") {
-        document.getElementById("slider").value = document.getElementById(
-          "amount"
+        document.getElementById("slider" + id).value = document.getElementById(
+          "amount" + id
         ).value;
       }
-      var sliderValue = document.getElementById("amount").value;
-      this.thicknessSecondCalc = sliderValue
+      var sliderValue = document.getElementById("amount" + id).value;
 
-      this.calculateTotalSecondCalc()
+      for (let i in this.itemsSecondCalc) {
+        if (this.itemsSecondCalc[i].id == id) {
+          this.itemsSecondCalc[i].thickness = sliderValue;
+        }
+      }
+
+      this.calculateTotalSecondCalc(id);
     },
 
     // рассчет тотала 2 калькулятора и цены 1 отверстия
-    calculateTotalSecondCalc: function() {
-      this.circlePrice = (this.thicknessSecondCalc *  this.materialSecondCalc.price)
-      this.secondCalcTotal = this.circlePrice * this.circleCount
+    calculateTotalSecondCalc: function (id) {
+      for (let i in this.itemsSecondCalc) {
+        if (this.itemsSecondCalc[i].id == id) {
+          this.itemsSecondCalc[i].circlePrice =
+            this.itemsSecondCalc[i].thickness *
+            this.itemsSecondCalc[i].material.price;
+          this.itemsSecondCalc[i].total =
+            this.itemsSecondCalc[i].circlePrice *
+            this.itemsSecondCalc[i].circleCount;
+        }
+      }
+
+      // рассчет тотала второго калькулятора
+      let total = 0;
+      for (let i in this.itemsSecondCalc) {
+        total += this.itemsSecondCalc[i].total;
+      }
+      this.secondCalcTotal = total;
     },
 
-    changeMaterialSecond: function() {
-      this.calculateTotalSecondCalc();
+    changeMaterialSecond: function (id, material) {
+      for (let i in this.itemsSecondCalc) {
+        if (this.itemsSecondCalc[i].id == id) {
+          this.itemsSecondCalc[i].material = material;
+        }
+      }
+      this.calculateTotalSecondCalc(id);
     },
 
+    changePerimeter: function (id) {
+      for (let i in this.itemsSecondCalc) {
+        if (this.itemsSecondCalc[i].id == id) {
+          this.itemsSecondCalc[i].circleCount = Math.ceil(
+            this.itemsSecondCalc[i].perimeter /
+              Number(this.diameterSecondCalc.value / 10)
+          );
+        }
+      }
+
+      this.calculateTotalSecondCalc(id);
+    },
   },
   async mounted() {
     let script = document.createElement("script");
@@ -592,8 +674,7 @@ new Vue({
     var startTotalItem = await this.getData("/api/v1/StartTotalList/");
 
     // получить стартовый тотал
-    this.startTotalItem = Number(startTotalItem.data[0].price)
-
+    this.startTotalItem = Number(startTotalItem.data[0].price);
 
     this.logistic = logistic.data[0].price;
     for (var item in coefficients.data) {
@@ -602,17 +683,22 @@ new Vue({
 
     this.diameters = diameters.data;
     for (var index in extraWorks.data) {
-      this.extraWorks.push({ 'value': extraWorks.data[index].value, 'id': extraWorks.data[index].id, 'price': extraWorks.data[index].price, 'count': 0});
+      this.extraWorks.push({
+        value: extraWorks.data[index].value,
+        id: extraWorks.data[index].id,
+        price: extraWorks.data[index].price,
+        count: 0,
+      });
     }
     // this.extraWorks = extraWorks.data;
 
-
     /* ВТОРОЙ КАЛЬКУДЯТОР */
-    var diameterSecondCalc = await this.getData("/api/v1/DimeterSecondCalcList/");
-    this.diameterSecondCalc = diameterSecondCalc.data[0]
+    var diameterSecondCalc = await this.getData(
+      "/api/v1/DimeterSecondCalcList/"
+    );
+    this.diameterSecondCalc = diameterSecondCalc.data[0];
 
-    this.materialSecondCalc = diameterSecondCalc.data[0].material[0]
-
+    this.materialSecondCalc = diameterSecondCalc.data[0].material[0];
   },
   watch: {
     // whenever changes, this function will run
@@ -620,9 +706,11 @@ new Vue({
       this.calculateTotalSecondCalc();
     },
     perimeter() {
-      this.circleCount = Math.ceil(this.perimeter / (Number(this.diameterSecondCalc.value / 10)))
+      this.circleCount = Math.ceil(
+        this.perimeter / Number(this.diameterSecondCalc.value / 10)
+      );
 
       this.calculateTotalSecondCalc();
-    }
+    },
   },
 });

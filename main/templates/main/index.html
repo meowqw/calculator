@@ -1,7 +1,8 @@
 {% extends 'main/base.html' %} {% block content %}
 {% load static %}
 <div id="app">
-    <main class="main" id='screenMain' style="display: ''">
+    <main class="main" >
+        <div id='screenMain' style="display: ''">
         <header class="header">
             <div class="container header__container section-container section-container--no-border">
                 <h1 class="header__title title title--h1" onclick="location.href='/admin'" style="cursor: pointer;">
@@ -230,6 +231,9 @@
                 </div>
             </div>
           </section>
+        </div>
+        
+        {% include 'main/perimeter.html' %}
 
         <section class="coef section-container container">
             <h2 class="coef__title title title--h3">Доп работы</h2>
@@ -295,45 +299,66 @@
                 </div>
             </div>
         </section>
+    
 
         <section class="result">
             <div class="container result__container">
-                <div class="result-block section-container">
-                    <div class="result-block__top">
-                        <h3 class="result-block__title">Предварительная стоимость</h3>
-                        <span class="result-block__price">{* result.total *} руб</span>
+              <div class="result-block section-container">
+                <div class="result-block__top">
+                  <h3 class="result-block__title">Стоимость калькулятора 1:</h3>
+                  <span class="result-block__price">{* result.total *} руб</span>
+                </div>
+                <!-- новый блок - 1 -->
+                <div class="result-block__top">
+                  <h3 class="result-block__title">Стоимость калькулятора 2:</h3>
+                  <span class="result-block__price">{* secondCalcTotal *} руб</span>
+                </div>
+                <ul class="list-reset result-block__list">
+                    <li class="result-block__item result-item">
+                        <div class="result-item__name">
+                            Доп работы:
+                            <span class="result-item__value" v-if="result.extra.value.length == 0">Не указано</span>
+                            <span class="result-item__value" v-else v-for='extra in result.extra.value'>{* extra.value *} ({* extra.count *})</span>
+                            
+                        </div>
+                        <div class="result-item__price">{* result.extra.total *} руб</div>
+                    </li>
+                  <li class="result-block__item result-item">
+                    <div class="result-item__name">
+                        Удаленность от МКАД:
+                        <span class="result-item__value">{* result.remoteness.value *} {*
+                            result.remoteness.range *} км</span>
                     </div>
-                    <ul class="list-reset result-block__list">
-                        <li class="result-block__item result-item">
-                            <div class="result-item__name">
-                                Удаленность от МКАД:
-                                <span class="result-item__value">{* result.remoteness.value *} {*
-                                    result.remoteness.range *} км</span>
-                            </div>
-                            <div class="result-item__price">{* result.remoteness.total *} руб</div>
-                        </li>
-                        <li class="result-block__item result-item">
-                            <div class="result-item__name">
-                                Доп работы:
-                                <span class="result-item__value" v-if="result.extra.value.length == 0">Не указано</span>
-                                <span class="result-item__value" v-else v-for='extra in result.extra.value'>{* extra.value *} ({* extra.count *})</span>
-                                
-
-                            </div>
-                            <div class="result-item__price">{* result.extra.total *} руб</div>
-                        </li>
-                    </ul>
+                    <div class="result-item__price">{* result.remoteness.total *} руб</div>
+                </li>
+                </ul>
+                <!-- итоговая стоимость-->
+                <div class="result-block__total">
+                  <h3 class="result-block__title result-block__title--total">
+                    Итоговая стоимость:
+                  </h3>
+                  <span class="result-block__price result-block__price--total"
+                    >{* Number(secondCalcTotal) + Number(result.total) *} руб</span
+                  >
                 </div>
-                <div class="result-block__bottom">
-                    <button class="btn-reset btn result-block__btn-estimate" data-graph-path="estimate">
-                        Смета
-                    </button>
-                </div>
+              </div>
+              <!-- <button class="btn-reset btn result__btn">Рассчитать стоимость</button> -->
+              <div class="result-block__bottom">
+                <button
+                  class="btn-reset btn result-block__btn-estimate"
+                  data-graph-path="estimate"
+                >
+                  Смета
+                </button>
+              </div>
             </div>
-        </section>
+          </section>
+        
+
+       
     </main>
 
-    {% include 'main/perimeter.html' %}
+    
 
     <!-- modal -->
     <div class="graph-modal">
