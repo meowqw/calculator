@@ -13,8 +13,8 @@
       <div class="hero__item" v-for="item in itemsSecondCalc">
         <!-- accordion-btn -->
         <button class="btn-reset accordion hero__accordion" @click="openItem(item.id)" :id="item.id" mode="secondBtn">
-          <div class="hero__accordion-content">Стоимость: {* item.total *}</div></button
-        ><!-- accordion-content -->
+          <div class="hero__accordion-content">Стоимость: {* item.total *}</div>
+        </button><!-- accordion-content -->
         <div class="panel hero__panel" v-on:click="openSelect(item.id)" :id='item.id' mode="secondPanel">
           <div class="hero__left">
             <ul class="list-reset hero-calc__list">
@@ -24,9 +24,12 @@
                   Периметр проема
                 </h3>
                 <label class="form__label label perimeter__label perimeter__label--result"><span>Введите периметр
-                  в см</span> <input type="number" name="значение" onfocus="this.value=''" v-model="item.perimeter" v-on:input="changePerimeter(item.id)" class="input-reset input perimeter__input form__input" placeholder="0">
-                 <div class="tooltip"><i class="fa-solid fa-circle-info"></i> <span class="tooltip__text">В см</span></div>
-               </label> 
+                    в см</span> <input type="number" name="значение" onfocus="this.value=''" v-model="item.perimeter"
+                    v-on:input="changePerimeter(item.id)" class="input-reset input perimeter__input form__input"
+                    placeholder="0">
+                  <div class="tooltip"><i class="fa-solid fa-circle-info"></i> <span class="tooltip__text">В см</span>
+                  </div>
+                </label>
               </li>
               <!-- item-thickness -->
               <li class="hero-calc__item">
@@ -35,19 +38,19 @@
                 </h3>
                 <form>
                   <div class="range">
-                      <input class="range__slider" :id="'slider'+item.id" max="200" min="0"
-                          v-on:input="sliderSecondCalc(item.id, 'slider')" type="range" value="0">
-                      <label class="label" for="amount">
-                          <span>Значение, см</span>
-                          <input class="input-reset range__amount input" :id="'amount'+item.id" onfocus="this.value=''"
-                              v-on:input="sliderSecondCalc(item.id, 'amount')" type="number" value="0">
-                          <div class="tooltip">
-                              <i class="fa-solid fa-circle-info"></i>
-                              <span class="tooltip__text">Сантиметров</span>
-                          </div>
-                      </label>
+                    <input class="range__slider" :id="'slider'+item.id" max="200" min="0"
+                      v-on:input="sliderSecondCalc(item.id, 'slider')" type="range" value="0">
+                    <label class="label" for="amount">
+                      <span>Значение, см</span>
+                      <input class="input-reset range__amount input" :id="'amount'+item.id" onfocus="this.value=''"
+                        v-on:input="sliderSecondCalc(item.id, 'amount')" type="number" value="0">
+                      <div class="tooltip">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span class="tooltip__text">Сантиметров</span>
+                      </div>
+                    </label>
                   </div>
-              </form>
+                </form>
               </li>
               <!-- item-material  -->
               <li class="hero-calc__item">
@@ -55,8 +58,10 @@
                   Материал стены
                 </h3>
                 <form action="#" class="material__form form">
-                  <label class="custom-checkbox hero-calc__form-item" v-for="materialSecond in diameterSecondCalc.material">
-                  <input type="radio" name="material" mode="second" :id="item.id"  v-on:click="changeMaterialSecond(item.id, materialSecond)" class="custom-checkbox__field"> <span
+                  <label class="custom-checkbox hero-calc__form-item"
+                    v-for="materialSecond in diameterSecondCalc.material">
+                    <input checked type="radio" name="material" mode="second" :id="item.id"
+                      v-on:click="changeMaterialSecond(item.id, materialSecond)" class="custom-checkbox__field"> <span
                       class="custom-checkbox__content custom-checkbox__content--radio"></span> {* materialSecond.value *} </label>
                 </form>
               </li>
@@ -106,17 +111,12 @@
         </div>
         <!-- btn-delete -->
         <button class="btn-reset accordion__btn btn btn--mini hero__btn" v-on:click="delItemFromSecondCalc(item.id)">
-          <i class="fa-solid fa-trash"></i></button
-        ><!-- item-info-mini -->
+          <i class="fa-solid fa-trash"></i></button><!-- item-info-mini -->
         <div class="hero__item-info">
-          <ul
-            class="list-reset result-block__list result-block__list--mini"
-          >
+          <ul class="list-reset result-block__list result-block__list--mini">
             <li class="result-block__item result-item">
               <div class="result-item__name">
-                <span class="result-item__name-text"
-                  >Кол-во отверстий:</span
-                >
+                <span class="result-item__name-text">Кол-во отверстий:</span>
                 <i class="fa-regular fa-circle">:</i>
                 <span class="result-item__value">{* item.circleCount *}</span>
               </div>
@@ -140,9 +140,7 @@
             </li>
             <li class="result-block__item result-item">
               <div class="result-item__name">
-                <span class="result-item__name-text"
-                  >Периметр проема:</span
-                >
+                <span class="result-item__name-text">Периметр проема:</span>
                 <i class="fa-solid fa-ruler-vertical">:</i>
                 <span class="result-item__value">{* item.perimeter *}</span>
               </div>

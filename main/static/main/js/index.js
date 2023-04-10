@@ -558,7 +558,7 @@ new Vue({
     /* ПЕРИМЕТР CALC */
 
     // добавить новый елемент в второй калькулятор
-    addNewItemSecondCalc() {
+    async addNewItemSecondCalc() {
       let material = this.materialSecondCalc;
       let item = {
         material: material,
@@ -569,10 +569,15 @@ new Vue({
         circlePrice: 0,
         id: this.countSecondCalc,
       };
+      await this.itemsSecondCalc.push(item);
+
+      this.openItem(this.countSecondCalc);
 
       this.countSecondCalc++;
 
-      this.itemsSecondCalc.push(item);
+      
+
+      
     },
 
     // удалить елемент из выторого калькулятора
@@ -698,7 +703,7 @@ new Vue({
     );
     this.diameterSecondCalc = diameterSecondCalc.data[0];
 
-    this.materialSecondCalc = diameterSecondCalc.data[0].material[0];
+    this.materialSecondCalc = diameterSecondCalc.data[0].material[diameterSecondCalc.data[0].material.length - 1];
   },
   watch: {
     // whenever changes, this function will run
