@@ -12,33 +12,8 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, I
 from account.models import Account
 from .serializers import *
 from .models import *
+from rest_framework import status
 
-# # Create your views here.
-# class AccountAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
-#     """
-#     CRUD request
-#     """
-#     queryset = Account.objects.all()
-#     serializer_class = AccountSerializer
-
-
-# class AccountAPIListPagination(PageNumberPagination):
-#     """
-#     CUSTOM PAGINSTION
-#     """
-#     page_size = 3
-#     page_size_query_param = 'page_size'
-#     max_page_size = 10000
-
-
-# class AccountAPIList(generics.ListCreateAPIView):
-#     """
-#     GET and POST request
-#     """
-#     queryset = Account.objects.all()
-#     serializer_class = AccountSerializer
-#     permission_classes = (IsAuthenticatedOrReadOnly,)
-#     # pagination_class = AccountAPIListPagination
 
 class DiametersViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -47,13 +22,14 @@ class DiametersViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Diameters.objects.all()
     serializer_class = DiametersSerializer
 
+
 class StartTotalViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Only read StrtTotal
     """
     queryset = StartTotal.objects.all()
     serializer_class = StartTotalSerializer
-    
+
 
 class CoefficientsViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -77,8 +53,8 @@ class LogisticViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Logistic.objects.all()
     serializer_class = LogisticSerializer
-    
-    
+
+
 class ExtraWorksViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Only read ExtraWorks
@@ -87,11 +63,44 @@ class ExtraWorksViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ExtraWorksSerializer
 
 
-    
-
 class DiameterSecondCalcViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Only read DiameterSecondCalc
     """
     queryset = DiameterSecondCalc.objects.all()
     serializer_class = DiameterSecondCalcSerializer
+    
+class StartTotalWithoutCoefViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Only read DiameterSecondCalc
+    """
+    queryset = StartTotalWithoutCoef.objects.all()
+    serializer_class = StartTotalWithoutCoefSerializer
+
+
+
+class ClientAPIPost(APIView):
+    """Получить и добавить клиента"""
+
+    def post(self, request, *args, **kwargs):
+
+        data = request.data.copy()
+
+        cleint_serializer = ClientSerializer(data=data)
+        if cleint_serializer.is_valid():
+            client = cleint_serializer.save()
+            response_serializer = ClientSerializer(client)
+
+            return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(cleint_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    serializer_class = ClientSerializer
+    
+class ClientAPIView(viewsets.ReadOnlyModelViewSet):
+    def get_queryset(self):
+        client = Client.objects.filter(id=self.kwargs['id'])
+        return client
+        
+    serializer_class = ClientSerializer
+    

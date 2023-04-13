@@ -9,8 +9,22 @@ class StartTotal(models.Model):
         return f'{self.price}'
 
     class Meta:
-        verbose_name = 'Начальная цена'
-        verbose_name_plural = 'Начальная цена'
+        verbose_name = 'Начальные цены'
+        verbose_name_plural = 'Начальные цены'
+        
+        
+
+class StartTotalWithoutCoef(models.Model):
+    price = models.ForeignKey(StartTotal, on_delete=models.SET_NULL, null=True, verbose_name='Начальная цена')
+    
+    def __str__(self):
+        return f'{self.price}'
+
+    class Meta:
+        verbose_name = 'Начальная цена (без коэф)'
+        verbose_name_plural = 'Начальная цена (без коэф)'
+        
+        
 
 class Coefficients(models.Model):
     value = models.CharField('Наименование', max_length=200, blank=True)
@@ -72,8 +86,6 @@ class Diameters(models.Model):
         verbose_name_plural = 'Диаметры коронок'
 
 
-        
-        
 class DiameterSecondCalc(models.Model):
     """Дефолтный диаметр второго калькулятора"""
     
@@ -86,3 +98,18 @@ class DiameterSecondCalc(models.Model):
     class Meta:
         verbose_name = 'Диаметр коронки'
         verbose_name_plural = 'Диаметр коронки 2 калькулятора'
+
+
+class Client(models.Model):
+    fio = models.CharField('ФИО', max_length=200, blank=True, null=True)
+    email = models.CharField('Почта', max_length=200, blank=True, null=True)
+    phone = models.CharField('Телефон', max_length=200, blank=True, null=True)
+    note = models.TextField('Заметка', max_length=500, blank=True, null=True)
+    order_list = models.JSONField('Состав заказа', blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.fio}'
+
+    class Meta:
+        verbose_name = 'Клиент'
+        verbose_name_plural = 'Клиенты'

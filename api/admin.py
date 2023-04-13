@@ -51,6 +51,22 @@ class DiameterSecondCalcAdmin(admin.ModelAdmin):
     filter_horizontal = ()
     list_filter = ()
     fieldsets = ()
+    
+    
+class ClientAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in Client._meta.fields]
+
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+    
+    
+class StartTotalWithoutCoefAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in StartTotalWithoutCoef._meta.fields]
+
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
 
 admin.site.register(Diameters, DiametersAdmin)
 admin.site.register(Coefficients, CoefficientsAdmin)
@@ -59,6 +75,10 @@ admin.site.register(Logistic, LogisticAdmin)
 admin.site.register(ExtraWorks, ExtraWorksAdmin)
 admin.site.register(StartTotal, StartTotalAdmin)
 admin.site.register(DiameterSecondCalc, DiameterSecondCalcAdmin)
+admin.site.register(Client, ClientAdmin)
+admin.site.register(StartTotalWithoutCoef, StartTotalWithoutCoefAdmin)
+
+
 
 
 

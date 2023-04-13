@@ -39,6 +39,16 @@ new Vue({
     materialSecondCalc: null,
     secondCalcTotal: 0,
     countSecondCalc: 0,
+
+    coefOn: false,
+
+    clientData: {
+      fio: '',
+      email: '',
+      phone: '',
+      order_list: {},
+      note: '',
+    }
   },
   methods: {
     // add new item
@@ -87,7 +97,10 @@ new Vue({
     },
 
     calculate: function (id) {
-      this.changeStartTotalByCoef();
+
+      if (this.coefOn) {
+        this.changeStartTotalByCoef();
+      }
 
       total = 0;
       for (var i in this.items) {
@@ -285,6 +298,8 @@ new Vue({
           this.items[i].result["price"] = this.items[i].result["total"];
         }
       }
+      this.coefOn = true;
+
       this.calculate(id);
       this.openSelect(id);
 
@@ -575,9 +590,9 @@ new Vue({
 
       this.countSecondCalc++;
 
-      
 
-      
+
+
     },
 
     // удалить елемент из выторого калькулятора
@@ -648,12 +663,38 @@ new Vue({
         if (this.itemsSecondCalc[i].id == id) {
           this.itemsSecondCalc[i].circleCount = Math.ceil(
             this.itemsSecondCalc[i].perimeter /
-              Number(this.diameterSecondCalc.value / 10)
+            Number(this.diameterSecondCalc.value / 10)
           );
         }
       }
 
       this.calculateTotalSecondCalc(id);
+    },
+
+    // method for post request
+    postData: async function (url, data) {
+      token = document.getElementsByName('csrfmiddlewaretoken')[0].value
+
+      const response = await fetch(url, {
+        headers: {
+          "Content-type": "application/json",
+          "X-CSRFTOKEN": token,
+        },
+        body: JSON.stringify(data),
+        method: "POST",
+      });
+
+      // return response.json();
+    },
+    clearClientData: function (data) {
+      this.clientData[data] = ''
+    },
+
+
+    // CLIENT
+    postClientData: async function () {
+      this.postData('/api/v1/client/', this.clientData)
+      document.getElementById('msgDataIsSaved').style.display = '';
     },
   },
   async mounted() {
@@ -677,9 +718,10 @@ new Vue({
     var logistic = await this.getData("/api/v1/LogisticList/");
     var extraWorks = await this.getData("/api/v1/ExtraWorksList/");
     var startTotalItem = await this.getData("/api/v1/StartTotalList/");
+    var startTotal = await this.getData("/api/v1/StartTotal/");
 
     // получить стартовый тотал
-    this.startTotalItem = Number(startTotalItem.data[0].price);
+    this.startTotalItem = Number(startTotal.data[0].price.price);
 
     this.logistic = logistic.data[0].price;
     for (var item in coefficients.data) {

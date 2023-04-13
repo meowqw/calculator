@@ -53,7 +53,6 @@ class ExtraWorksSerializer(serializers.ModelSerializer):
         fields = "__all__"
         
 
-        
 class DiameterSecondCalcSerializer(serializers.ModelSerializer):
     
     # diameter = DiametersSerializer()
@@ -62,3 +61,17 @@ class DiameterSecondCalcSerializer(serializers.ModelSerializer):
         # fields = ("fname", "email")
         fields = "__all__"
        
+       
+class ClientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Client
+        fields = '__all__'
+        
+
+class StartTotalWithoutCoefSerializer(serializers.ModelSerializer):
+    price = StartTotalSerializer()
+    
+    class Meta:
+        model = StartTotalWithoutCoef
+        fields = '__all__'
+        

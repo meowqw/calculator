@@ -1,6 +1,7 @@
 {% extends 'main/base.html' %} {% block content %}
 {% load static %}
 <div id="app">
+    {% csrf_token %}
     <main class="main" >
         <div id='screenMain' style="display: ''">
         <header class="header">
@@ -354,7 +355,50 @@
             </div>
           </section>
         
+         <!-- sidebar -->
+      <button type="button" class="btn-reset btn sidebar-btn-active">Открыть</button>
 
+      <div class="sidebar">
+        <h2 class="sidebar__title">Примечание</h2>
+        <form class="form sidebar__form">
+          <label class="form__label label">
+            <span>ФИО клиента</span>
+            <input type="text" v-model="clientData.fio" name="ФИО" class="input-reset input sidebar__input" placeholder="Фамилия, Имя, Отчество"
+              id="name">
+            <button type="button" class="btn-reset sidebar__btn-clean" v-on:click="clearClientData('fio')" onclick="document.getElementById('name').value = ''"
+              style="display: none" id="name-btn">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </label>
+          <label class="form__label label">
+            <span>Email клиента</span>
+            <input v-model="clientData.email" type="email" name="Почта" class="input-reset input sidebar__input" placeholder="Почта" id="mail">
+            <button type="button" class="btn-reset sidebar__btn-clean" v-on:click="clearClientData('email')" onclick="document.getElementById('mail').value = ''"
+              style="display: none" id="mail-btn">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </label>
+          <label class="form__label label">
+            <span>Номер телефона</span>
+            <input type="tel" v-model="clientData.phone" name="Номер телефона" class="input-reset input sidebar__input" placeholder="Номер телефона"
+              id="tel">
+            <button type="button" class="btn-reset sidebar__btn-clean" v-on:click="clearClientData('phone')" onclick="document.getElementById('tel').value = ''"
+              style="display: none" id="tel-btn">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </label>
+          <label class="form__label label">
+            <span>Заметка</span>
+            <textarea v-model="clientData.note" class="sidebar__textarea input textarea" name="notes" id="notes" placeholder="Подробности"></textarea>
+            <button type="button" class="btn-reset sidebar__btn-clean" v-on:click="clearClientData('note')" onclick="document.getElementById('notes').value = ''"
+              style="display: none" id="notes-btn">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </label>
+          <button type="button" class="btn-reset sidebar__btn btn" v-on:click="postClientData()">Сохранить</button>
+          <span style="display: none;" id="msgDataIsSaved">Данные сохранены</span>
+        </form>
+      </div>
        
     </main>
 
