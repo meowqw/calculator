@@ -43,12 +43,16 @@ new Vue({
     coefOn: false,
 
     clientData: {
-      fio: '',
-      email: '',
-      phone: '',
+      fio: "",
+      email: "",
+      phone: "",
       order_list: {},
-      note: '',
-    }
+      note: "",
+    },
+
+    noteCalcOne: "",
+    noteCalcTwo: "",
+    noteTotal: "",
   },
   methods: {
     // add new item
@@ -97,7 +101,6 @@ new Vue({
     },
 
     calculate: function (id) {
-
       if (this.coefOn) {
         this.changeStartTotalByCoef();
       }
@@ -120,10 +123,10 @@ new Vue({
           Number(this.result.remoteness.total) +
           Number(this.result.extra.total);
 
-        this.result.total = (
-          this.result.total -
-          (this.result.total / 100) * this.discount
-        ).toFixed(0);
+        // this.result.total = (
+        //   this.result.total -
+        //   (this.result.total / 100) * this.discount
+        // ).toFixed(0);
       } else {
         // установка начальной цены
         if (Number(total) < this.startTotalItem) {
@@ -132,12 +135,38 @@ new Vue({
 
         this.result.total = Number(total) + Number(this.result.extra.total);
 
-        this.result.total = (
-          this.result.total -
-          (this.result.total / 100) * this.discount
-        ).toFixed(0);
+        // this.result.total = (
+        //   this.result.total -
+        //   (this.result.total / 100) * this.discount
+        // ).toFixed(0);
       }
+
+      this.itemsToString();
     },
+
+    itemsToString: function () {
+      let resText = "";
+      for (let i of this.items) {
+        let resItem = i.result;
+        let count = `Кол-во: ${resItem.count}`;
+        let coef = `Коэффициент: ${resItem.coefficient.value} - ${resItem.coefficient.price}`;
+        let diameter = `Диаметр: ${resItem.diameters.value}`;
+        let material = `Материал: ${resItem.material.value}`;
+        let thickness = `Толщина: ${resItem.thickness.value}`;
+
+        resText += `Отверситие #${i.id}\n${count}\n${coef}\n${diameter}\n${material}\n${thickness}\nЦена #${i.id}: ${resItem.total}\n\n`;
+      }
+
+      if (resText.length != 0) {
+        resText =
+          "---РАССЧЕТ СТОИМОСТИ---\n\n" + resText + `Итого: ${this.realTotal}\n\n`;
+      }
+
+      this.noteCalcOne = resText;
+
+      this.writeToNote();
+    },
+
     // show panel item
     openItem: function (id) {
       buttons = document.getElementsByClassName(
@@ -589,10 +618,6 @@ new Vue({
       this.openItem(this.countSecondCalc);
 
       this.countSecondCalc++;
-
-
-
-
     },
 
     // удалить елемент из выторого калькулятора
@@ -608,16 +633,14 @@ new Vue({
 
     // считываем толщину стены
     sliderSecondCalc: function (id, el) {
-      if (el == "slider") {
-        document.getElementById("amount" + id).value = document.getElementById(
-          "slider" + id
-        ).value;
-      } else if (el == "amount") {
-        document.getElementById("slider" + id).value = document.getElementById(
-          "amount" + id
-        ).value;
+      if (el == "sliderSC") {
+        document.getElementById("amountSC" + id).value =
+          document.getElementById("sliderSC" + id).value;
+      } else if (el == "amountSC") {
+        document.getElementById("sliderSC" + id).value =
+          document.getElementById("amountSC" + id).value;
       }
-      var sliderValue = document.getElementById("amount" + id).value;
+      var sliderValue = document.getElementById("amountSC" + id).value;
 
       for (let i in this.itemsSecondCalc) {
         if (this.itemsSecondCalc[i].id == id) {
@@ -647,6 +670,64 @@ new Vue({
         total += this.itemsSecondCalc[i].total;
       }
       this.secondCalcTotal = total;
+
+      // запись в note
+
+      let resText = "";
+      for (let i of this.itemsSecondCalc) {
+        let perimeter = `Периметр: ${i.perimeter}`;
+        let thickness = `Толщина: ${i.thickness}`;
+        let material = `Материал: ${i.material.value}`;
+        let circleCount = `Кол-во отверстий: ${i.circleCount}`;
+        let circlePrice = `Цена за 1 отвертсие ${i.circlePrice}`;
+        let total = `Цена за проем #${i.id}: ${i.total}`;
+
+        resText += `Проем # ${i.id}\n${perimeter}\n${thickness}\n${material}\n${circleCount}\n${circlePrice}\n${total}\n\n`;
+      }
+
+      if (resText.length != 0) {
+        resText =
+          "---КОЛ-ВО ОТВЕРСТИЙ---\n\n" +
+          resText +
+          `Итого: ${this.secondCalcTotal}\n\n`;
+      }
+
+      this.noteCalcTwo = resText;
+
+      this.writeToNote();
+    },
+
+    writeToNote: function () {
+
+      let resText = ''
+
+      if (this.noteCalcOne.length || this.noteCalcTwo.length) {
+        let extraWorkText = "";
+        if (this.result.extra.value.length > 0) {
+          extraWorkText = "---ДОП РАБОТЫ---\n";
+          for (let i of this.result.extra.value) {
+            extraWorkText += `${i.value} - Цена: ${Number(i.count) * Number(i.price)} (${i.count})\n`;
+          }
+
+          extraWorkText += `Доп работы итого: ${this.result.extra.total}\n\n`;
+        }
+
+        let extraRemotnessText = "";
+        if (this.result.remoteness.total != 0) {
+          extraRemotnessText = `---ЛОГИСТИКА---\nПунки: ${this.result.remoteness.value}\nРасстояние от МКАД: ${this.result.remoteness.range}\nСтоимость: ${this.result.remoteness.total}\n\n`;
+        }
+
+        let total = ((Number(this.secondCalcTotal) + Number(this.result.total)) - ((Number(this.secondCalcTotal) + Number(this.result.total) / 100) * this.discount)).toFixed(0)
+
+        let textDiscount = ''
+        if (this.discount != 0) {
+          textDiscount = `---СКИДКА---: ${this.discount}\n\n`
+        }
+
+        resText += extraRemotnessText + extraWorkText + textDiscount + `ИТОГОВАЯ СТОИМОСТЬ: ${total}`;
+      }
+
+      this.clientData.note = this.noteCalcOne + this.noteCalcTwo + resText;
     },
 
     changeMaterialSecond: function (id, material) {
@@ -663,7 +744,7 @@ new Vue({
         if (this.itemsSecondCalc[i].id == id) {
           this.itemsSecondCalc[i].circleCount = Math.ceil(
             this.itemsSecondCalc[i].perimeter /
-            Number(this.diameterSecondCalc.value / 10)
+              Number(this.diameterSecondCalc.value / 10)
           );
         }
       }
@@ -673,7 +754,7 @@ new Vue({
 
     // method for post request
     postData: async function (url, data) {
-      token = document.getElementsByName('csrfmiddlewaretoken')[0].value
+      token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
 
       const response = await fetch(url, {
         headers: {
@@ -687,14 +768,13 @@ new Vue({
       // return response.json();
     },
     clearClientData: function (data) {
-      this.clientData[data] = ''
+      this.clientData[data] = "";
     },
-
 
     // CLIENT
     postClientData: async function () {
-      this.postData('/api/v1/client/', this.clientData)
-      document.getElementById('msgDataIsSaved').style.display = '';
+      this.postData("/api/v1/client/", this.clientData);
+      document.getElementById("msgDataIsSaved").style.display = "";
     },
   },
   async mounted() {
@@ -745,7 +825,10 @@ new Vue({
     );
     this.diameterSecondCalc = diameterSecondCalc.data[0];
 
-    this.materialSecondCalc = diameterSecondCalc.data[0].material[diameterSecondCalc.data[0].material.length - 1];
+    this.materialSecondCalc =
+      diameterSecondCalc.data[0].material[
+        diameterSecondCalc.data[0].material.length - 1
+      ];
   },
   watch: {
     // whenever changes, this function will run
