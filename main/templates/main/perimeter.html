@@ -38,12 +38,12 @@
                 </h3>
                 <form>
                   <div class="range">
-                    <input class="range__slider" :id="'slider'+item.id" max="200" min="0"
-                      v-on:input="sliderSecondCalc(item.id, 'slider')" type="range" value="0">
+                    <input class="range__slider" :id="'sliderSC'+item.id" max="200" min="0"
+                      v-on:input="sliderSecondCalc(item.id, 'sliderSC')" type="range" value="0">
                     <label class="label" for="amount">
                       <span>Значение, см</span>
-                      <input class="input-reset range__amount input" :id="'amount'+item.id" onfocus="this.value=''"
-                        v-on:input="sliderSecondCalc(item.id, 'amount')" type="number" value="0">
+                      <input class="input-reset range__amount input" :id="'amountSC'+item.id" onfocus="this.value=''"
+                        v-on:input="sliderSecondCalc(item.id, 'amountSC')" type="number" value="0">
                       <div class="tooltip">
                         <i class="fa-solid fa-circle-info"></i>
                         <span class="tooltip__text">Сантиметров</span>

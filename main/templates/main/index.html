@@ -307,7 +307,7 @@
               <div class="result-block section-container">
                 <div class="result-block__top">
                   <h3 class="result-block__title">Сумма калькулятора 1:</h3>
-                  <span class="result-block__price">{* result.total *} руб</span>
+                  <span class="result-block__price">{* realTotal *} руб</span>
                 </div>
                 <!-- новый блок - 1 -->
                 <div class="result-block__top">
@@ -339,7 +339,7 @@
                     Итоговая стоимость:
                   </h3>
                   <span class="result-block__price result-block__price--total"
-                    >{* Number(secondCalcTotal) + Number(result.total) *} руб</span
+                    >{* ((Number(secondCalcTotal) + Number(result.total)) - ((Number(secondCalcTotal) + Number(result.total) / 100) * discount)).toFixed(0) *} руб</span
                   >
                 </div>
               </div>

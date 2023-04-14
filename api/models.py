@@ -105,7 +105,7 @@ class Client(models.Model):
     email = models.CharField('Почта', max_length=200, blank=True, null=True)
     phone = models.CharField('Телефон', max_length=200, blank=True, null=True)
     note = models.TextField('Заметка', max_length=500, blank=True, null=True)
-    order_list = models.JSONField('Состав заказа', blank=True, null=True)
+    # order_list = models.JSONField('Состав заказа', blank=True, null=True)
 
     def __str__(self):
         return f'{self.fio}'
