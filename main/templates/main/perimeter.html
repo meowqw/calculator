@@ -65,6 +65,30 @@
                       class="custom-checkbox__content custom-checkbox__content--radio"></span> {* materialSecond.value *} </label>
                 </form>
               </li>
+
+              <li class="hero-calc__item">
+                <h3 class="hero-calc__title title title--h3">Количество проемов</h3>
+                <!-- counter -->
+                <form class="hero-calc__form-counter">
+                    <button type="button" class="btn-reset accordion__btn btn btn--counter"
+                        v-on:click="btnCountMinus(item.id)">
+                        <i class="fa-solid fa-minus"></i>
+                    </button>
+                    <label class="label label--mini label--counter">
+                        <input class="input-reset range__amount input" onfocus="this.value=''" :id="'countAperture'+item.id"
+                            type="number" 
+                            v-on:input="inputCountAperture(item.id)">
+                        <div class="tooltip">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span class="tooltip__text">Введите кол-во проемов</span>
+                        </div>
+                    </label>
+                    <button type="button" v-on:click="btnCountPlus(item.id)"
+                        class="btn-reset accordion__btn btn btn--counter">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </form>
+            </li>
             </ul>
           </div>
           <!-- item-list-total -->
