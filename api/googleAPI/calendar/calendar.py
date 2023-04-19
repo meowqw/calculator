@@ -2,9 +2,11 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 import os
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 class GoogleCalendar:
     SCOPES = ['https://www.googleapis.com/auth/calendar']
-    FILE_PATH = 'calc-384209-8d02386e0430.json'
+    FILE_PATH = os.path.join(BASE_DIR, 'calc-384209-8d02386e0430.json')
 
     def __init__(self):
         credentinals = service_account.Credentials.from_service_account_file(
