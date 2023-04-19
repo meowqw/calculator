@@ -13,6 +13,7 @@ from account.models import Account
 from .serializers import *
 from .models import *
 from rest_framework import status
+from .googleAPI.calendar.calendar import GoogleCalendar
 
 
 class DiametersViewSet(viewsets.ReadOnlyModelViewSet):
@@ -103,4 +104,53 @@ class ClientAPIView(viewsets.ReadOnlyModelViewSet):
         return client
         
     serializer_class = ClientSerializer
+    
+
+class ClientByPhoneAPIView(viewsets.ReadOnlyModelViewSet):
+    serializer_class = ClientSerializer
+
+    def get_queryset(self):
+        phone = self.kwargs['phone']
+        queryset = Client.objects.filter(phone__icontains=phone)
+        return queryset
+    
+    
+    
+    
+class NoteAPIPost(APIView):
+    """Добавить заметку"""
+
+    def post(self, request, *args, **kwargs):
+
+        data = request.data.copy()
+
+        client_note_serializer = ClientNoteSerializer(data=data)
+        if client_note_serializer.is_valid():
+            client_note = client_note_serializer.save()
+            response_serializer = ClientNoteSerializer(client_note)
+            
+            # Создать заметку в календаре 
+            obj = GoogleCalendar()
+            calendar = 'e17ce3cd8c93d5bdc14a516251527b1c5b8436647a8eab6d55cf1f4581c8ae89@group.calendar.google.com'
+            
+            
+            event = {
+                'summary': f'{data["fio"]} {data["phone"]}',
+                'location': f'{data["location"]}',
+                'description': f'{data["note"]}',
+                'start': {
+                    'date': f'{data["date"]}',
+                },
+                'end': {
+                    'date': f'{data["date"]}',
+                }
+            }
+            
+            obj.add_event(calendar_id=calendar, event=event)
+
+            return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(client_note_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    serializer_class = ClientNoteSerializer
     

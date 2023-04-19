@@ -75,3 +75,11 @@ class StartTotalWithoutCoefSerializer(serializers.ModelSerializer):
         model = StartTotalWithoutCoef
         fields = '__all__'
         
+
+
+class ClientNoteSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = ClientNote
+        fields = '__all__'
+        

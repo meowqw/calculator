@@ -15,7 +15,11 @@ urlpatterns = [
    path('StartTotalList/', StartTotalViewSet.as_view({'get': 'list'})),
    path('DimeterSecondCalcList/', DiameterSecondCalcViewSet.as_view({'get': 'list'})),
    path('client/', ClientAPIPost.as_view()),
+   path('clientNote/', NoteAPIPost.as_view()),
+   
    path('client/<int:id>', ClientAPIView.as_view({'get': 'list'})),
+   path('clientByPhone/<str:phone>', ClientByPhoneAPIView.as_view({'get': 'list'})),
+   
    path('StartTotal/', StartTotalWithoutCoefViewSet.as_view({'get': 'list'})),
    
 ]

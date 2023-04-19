@@ -42,13 +42,19 @@ new Vue({
 
     coefOn: false,
 
+    /* CLIENT */
+
     clientData: {
       fio: "",
       email: "",
       phone: "",
-      order_list: {},
       note: "",
+      id: null,
+      client: null,
+      date: null,
     },
+
+    clients: [],
 
     noteCalcOne: "",
     noteCalcTwo: "",
@@ -611,6 +617,7 @@ new Vue({
         circleCount: 0,
         total: 0,
         circlePrice: 0,
+        count: 1,
         id: this.countSecondCalc,
       };
       await this.itemsSecondCalc.push(item);
@@ -659,8 +666,8 @@ new Vue({
             this.itemsSecondCalc[i].thickness *
             this.itemsSecondCalc[i].material.price;
           this.itemsSecondCalc[i].total =
-            this.itemsSecondCalc[i].circlePrice *
-            this.itemsSecondCalc[i].circleCount;
+            (this.itemsSecondCalc[i].circlePrice *
+              this.itemsSecondCalc[i].circleCount) * this.itemsSecondCalc[i].count;
         }
       }
 
@@ -744,7 +751,7 @@ new Vue({
         if (this.itemsSecondCalc[i].id == id) {
           this.itemsSecondCalc[i].circleCount = Math.ceil(
             this.itemsSecondCalc[i].perimeter /
-              Number(this.diameterSecondCalc.value / 10)
+            Number(this.diameterSecondCalc.value / 10)
           );
         }
       }
@@ -752,8 +759,50 @@ new Vue({
       this.calculateTotalSecondCalc(id);
     },
 
+    // кол - во проемов 
+    btnCountMinusAperture: function (id) {
+      for (let i in this.itemsSecondCalc) {
+        if (this.itemsSecondCalc[i].id == id) {
+          this.itemsSecondCalc[i].count -= 1
+        }
+      }
+      this.calculateTotalSecondCalc(id);
+
+    },
+
+    btnCountPlusAperture: function (id) {
+      for (let i in this.itemsSecondCalc) {
+        if (this.itemsSecondCalc[i].id == id) {
+          this.itemsSecondCalc[i].count += 1
+        }
+      }
+      this.calculateTotalSecondCalc(id);
+    },
+
+    inputCountAperture: function (id) {
+      let input = Number(document.getElementById('countAperture' + id).value)
+      for (let i in this.itemsSecondCalc) {
+        if (this.itemsSecondCalc[i].id == id) {
+          this.itemsSecondCalc[i].count = input
+        }
+      }
+      this.calculateTotalSecondCalc(id);
+    },
+
+
+    // CLIENT
+
+    enterPhone: async function () {
+      this.clientData.id = null;
+      if (this.clientData.phone.length > 0) {
+        let clients = await this.getData(`/api/v1/clientByPhone/${this.clientData.phone}`)
+        this.clients = clients.data
+      }
+    },
+
     // method for post request
     postData: async function (url, data) {
+
       token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
 
       const response = await fetch(url, {
@@ -765,17 +814,59 @@ new Vue({
         method: "POST",
       });
 
-      // return response.json();
+      return response.json();
     },
     clearClientData: function (data) {
+      if (data == 'phone') {
+        this.clientData.id = null;
+      }
       this.clientData[data] = "";
     },
 
-    // CLIENT
     postClientData: async function () {
-      this.postData("/api/v1/client/", this.clientData);
-      document.getElementById("msgDataIsSaved").style.display = "";
+      if (this.clientData.id == null) {
+        let client = await this.postData("/api/v1/client/", this.clientData);
+        document.getElementById("msgDataIsSaved").style.display = "";
+
+        if (this.clientData.note.length > 0) {
+          this.clientData.client = client.id;
+          this.clientData.location = this.result.remoteness.value;
+
+          await this.postData("/api/v1/clientNote/", this.clientData);
+        }
+
+      } else {
+        if (this.clientData.note.length > 0) {
+          this.clientData.client = this.clientData.id
+          this.clientData.location = this.result.remoteness.value;
+
+          await this.postData("/api/v1/clientNote/", this.clientData);
+        }
+      }
+
+
+      setTimeout(function () {
+        document.getElementById("msgDataIsSaved").style.display = "none";
+      }, 1500);
     },
+
+    phoneSelect: function (id) {
+      let client = {}
+      for (let i in this.clients) {
+        if (this.clients[i].id == id) {
+          client = this.clients[i]
+        }
+      }
+
+      this.clientData.phone = client.phone
+      this.clientData.fio = client.fio
+      this.clientData.email = client.email
+      this.clientData.id = client.id
+
+
+      this.clients = []
+    },
+
   },
   async mounted() {
     let script = document.createElement("script");
@@ -827,7 +918,7 @@ new Vue({
 
     this.materialSecondCalc =
       diameterSecondCalc.data[0].material[
-        diameterSecondCalc.data[0].material.length - 1
+      diameterSecondCalc.data[0].material.length - 1
       ];
   },
   watch: {

@@ -67,6 +67,13 @@ class StartTotalWithoutCoefAdmin(admin.ModelAdmin):
     filter_horizontal = ()
     list_filter = ()
     fieldsets = ()
+    
+class ClientNoteAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in ClientNote._meta.fields]
+
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
 
 admin.site.register(Diameters, DiametersAdmin)
 admin.site.register(Coefficients, CoefficientsAdmin)
@@ -77,6 +84,8 @@ admin.site.register(StartTotal, StartTotalAdmin)
 admin.site.register(DiameterSecondCalc, DiameterSecondCalcAdmin)
 admin.site.register(Client, ClientAdmin)
 admin.site.register(StartTotalWithoutCoef, StartTotalWithoutCoefAdmin)
+admin.site.register(ClientNote, ClientNoteAdmin)
+
 
 
 
