@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "calculator-384307",
+  "private_key_id": "941e4bfb3eed6f7cea151ae730e6bc4409cdeb50",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCq+K3XLHJRa/h0\nFg8/vCZqWuUXa5HqqldLH/KIAz4dVY76OCSYpXxokCkUVgmhPBYYCMlVWRgYWOSA\n/L1XT0e96EvryUwdvgorUPMa3tpzJLSob+SQMp30Pt+MAazsoaZ/9no05tSjsdq7\nWKGQU7W3gCVs0XLMX5wdEL/5zoMhHKMz+qhMSi6hWfy6WA73UeX2kbdSyJLNNgcr\n+HLUZH50qjMRMpE+61uRqCazr7XTVNxf1z9sqSWfHTrR/722kxRDJJBjNWJX2hoo\nV2TkFGRvoL86oJ2ZEp6wZV0CP6jlf7N/+xqZNpoiUONUsjAW2U7xKJPW5CVFb64Z\naRqBfvONAgMBAAECggEACQUUmskAAPaqxWkSheDFwA+qjWlB6fjxoQd+8pkFMmP8\npovGtnzoitWsLSP63xQ98Ceqg4OvRz2NVJbA4HXQyZ6TPs3AY8NOYwmiwbSnHrL9\nivNYQhlBhwy4G3lNJ7DBiXe168uPxVERQpgC8gvQhu1OTCbioRCcOlZTYnj4Jwt2\n9o6JQd0fn3cUJxVPMJY4glvxOEIMGwZDQ+Wuwx3SjEytybcrPnf41s/1JAi9kUlZ\n0EJsfn9/E245Ry5i2ZBnJTeFv5GHOcx5zNdkAfYigfywdRbdfU2Gm+RrMz7JNfSs\nPK0l24CWNMnv8B9pAYyvgf4p5yPS77h09IfjSg+5wQKBgQDup3CD9dM6n5P9lvat\nZHaabIl+LF+G2aywEScVTrGb7U6bh2udnDJFyYUt79arFEL24UhL2SbOn1Tog4xH\n/5Z5S2pOpv8QxudRvJ1eUg1GwJq2GAEHD8vp9VWPzSMwm25AJnoHiG/7dz/DoIGP\nbFLXpvFT8Tpj+bIoLp/JjTfMLQKBgQC3ZePIkfdXxZlzoZZy8bYCAncFars00TDW\ntEYLKlydJHU9sjUOGG8FNlzzNmZE+nUka/5KsTzYk/SLzpr+9IitW7VyVkXh9faz\nJbS0sOSKZ75eAPKL0yHD/UpJsmQlTrRUHXb3GoQ5y5kC0rTbYmTrtSgdoVe2AEyr\nkYDhJ5aA4QKBgCP7WMp8kMlg7/YnAbAo2nzz6lL8q7ZwMUome+cJg1vIDrcCVuZf\ne3DsLkk7xPjsSCBi3Pyak/BJM4sO8mKUlYJaLYAIS6Ki6pN3RZ7H7jqBpZHY0qbW\n6d6vX6QbwLd+Z8QCSRnDp2aZlyKOm5odMexTvkTytOQH7KWEShEgWo5NAoGAI/qY\nMkv4gz6fuSCVPF2RAFntcaGbsmPrueNJ7nzUCHwTiBQC9o3ykco1d/1PGO8ttgR9\nsbeNoUt9aUQSAjyE58WbFiA4u3ieekzGY8BkRYbOwPBcpPO5pxJ01XpqzSrgk7Po\nF9ga4p+/l98wXe2ysM8sXIu/glQStoHoD8PNceECgYBC/wkydwa62NVqOl0SciEO\nOjwc+RWSVEZaxzHLYPpJgbDYomB3lk3kexaUsspnZ4aNy0JYS+j7Gf6r1sWB0SLN\nLKkMgQok/7373utaA9lfmm2BdMp3iKN38BLW4iBcsApsMZpeR0rAQ/3z500KSxIV\nuyRDmsHTd/BhjHDKmkGZGw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "calc-calendar@calculator-384307.iam.gserviceaccount.com",
+  "client_id": "103876607512367187734",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/calc-calendar%40calculator-384307.iam.gserviceaccount.com"
+}

@@ -131,22 +131,24 @@ class NoteAPIPost(APIView):
             
             # Создать заметку в календаре 
             obj = GoogleCalendar()
-            calendar = 'e17ce3cd8c93d5bdc14a516251527b1c5b8436647a8eab6d55cf1f4581c8ae89@group.calendar.google.com'
+            calendar = 'almazbetonstroi@yandex.ru'
             
-            
-            event = {
-                'summary': f'{data["fio"]} {data["phone"]}',
-                'location': f'{data["location"]}',
-                'description': f'{data["note"]}',
-                'start': {
-                    'date': f'{data["date"]}',
-                },
-                'end': {
-                    'date': f'{data["date"]}',
+            try:
+                event = {
+                    'summary': f'{data["time"]} {data["phone"]}',
+                    'location': f'{data["location"]}',
+                    'description': f'{data["note"]}',
+                    'start': {
+                        'date': f'{data["date"]}',
+                    },
+                    'end': {
+                        'date': f'{data["date"]}',
+                    }
                 }
-            }
-            
-            obj.add_event(calendar_id=calendar, event=event)
+                
+                obj.add_event(calendar_id=calendar, event=event)
+            except Exception as e:
+                print(e)
 
             return Response(response_serializer.data, status=status.HTTP_201_CREATED)
         else:

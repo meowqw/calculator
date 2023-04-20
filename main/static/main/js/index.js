@@ -52,6 +52,7 @@ new Vue({
       id: null,
       client: null,
       date: null,
+      time: null,
     },
 
     clients: [],
@@ -836,6 +837,7 @@ new Vue({
         }
 
       } else {
+        document.getElementById("msgDataIsSaved").style.display = "";
         if (this.clientData.note.length > 0) {
           this.clientData.client = this.clientData.id
           this.clientData.location = this.result.remoteness.value;
@@ -843,8 +845,6 @@ new Vue({
           await this.postData("/api/v1/clientNote/", this.clientData);
         }
       }
-
-
       setTimeout(function () {
         document.getElementById("msgDataIsSaved").style.display = "none";
       }, 1500);

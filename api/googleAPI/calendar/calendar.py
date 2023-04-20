@@ -6,7 +6,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class GoogleCalendar:
     SCOPES = ['https://www.googleapis.com/auth/calendar']
-    FILE_PATH = os.path.join(BASE_DIR, 'calc-384209-8d02386e0430.json')
+    FILE_PATH = os.path.join(BASE_DIR, 'calculator-384307-941e4bfb3eed.json')
 
     def __init__(self):
         credentinals = service_account.Credentials.from_service_account_file(
