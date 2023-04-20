@@ -364,10 +364,17 @@
         <button type="button" class="btn-reset btn sidebar-btn-active" v-on:click="openDataSendPanel()" id="openDataSendPanel">Открыть</button>
 
         <div class="sidebar" id="sidebar">
-            <span style="float: right; cursor: pointer;" v-on:click="closeDataSendPanel()">x</span>
+
+            
+            
+            <b style="float: right; cursor: pointer; color: red" v-on:click="closeDataSendPanel()">X</b>
+            <b type="button" style="float: right; cursor: pointer; margin-right: 20px;"
+                    v-on:click="postClientData()">Сохранить</b>
             <h2 class="sidebar__title">Примечание</h2>
             
             <form class="form sidebar__form">
+                
+
                 <label class="form__label label">
                     <span>Номер телефона</span>
                     <input type="tel" v-model="clientData.phone" v-on:input="enterPhone" name="Номер телефона"
@@ -435,8 +442,7 @@
                     </button>
                 </label>
 
-                <button type="button" class="btn-reset sidebar__btn btn"
-                    v-on:click="postClientData()">Сохранить</button>
+                
                 <span style="display: none;" id="msgDataIsSaved">Данные сохранены</span>
                 <span style="display: none; color: red;" id="msgNoDateOrTime">Нет дата/время</span>
 
