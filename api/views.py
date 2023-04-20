@@ -132,19 +132,21 @@ class NoteAPIPost(APIView):
             # Создать заметку в календаре 
             obj = GoogleCalendar()
             calendar = 'almazbetonstroi@yandex.ru'
-            
+            print(data['time'])
             try:
                 event = {
                     'summary': f'{data["fio"]} {data["phone"]}',
                     'location': f'{data["location"]}',
                     'description': f'{data["note"]}',
                     'start': {
-                        'dateTime': f'{data["date"]}T{data["time"]}',
+                        'dateTime': f'{data["date"]}T{data["time"]}:00',
                         'timeZone': 'Europe/Moscow',
+                        # 'date': f'{data["date"]}',
                     },
                     'end': {
-                        'dateTime': f'{data["date"]}T{data["time"]}',
+                        'dateTime': f'{data["date"]}T{data["time"]}:00',
                         'timeZone': 'Europe/Moscow',
+                        # 'date': f'{data["date"]}',
                     }
                 }
                 

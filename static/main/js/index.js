@@ -825,29 +825,40 @@ new Vue({
     },
 
     postClientData: async function () {
-      if (this.clientData.id == null) {
-        let client = await this.postData("/api/v1/client/", this.clientData);
-        document.getElementById("msgDataIsSaved").style.display = "";
 
-        if (this.clientData.note.length > 0) {
-          this.clientData.client = client.id;
-          this.clientData.location = this.result.remoteness.value;
+      if (this.clientData.time != null && this.clientData.date != null) {
+        if (this.clientData.id == null) {
+          let client = await this.postData("/api/v1/client/", this.clientData);
+          document.getElementById("msgDataIsSaved").style.display = "";
 
-          await this.postData("/api/v1/clientNote/", this.clientData);
+          if (this.clientData.note.length > 0) {
+            this.clientData.client = client.id;
+            this.clientData.location = this.result.remoteness.value;
+
+            await this.postData("/api/v1/clientNote/", this.clientData);
+          }
+
+        } else {
+          document.getElementById("msgDataIsSaved").style.display = "";
+          if (this.clientData.note.length > 0) {
+            this.clientData.client = this.clientData.id
+            this.clientData.location = this.result.remoteness.value;
+
+            await this.postData("/api/v1/clientNote/", this.clientData);
+          }
         }
-
+        setTimeout(function () {
+          document.getElementById("msgDataIsSaved").style.display = "none";
+        }, 1500);
+        
       } else {
-        document.getElementById("msgDataIsSaved").style.display = "";
-        if (this.clientData.note.length > 0) {
-          this.clientData.client = this.clientData.id
-          this.clientData.location = this.result.remoteness.value;
+        document.getElementById("msgNoDateOrTime").style.display = "";
 
-          await this.postData("/api/v1/clientNote/", this.clientData);
-        }
+        setTimeout(function () {
+          document.getElementById("msgNoDateOrTime").style.display = "none";
+        }, 1500);
+
       }
-      setTimeout(function () {
-        document.getElementById("msgDataIsSaved").style.display = "none";
-      }, 1500);
     },
 
     closeDataSendPanel: function () {
