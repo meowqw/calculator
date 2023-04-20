@@ -361,10 +361,12 @@
         </section>
 
         <!-- sidebar -->
-        <button type="button" class="btn-reset btn sidebar-btn-active">Открыть</button>
+        <button type="button" class="btn-reset btn sidebar-btn-active" v-on:click="openDataSendPanel()" id="openDataSendPanel">Открыть</button>
 
-        <div class="sidebar">
+        <div class="sidebar" id="sidebar">
+            <span style="float: right; cursor: pointer;" v-on:click="closeDataSendPanel()">x</span>
             <h2 class="sidebar__title">Примечание</h2>
+            
             <form class="form sidebar__form">
                 <label class="form__label label">
                     <span>Номер телефона</span>
@@ -436,7 +438,11 @@
                 <button type="button" class="btn-reset sidebar__btn btn"
                     v-on:click="postClientData()">Сохранить</button>
                 <span style="display: none;" id="msgDataIsSaved">Данные сохранены</span>
+
+                
             </form>
+
+            
         </div>
 
     </main>

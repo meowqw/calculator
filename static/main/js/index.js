@@ -850,6 +850,16 @@ new Vue({
       }, 1500);
     },
 
+    closeDataSendPanel: function () {
+      document.getElementById('sidebar').className = "sidebar";
+      document.getElementById('openDataSendPanel').innerHTML = "Открыть";
+      document.getElementById('openDataSendPanel').style.display = "";
+    },
+
+    openDataSendPanel: function () {
+      document.getElementById('openDataSendPanel').style.display = "none";
+    },
+
     phoneSelect: function (id) {
       let client = {}
       for (let i in this.clients) {
