@@ -859,14 +859,18 @@ new Vue({
         }
         setTimeout(function () {
           document.getElementById("msgDataIsSaved").style.display = "none";
-        }, 1500);
+        }, 2000);
+
+
+        this.clientData.date = null;
+        this.clientData.time = null;
 
       } else {
         document.getElementById("msgNoDateOrTime").style.display = "";
 
         setTimeout(function () {
           document.getElementById("msgNoDateOrTime").style.display = "none";
-        }, 1500);
+        }, 2000);
 
       }
     },

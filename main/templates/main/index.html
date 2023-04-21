@@ -361,24 +361,31 @@
         </section>
 
         <!-- sidebar -->
-        <button type="button" class="btn-reset btn sidebar-btn-active" v-on:click="openDataSendPanel()" id="openDataSendPanel">Открыть</button>
+        <button type="button" class="btn-reset btn sidebar-btn-active" v-on:click="openDataSendPanel()"
+            id="openDataSendPanel">Открыть</button>
 
         <div class="sidebar" id="sidebar">
 
-            
-            
+
+
             <b style="float: right; cursor: pointer; color: red" v-on:click="closeDataSendPanel()">X</b>
             <b type="button" style="float: right; cursor: pointer; margin-right: 20px;"
-                    v-on:click="postClientData()">Сохранить</b>
+                v-on:click="postClientData()">Сохранить</b>
             <h2 class="sidebar__title">Примечание</h2>
-            
+
+            <div style="margin-bottom: 10px;">
+                <b style="display: none; color: green; font-size: large;" id="msgDataIsSaved">Данные сохранены</b>
+                <b style="display: none; color: red; font-size: large;" id="msgNoDateOrTime">Нет дата/время</b>
+            </div>
+
             <form class="form sidebar__form">
-                
+
 
                 <label class="form__label label">
                     <span>Номер телефона</span>
                     <input type="tel" v-model="clientData.phone" v-on:input="enterPhone" name="Номер телефона"
-                        class="input-reset input sidebar__input" placeholder="Номер телефона" id="tel" v-mask="'+7(###)###-##-##'" required>
+                        autocomplete="off" class="input-reset input sidebar__input" placeholder="Номер телефона"
+                        id="tel" v-mask="'+7(###)###-##-##'" required>
                     <button type="button" class="btn-reset sidebar__btn-clean" v-on:click="clearClientData('phone')"
                         onclick="document.getElementById('tel').value = ''" style="display: none" id="tel-btn">
                         <i class="fa-solid fa-xmark"></i>
@@ -386,7 +393,8 @@
                     <div class="">
                         <ul class="" style="display: block">
                             <li v-for="client in clients" style="cursor: pointer; border: 1px solid #ccc;
-                            border-radius: 5px; margin-left: -30px; list-style-type: none;" v-on:click="phoneSelect(client.id)" class="">{* client.phone *}</li>
+                            border-radius: 5px; margin-left: -30px; list-style-type: none;"
+                                v-on:click="phoneSelect(client.id)" class="">{* client.phone *}</li>
                         </ul>
                     </div>
 
@@ -396,8 +404,8 @@
 
                 <label class="form__label label">
                     <span>ФИО клиента</span>
-                    <input type="text" v-model="clientData.fio" name="ФИО" class="input-reset input sidebar__input"
-                        placeholder="Фамилия, Имя, Отчество" id="name">
+                    <input type="text" autocomplete="off" v-model="clientData.fio" name="ФИО"
+                        class="input-reset input sidebar__input" placeholder="Фамилия, Имя, Отчество" id="name">
                     <button type="button" class="btn-reset sidebar__btn-clean" v-on:click="clearClientData('fio')"
                         onclick="document.getElementById('name').value = ''" style="display: none" id="name-btn">
                         <i class="fa-solid fa-xmark"></i>
@@ -405,8 +413,8 @@
                 </label>
                 <label class="form__label label">
                     <span>Email клиента</span>
-                    <input v-model="clientData.email" type="email" name="Почта" class="input-reset input sidebar__input"
-                        placeholder="Почта" id="mail">
+                    <input autocomplete="off" v-model="clientData.email" type="email" name="Почта"
+                        class="input-reset input sidebar__input" placeholder="Почта" id="mail">
                     <button type="button" class="btn-reset sidebar__btn-clean" v-on:click="clearClientData('email')"
                         onclick="document.getElementById('mail').value = ''" style="display: none" id="mail-btn">
                         <i class="fa-solid fa-xmark"></i>
@@ -442,15 +450,14 @@
                     </button>
                 </label>
 
-                
-                <span style="display: none;" id="msgDataIsSaved">Данные сохранены</span>
-                <span style="display: none; color: red;" id="msgNoDateOrTime">Нет дата/время</span>
 
 
-                
+
+
+
             </form>
 
-            
+
         </div>
 
     </main>

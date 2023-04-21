@@ -86,15 +86,22 @@ class ClientAPIPost(APIView):
     def post(self, request, *args, **kwargs):
 
         data = request.data.copy()
-
-        cleint_serializer = ClientSerializer(data=data)
-        if cleint_serializer.is_valid():
-            client = cleint_serializer.save()
-            response_serializer = ClientSerializer(client)
-
-            return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+        
+        clientByPhone = Client.objects.filter(phone=data['phone']).first()
+        if clientByPhone:
+            response_serializer = ClientSerializer(clientByPhone)
+            return Response(response_serializer.data, status=status.HTTP_200_OK)
+        
         else:
-            return Response(cleint_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+            cleint_serializer = ClientSerializer(data=data)
+            if cleint_serializer.is_valid():
+                client = cleint_serializer.save()
+                response_serializer = ClientSerializer(client)
+
+                return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(cleint_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     serializer_class = ClientSerializer
     
