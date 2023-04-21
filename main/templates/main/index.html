@@ -378,7 +378,7 @@
                 <label class="form__label label">
                     <span>Номер телефона</span>
                     <input type="tel" v-model="clientData.phone" v-on:input="enterPhone" name="Номер телефона"
-                        class="input-reset input sidebar__input" placeholder="Номер телефона" id="tel" pattern="^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$" required>
+                        class="input-reset input sidebar__input" placeholder="Номер телефона" id="tel" v-mask="'+7(###)###-##-##'" required>
                     <button type="button" class="btn-reset sidebar__btn-clean" v-on:click="clearClientData('phone')"
                         onclick="document.getElementById('tel').value = ''" style="display: none" id="tel-btn">
                         <i class="fa-solid fa-xmark"></i>

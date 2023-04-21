@@ -150,7 +150,7 @@ class NoteAPIPost(APIView):
                     }
                 }
                 
-                obj.add_event(calendar_id=calendar, event=event)
+                # obj.add_event(calendar_id=calendar, event=event)
             except Exception as e:
                 print(e)
 

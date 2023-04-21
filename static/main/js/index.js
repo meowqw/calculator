@@ -794,10 +794,20 @@ new Vue({
     // CLIENT
 
     enterPhone: async function () {
+      if (this.clientData.phone.length > 10 && this.clientData.phone[0] == '8') {
+        this.clientData.phone = this.clientData.phone.slice(1);
+
+      }
+
       this.clientData.id = null;
       if (this.clientData.phone.length > 0) {
         let clients = await this.getData(`/api/v1/clientByPhone/${this.clientData.phone}`)
         this.clients = clients.data
+
+        if (this.clientData.phone.length == 16 && clients.data.length >= 1) {
+          this.phoneSelect(clients.data[0].id);
+          
+        }
       }
     },
 
@@ -850,7 +860,7 @@ new Vue({
         setTimeout(function () {
           document.getElementById("msgDataIsSaved").style.display = "none";
         }, 1500);
-        
+
       } else {
         document.getElementById("msgNoDateOrTime").style.display = "";
 
