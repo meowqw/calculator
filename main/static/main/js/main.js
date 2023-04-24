@@ -254,13 +254,17 @@ jQuery($ => {
 
 const sidebar = document?.querySelector('.sidebar');
 const sidebarBtn = document?.querySelector('.sidebar-btn-active');
+const btnClose = document?.querySelector('[data-btn-close]');
+const pageBody = document?.querySelector('.page__body');
+btnClose.addEventListener('click', () => {
+  sidebar.classList.toggle('sidebar--active');
+  sidebarBtn.style.display = "block";
+  pageBody.style.overflow = null;
+});
 sidebarBtn.addEventListener('click', () => {
   sidebar.classList.toggle('sidebar--active');
-  if (sidebarBtn.innerHTML === 'Открыть') {
-    sidebarBtn.innerHTML = 'Закрыть';
-  } else {
-    sidebarBtn.innerHTML = 'Открыть';
-  }
+  sidebarBtn.style.display = "none";
+  pageBody.style.overflow = "hidden";
 });
 const cleanInfo = (cleanInput, cleanBtn) => {
   cleanInput.addEventListener('input', () => {
