@@ -117,7 +117,7 @@ class Client(models.Model):
 
 
 class ClientNote(models.Model):
-    note = models.TextField('Заметка', max_length=500, blank=True, null=True)
+    note = models.TextField('Заметка', max_length=5000, blank=True, null=True)
     date = models.DateField('Дата', blank=True, null=True)
     time = models.TimeField('Время', blank=True, null=True)
     client = models.ForeignKey(
