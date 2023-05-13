@@ -143,7 +143,7 @@ class NoteAPIPost(APIView):
             try:
                 event = {
                     'summary': f'{data["fio"]} {data["phone"]}',
-                    'location': f'{data["location"]}',
+                    'location': f'{data["address"]}',
                     'description': f'{data["note"]}',
                     'start': {
                         'dateTime': f'{data["date"]}T{data["time"]}:00',

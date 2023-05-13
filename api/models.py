@@ -120,6 +120,7 @@ class ClientNote(models.Model):
     note = models.TextField('Заметка', max_length=5000, blank=True, null=True)
     date = models.DateField('Дата', blank=True, null=True)
     time = models.TimeField('Время', blank=True, null=True)
+    address = models.CharField('Адрес', max_length=400, blank=True, null=True)
     client = models.ForeignKey(
         Client, blank=True, null=True, on_delete=models.SET_NULL)
 
