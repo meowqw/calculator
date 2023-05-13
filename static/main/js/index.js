@@ -53,6 +53,7 @@ new Vue({
       client: null,
       date: null,
       time: null,
+      address: ""
     },
 
     clients: [],
