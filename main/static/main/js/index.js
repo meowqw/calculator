@@ -461,6 +461,15 @@ new Vue({
       ymaps = window.ymaps;
       var suggestView1 = new ymaps.SuggestView("remValue");
     },
+
+    // input удалееность от МКАД
+    inputRemotenessValueSidebar: function () {
+      // Authocomplete location in input
+      ymaps = window.ymaps;
+      var suggestView1 = new ymaps.SuggestView("remValueSidebar");
+    },
+
+
     getData: async function (url) {
       try {
         const response = await axios.get(url);
@@ -836,6 +845,11 @@ new Vue({
     },
 
     postClientData: async function () {
+      
+      // берем адрес из поля адрес
+      let address = document.getElementById('remValueSidebar').value
+      this.clientData.address = address;
+
 
       if (this.clientData.time != null && this.clientData.date != null) {
         if (this.clientData.id == null) {

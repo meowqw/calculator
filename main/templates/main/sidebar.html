@@ -74,8 +74,12 @@
 
         <label class="form__label label">
             <span>Адрес</span>
-            <input type="text" autocomplete="off" v-model="clientData.address" name="Адрес"
-                class="input-reset input sidebar__input" placeholder="Адрес" id="address">
+            {% comment %} <input type="text" autocomplete="off" v-model="clientData.address" name="Адрес"
+                class="input-reset input sidebar__input" placeholder="Адрес" id="address"> {% endcomment %}
+
+                <input type="text" id="remValueSidebar" name="название" v-on:input="inputRemotenessValueSidebar()"
+                class="input-reset input distance__input form__input" placeholder="Адрес" value="">
+
             <button type="button" v-on:click="clearClientData('address')" class="btn-reset sidebar__btn-clean"
                 onclick="document.getElementById('address').value = ''" style="display: none" id="mail-btn">
                 <i class="fa-solid fa-xmark"></i>
