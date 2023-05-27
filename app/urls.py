@@ -10,6 +10,8 @@ urlpatterns = [
 
     # main
     path('', include('main.urls')),
+    path('lk', include('lk.urls')),
+    
 
     # api
     path('api/v1/', include('api.urls')),

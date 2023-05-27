@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',  # main app
     'account.apps.AccountConfig',  # custom auth
     'api.apps.ApiConfig',  # api app
+    'lk.apps.LkConfig',  # api app
 ]
 
 MIDDLEWARE = [

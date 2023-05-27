@@ -1,0 +1,1291 @@
+{% extends 'lk/base.html' %} {% block content %} {% load static %}
+<main class="main">
+  <header class="header">
+    <div
+      class="container-fluid header__container section-container section-container--no-border"
+    >
+      <button class="btn-reset sidebar-btn">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <h1 class="header__title title title--h1">Список клиентов</h1>
+    </div>
+  </header>
+
+  <div class="container calculator__container">
+    <div class="calculator__left">
+      <section class="result">
+        <div class="container result__container">
+          <div class="result-block section-container">
+            <div class="result-block__top">
+              <h3 class="result-block__title">Стоимость калькулятора 1:</h3>
+              <span class="result-block__price">5000 руб</span>
+            </div>
+            <!-- новый блок - 1 -->
+            <div class="result-block__top">
+              <h3 class="result-block__title">Стоимость калькулятора 2:</h3>
+              <span class="result-block__price">5000 руб</span>
+            </div>
+            <ul class="list-reset result-block__list">
+              <li class="result-block__item result-item">
+                <div class="result-item__name">
+                  Дополнительные работы:
+                  <span class="result-item__value"
+                    >Доставка строительных лесов (1)</span
+                  >
+                </div>
+                <div class="result-item__price">700 руб</div>
+              </li>
+              <li class="result-block__item result-item">
+                <div class="result-item__name">
+                  Удаленность от МКАД:
+                  <span class="result-item__value">50 км</span>
+                </div>
+                <div class="result-item__price">700 руб</div>
+              </li>
+            </ul>
+            <!-- итоговая стоимость-->
+            <div class="result-block__total">
+              <h3 class="result-block__title result-block__title--total">
+                Итоговая стоимость:
+              </h3>
+              <span class="result-block__price result-block__price--total"
+                >10000 руб</span
+              >
+            </div>
+          </div>
+          <!-- <button class="btn-reset btn result__btn">Рассчитать стоимость</button> -->
+          <div class="result-block__bottom">
+            <button
+              class="btn-reset btn result-block__btn-estimate"
+              data-graph-path="estimate"
+            >
+              Смета
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="calculator__right">
+      <div class="tabs" data-tabs="tab">
+        <ul class="list-reset tabs__nav">
+          <li class="tabs__nav-item">
+            <h3 class="tabs__nav-title">Тип калькулятора:</h3>
+          </li>
+          <li class="tabs__nav-item">
+            <button
+              class="tabs__nav-btn btn-reset btn btn--table"
+              type="button"
+            >
+              Стоимость
+            </button>
+          </li>
+          <li class="tabs__nav-item">
+            <button
+              class="tabs__nav-btn btn-reset btn btn--table"
+              type="button"
+            >
+              Периметр
+            </button>
+          </li>
+        </ul>
+        <div class="tabs__content">
+          <div class="tabs__panel">
+            <section class="hero">
+              <div class="container hero__container">
+                <!-- item -->
+                <div class="hero__item">
+                  <!-- accordion-btn -->
+                  <button class="btn-reset accordion hero__accordion">
+                    <div class="hero__accordion-content">
+                      Стоимость: 0
+                      <span>Кол-во:<span>1</span></span>
+                    </div>
+                  </button>
+                  <!-- accordion-content -->
+                  <div class="panel hero__panel">
+                    <div class="hero__left">
+                      <ul class="list-reset hero-calc__list">
+                        <li class="hero-calc__item">
+                          <h3 class="hero-calc__title title title--h3">
+                            Коэффициенты
+                          </h3>
+                          <form action="#" class="hero-calc__form">
+                            <div class="select">
+                              <input
+                                type="hidden"
+                                name=""
+                                class="select__input"
+                              />
+                              <div id="0" class="select__head">
+                                Сверление бетона марки М400 и более
+                              </div>
+                              <ul
+                                id="0"
+                                class="select__list"
+                                style="display: none"
+                              >
+                                <li class="select__item">Не выбрано</li>
+                                <li class="select__item">
+                                  Алмазное сверление с водосборным кольцом
+                                  пылесосом
+                                </li>
+                                <li class="select__item">
+                                  Сверление отверстий глубиной от 500 мм и более
+                                </li>
+                                <li class="select__item">
+                                  Высокая армированность. (арматура толщиной
+                                  от 16 мм. и более)
+                                </li>
+                                <li class="select__item">
+                                  Сверление в труднодоступных местах (яма,
+                                  чердак, подвал и т. п.)
+                                </li>
+                                <li class="select__item">
+                                  Высотное сверление от 2.5 м. и более
+                                </li>
+                                <li class="select__item">Отсуствие воды</li>
+                                <li class="select__item">
+                                  При работе в зимних условиях. (в стоимость
+                                  не входит незамерзающая житкость)
+                                </li>
+                                <li class="select__item">
+                                  Сверление бетона марки М400 и более
+                                </li>
+                                <li class="select__item">
+                                  При необходимости работать в ночное время
+                                  с 22:00 до 08:00 ч
+                                </li>
+                                <li class="select__item">
+                                  При отсутствии электроэнергии
+                                  (с бензогенератором без стоимости бензина)
+                                </li>
+                                <li class="select__item">
+                                  Без сверления отверстий под анкер, крепление
+                                  установки вакуумной плитой
+                                </li>
+                                <li class="select__item">
+                                  Сухим способом, армированный бетон, арматура
+                                  не более 16 мм и двух слоев
+                                </li>
+                                <li class="select__item">
+                                  Сухим способом, кирпич/газоблок
+                                </li>
+                                <li class="select__item">
+                                  Сверление снизу вверх
+                                </li>
+                                <li class="select__item">
+                                  сверление под углом более 5 градусов
+                                </li>
+                              </ul>
+                            </div>
+                          </form>
+                        </li>
+                        <!-- item--new -->
+                        <li class="hero-calc__item">
+                          <h3 class="hero-calc__title title title--h3">
+                            Новый итем
+                          </h3>
+                          <form action="#" class="hero-calc__form"></form>
+                        </li>
+                        <!-- item-diameter -->
+                        <li class="hero-calc__item">
+                          <h3 class="hero-calc__title title title--h3">
+                            Диаметр коронки
+                          </h3>
+                          <form
+                            action="#"
+                            class="hero-calc__form hero-calc__form--diameter"
+                          >
+                            <label class="custom-checkbox hero-calc__form-item">
+                              <input
+                                type="radio"
+                                name="crown"
+                                class="custom-checkbox__field"
+                              />
+                              <span
+                                class="custom-checkbox__content custom-checkbox__content--radio"
+                              ></span>
+                              20 см
+                            </label>
+                            <label class="custom-checkbox hero-calc__form-item">
+                              <input
+                                type="radio"
+                                name="crown"
+                                class="custom-checkbox__field"
+                              />
+                              <span
+                                class="custom-checkbox__content custom-checkbox__content--radio"
+                              ></span>
+                              30 см
+                            </label>
+                          </form>
+                        </li>
+                        <!-- item-thickness -->
+                        <li class="hero-calc__item">
+                          <h3 class="hero-calc__title title title--h3">
+                            Толщина стены
+                          </h3>
+                          <form class="hero-calc__form">
+                            <div class="range">
+                              <input
+                                class="range__slider"
+                                id="slider"
+                                max="200"
+                                min="0"
+                                oninput="amount.value=slider.value"
+                                type="range"
+                                value="0"
+                              />
+                              <label class="label" for="amount">
+                                <input
+                                  class="input-reset range__amount input"
+                                  id="amount"
+                                  oninput="slider.value=amount.value"
+                                  type="number"
+                                  value="0"
+                                />
+                                <div class="tooltip">
+                                  <i class="fa-solid fa-circle-info"></i>
+                                  <span class="tooltip__text">Сантиметров</span>
+                                </div>
+                              </label>
+                            </div>
+                          </form>
+                        </li>
+                        <!-- item-holes -->
+                        <li class="hero-calc__item">
+                          <h3 class="hero-calc__title title title--h3">
+                            Количество отверстий
+                          </h3>
+                          <!-- counter -->
+                          <form class="hero-calc__form-counter">
+                            <button
+                              class="btn-reset accordion__btn btn btn--counter"
+                            >
+                              <i class="fa-solid fa-minus"></i>
+                            </button>
+                            <label class="label label--mini label--counter">
+                              <input
+                                class="input-reset range__amount input"
+                                type="number"
+                                value="0"
+                              />
+                              <div class="tooltip">
+                                <i class="fa-solid fa-circle-info"></i>
+                                <span class="tooltip__text"
+                                  >Введите кол-во отверстий</span
+                                >
+                              </div>
+                            </label>
+                            <button
+                              class="btn-reset accordion__btn btn btn--counter"
+                            >
+                              <i class="fa-solid fa-plus"></i>
+                            </button>
+                          </form>
+                        </li>
+                        <!-- item-material  -->
+                        <li class="hero-calc__item">
+                          <h3 class="hero-calc__title title title--h3">
+                            Материал стены
+                          </h3>
+                          <form
+                            action="#"
+                            class="hero-calc__form hero-calc__form--material"
+                          >
+                            <label class="custom-checkbox hero-calc__form-item">
+                              <input
+                                type="radio"
+                                name="material"
+                                class="custom-checkbox__field"
+                              />
+                              <span
+                                class="custom-checkbox__content custom-checkbox__content--radio"
+                              ></span>
+                              Кирпич
+                            </label>
+                            <label class="custom-checkbox hero-calc__form-item">
+                              <input
+                                type="radio"
+                                name="material"
+                                class="custom-checkbox__field"
+                              />
+                              <span
+                                class="custom-checkbox__content custom-checkbox__content--radio"
+                              ></span>
+                              Армированный бетон
+                            </label>
+                            <label class="custom-checkbox hero-calc__form-item">
+                              <input
+                                type="radio"
+                                name="material"
+                                class="custom-checkbox__field"
+                              />
+                              <span
+                                class="custom-checkbox__content custom-checkbox__content--radio"
+                              ></span>
+                              Кирпич, Газоблок
+                            </label>
+                          </form>
+                        </li>
+                      </ul>
+                    </div>
+                    <!-- item-list-total -->
+                    <div class="hero__right">
+                      <div class="result-block">
+                        <div class="result-block__top result-block__top--hero">
+                          <h3 class="result-block__title">Стоимость</h3>
+                          <span class="result-block__add"
+                            >Кол-во: <span>2</span></span
+                          >
+                          <span class="result-block__price">5000 руб</span>
+                        </div>
+                        <ul class="list-reset result-block__list">
+                          <li class="result-block__item result-item">
+                            <div class="result-item__name">
+                              Диаметр коронки:
+                              <span class="result-item__value">0 см</span>
+                            </div>
+                            <div class="result-item__price">700 руб</div>
+                          </li>
+                          <li class="result-block__item result-item">
+                            <div class="result-item__name">
+                              Толщина стены:
+                              <span class="result-item__value">0 см</span>
+                            </div>
+                            <div class="result-item__price">700 руб</div>
+                          </li>
+                          <li class="result-block__item result-item">
+                            <div class="result-item__name">
+                              Материал стены:
+                              <span class="result-item__value">Бетон</span>
+                            </div>
+                            <div class="result-item__price">700 руб</div>
+                          </li>
+                          <li class="result-block__item result-item">
+                            <div class="result-item__name">
+                              Коэффициент:
+                              <span class="result-item__value"
+                                >Глубина отверстий менее 20 см</span
+                              >
+                            </div>
+                            <div class="result-item__price">700 руб</div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- btn-delete -->
+                  <button
+                    class="btn-reset accordion__btn btn btn--mini hero__btn"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                  <!-- item-info-mini -->
+                  <div class="hero__item-info">
+                    <ul
+                      class="list-reset result-block__list result-block__list--mini"
+                    >
+                      <li class="result-block__item result-item">
+                        <div class="result-item__name">
+                          <span class="result-item__name-text"
+                            >Д-тр коронки:</span
+                          >
+                          <i class="fa-regular fa-circle">:</i>
+                          <span class="result-item__value">0 см</span>
+                        </div>
+                        <!-- <div class="result-item__price">700 руб</div> -->
+                      </li>
+                      <li class="result-block__item result-item">
+                        <div class="result-item__name">
+                          <span class="result-item__name-text"
+                            >Т-на стены:</span
+                          >
+                          <i class="fa-solid fa-grip-lines-vertical">:</i>
+                          <span class="result-item__value">0 см</span>
+                        </div>
+                        <!-- <div class="result-item__price">700 руб</div> -->
+                      </li>
+                      <li class="result-block__item result-item">
+                        <div class="result-item__name">
+                          <span class="result-item__name-text"
+                            >М-ал стены:</span
+                          >
+                          <i class="fa-regular fa-gem">:</i>
+                          <span class="result-item__value">Бетон</span>
+                        </div>
+                        <!-- <div class="result-item__price">700 руб</div> -->
+                      </li>
+                      <li class="result-block__item result-item">
+                        <div class="result-item__name">
+                          <span class="result-item__name-text">Коэф:</span>
+                          <i class="fa-solid fa-ruler-vertical">:</i>
+                          <span class="result-item__value"
+                            >Глубина отверстий менее 20 см</span
+                          >
+                        </div>
+                        <!-- <div class="result-item__price">700 руб</div> -->
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="hero__bottom">
+                  <button class="btn-reset btn hero__btn">
+                    <i class="fa-solid fa-plus"></i>
+                    Добавить отверстие
+                  </button>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="tabs__panel">
+            <!-- периметр проема-->
+            <section class="perimeter">
+              <div class="container perimeter__container">
+                <!-- item -->
+                <div class="hero__item">
+                  <!-- accordion-btn -->
+                  <button class="btn-reset accordion hero__accordion">
+                    <div class="hero__accordion-content">Стоимость: 0</div>
+                  </button>
+                  <!-- accordion-content -->
+                  <div class="panel hero__panel">
+                    <div class="hero__left">
+                      <ul class="list-reset hero-calc__list">
+                        <!-- item-perimeter -->
+                        <li class="hero-calc__item">
+                          <h3 class="hero-calc__title title title--h3">
+                            Периметр проема
+                          </h3>
+                          <label
+                            class="form__label label perimeter__label perimeter__label--result"
+                          >
+                            <span>Значение</span>
+                            <input
+                              type="text"
+                              name="значение"
+                              class="input-reset input perimeter__input form__input"
+                              placeholder="0"
+                            />
+                            <div class="tooltip">
+                              <i class="fa-solid fa-circle-info"></i>
+                              <span class="tooltip__text"
+                                >Введите значение</span
+                              >
+                            </div>
+                          </label>
+                        </li>
+                        <!-- item-thickness -->
+                        <li class="hero-calc__item">
+                          <h3 class="hero-calc__title title title--h3">
+                            Толщина стены
+                          </h3>
+                          <form class="hero-calc__form">
+                            <div class="range">
+                              <input
+                                class="range__slider"
+                                id="slider"
+                                max="200"
+                                min="0"
+                                oninput="amount.value=slider.value"
+                                type="range"
+                                value="0"
+                              />
+                              <label class="label" for="amount">
+                                <span>Значение, см</span>
+                                <input
+                                  class="input-reset range__amount input"
+                                  id="amount"
+                                  oninput="slider.value=amount.value"
+                                  type="number"
+                                  value="0"
+                                />
+                                <div class="tooltip">
+                                  <i class="fa-solid fa-circle-info"></i>
+                                  <span class="tooltip__text">Сантиметров</span>
+                                </div>
+                              </label>
+                            </div>
+                          </form>
+                        </li>
+                        <!-- item-material  -->
+                        <li class="hero-calc__item">
+                          <h3 class="hero-calc__title title title--h3">
+                            Материал стены
+                          </h3>
+                          <form
+                            action="#"
+                            class="hero-calc__form hero-calc__form--material"
+                          >
+                            <label class="custom-checkbox hero-calc__form-item">
+                              <input
+                                type="radio"
+                                name="material"
+                                class="custom-checkbox__field"
+                              />
+                              <span
+                                class="custom-checkbox__content custom-checkbox__content--radio"
+                              ></span>
+                              Кирпич
+                            </label>
+                            <label class="custom-checkbox hero-calc__form-item">
+                              <input
+                                type="radio"
+                                name="material"
+                                class="custom-checkbox__field"
+                              />
+                              <span
+                                class="custom-checkbox__content custom-checkbox__content--radio"
+                              ></span>
+                              Бетон
+                            </label>
+                            <label class="custom-checkbox hero-calc__form-item">
+                              <input
+                                type="radio"
+                                name="material"
+                                class="custom-checkbox__field"
+                              />
+                              <span
+                                class="custom-checkbox__content custom-checkbox__content--radio"
+                              ></span>
+                              Газоблок
+                            </label>
+                          </form>
+                        </li>
+                      </ul>
+                    </div>
+                    <!-- item-list-total -->
+                    <div class="hero__right">
+                      <div class="result-block">
+                        <div class="result-block__top result-block__top--hero">
+                          <h3 class="result-block__title">Стоимость</h3>
+                          <span class="result-block__price">5000 руб</span>
+                        </div>
+                        <ul class="list-reset result-block__list">
+                          <li class="result-block__item result-item">
+                            <div class="result-item__name">
+                              Кол-во отверстий:
+                              <span class="result-item__value">0 см</span>
+                            </div>
+                            <div class="result-item__price">
+                              Одно отверстие: 700 руб
+                            </div>
+                          </li>
+                          <li class="result-block__item result-item">
+                            <div class="result-item__name">
+                              Площадь проема:
+                              <span class="result-item__value">0 см</span>
+                            </div>
+                            <div class="result-item__price">700 руб</div>
+                          </li>
+                          <li class="result-block__item result-item">
+                            <div class="result-item__name">
+                              Материал стены:
+                              <span class="result-item__value">Бетон</span>
+                            </div>
+                            <div class="result-item__price">700 руб</div>
+                          </li>
+                          <li class="result-block__item result-item">
+                            <div class="result-item__name">
+                              Толщина стены:
+                              <span class="result-item__value">0 см</span>
+                            </div>
+                            <div class="result-item__price">700 руб</div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- btn-delete -->
+                  <button
+                    class="btn-reset accordion__btn btn btn--mini hero__btn"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                  <!-- item-info-mini -->
+                  <div class="hero__item-info">
+                    <ul
+                      class="list-reset result-block__list result-block__list--mini"
+                    >
+                      <li class="result-block__item result-item">
+                        <div class="result-item__name">
+                          <span class="result-item__name-text"
+                            >Кол-во отверстий:</span
+                          >
+                          <i class="fa-regular fa-circle">:</i>
+                          <span class="result-item__value">0 см</span>
+                        </div>
+                        <!-- <div class="result-item__price">700 руб</div> -->
+                      </li>
+                      <li class="result-block__item result-item">
+                        <div class="result-item__name">
+                          <span class="result-item__name-text"
+                            >Т-на стены:</span
+                          >
+                          <i class="fa-solid fa-grip-lines-vertical">:</i>
+                          <span class="result-item__value">0 см</span>
+                        </div>
+                        <!-- <div class="result-item__price">700 руб</div> -->
+                      </li>
+                      <li class="result-block__item result-item">
+                        <div class="result-item__name">
+                          <span class="result-item__name-text"
+                            >М-ал стены:</span
+                          >
+                          <i class="fa-regular fa-gem">:</i>
+                          <span class="result-item__value">Бетон</span>
+                        </div>
+                        <!-- <div class="result-item__price">700 руб</div> -->
+                      </li>
+                      <li class="result-block__item result-item">
+                        <div class="result-item__name">
+                          <span class="result-item__name-text"
+                            >Площадь проема:</span
+                          >
+                          <i class="fa-solid fa-ruler-vertical">:</i>
+                          <span class="result-item__value">Не выбрано</span>
+                        </div>
+                        <!-- <div class="result-item__price">700 руб</div> -->
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="hero__bottom perimeter__bottom">
+                  <button class="btn-reset btn hero__btn">
+                    <i class="fa-solid fa-plus"></i>
+                    Добавить периметр
+                  </button>
+                </div>
+              </div>
+            </section>
+            <!-- периметр проема end -->
+          </div>
+        </div>
+      </div>
+      <section class="coef section-container container">
+        <h2 class="coef__title title title--h3">Дополнительные работы</h2>
+        <form action="#" class="coef__form">
+          <button type="button" class="btn-reset accordion accordion--btn">
+            Дополнительные работы
+          </button>
+          <ul class="list-reset coef__list panel" id="coefList0" style="">
+            <li class="coef__item">
+              <label class="label calc__label" for="coef2">
+                Алмазное сверление с водосборным кольцом пылесосом
+              </label>
+              <div class="calc coef__calc">
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <input
+                  class="input-reset calc__input input"
+                  type="number"
+                  pk="2"
+                  price="1.1"
+                  id="coef2"
+                  value="Алмазное сверление с водосборным кольцом пылесосом"
+                />
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </li>
+
+            <li class="coef__item">
+              <label class="label calc__label" for="coef3">
+                Сверление отверстий глубиной от 500 мм и более
+              </label>
+              <div class="calc coef__calc">
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <input
+                  class="input-reset calc__input input"
+                  type="number"
+                  pk="3"
+                  price="1.2"
+                  id="coef3"
+                  value="Сверление отверстий глубиной от 500мм и более"
+                />
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </li>
+
+            <li class="coef__item">
+              <label class="label calc__label" for="coef4">
+                Высокая армированность. (арматура толщиной от 16 мм. и более)
+              </label>
+              <div class="calc coef__calc">
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <input
+                  class="input-reset calc__input input"
+                  type="number"
+                  pk="4"
+                  price="1.3"
+                  id="coef4"
+                  value="Высокая армированность. (арматура толщиной от 16мм. и более)"
+                />
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </li>
+
+            <li class="coef__item">
+              <label class="label calc__label" for="coef5">
+                Сверление в труднодоступных местах (яма, чердак, подвал и т. п.)
+              </label>
+              <div class="calc coef__calc">
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <input
+                  class="input-reset calc__input input"
+                  type="number"
+                  pk="5"
+                  price="1.2"
+                  id="coef5"
+                  value="Сверление в труднодоступных местах (яма, чердак, подвал и т.п.)"
+                />
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </li>
+
+            <li class="coef__item">
+              <label class="label calc__label" for="coef6">
+                Высотное сверление от 2.5 м. и более
+              </label>
+              <div class="calc coef__calc">
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <input
+                  class="input-reset calc__input input"
+                  type="number"
+                  pk="6"
+                  price="1.3"
+                  id="coef6"
+                  value="Высотное сверление от 2.5 м. и более"
+                />
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </li>
+
+            <li class="coef__item">
+              <label class="label calc__label" for="coef7">
+                Отсуствие воды
+              </label>
+              <div class="calc coef__calc">
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <input
+                  class="input-reset calc__input input"
+                  type="number"
+                  pk="7"
+                  price="1.4"
+                  id="coef7"
+                  value="Отсуствие воды"
+                />
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </li>
+
+            <li class="coef__item">
+              <label class="label calc__label" for="coef8">
+                При работе в зимних условиях. (в стоимость не входит
+                незамерзающая житкость)
+              </label>
+              <div class="calc coef__calc">
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <input
+                  class="input-reset calc__input input"
+                  type="number"
+                  pk="8"
+                  price="1.3"
+                  id="coef8"
+                  value="При работе в зимних условиях .(в стоимость не входит незамерзающая житкость)"
+                />
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </li>
+
+            <li class="coef__item">
+              <label class="label calc__label" for="coef9">
+                Сверление бетона марки М400 и более
+              </label>
+              <div class="calc coef__calc">
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <input
+                  class="input-reset calc__input input"
+                  type="number"
+                  pk="9"
+                  price="1.3"
+                  id="coef9"
+                  value="Сверление бетона марки М400 и более"
+                />
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </li>
+
+            <li class="coef__item">
+              <label class="label calc__label" for="coef10">
+                При необходимости работать в ночное время с 22:00 до 08:00 ч
+              </label>
+              <div class="calc coef__calc">
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <input
+                  class="input-reset calc__input input"
+                  type="number"
+                  pk="10"
+                  price="1.3"
+                  id="coef10"
+                  value="При необходимости работать в ночное время с 22:00 до 08:00 ч"
+                />
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </li>
+
+            <li class="coef__item">
+              <label class="label calc__label" for="coef11">
+                При отсутствии электроэнергии (с бензогенератором без стоимости
+                бензина)
+              </label>
+              <div class="calc coef__calc">
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <input
+                  class="input-reset calc__input input"
+                  type="number"
+                  pk="11"
+                  price="1.3"
+                  id="coef11"
+                  value="При отсутствии электроэнергии (с бензогенератором без стоимости бензина)"
+                />
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </li>
+
+            <li class="coef__item">
+              <label class="label calc__label" for="coef12">
+                Без сверления отверстий под анкер, крепление установки вакуумной
+                плитой
+              </label>
+              <div class="calc coef__calc">
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <input
+                  class="input-reset calc__input input"
+                  type="number"
+                  pk="12"
+                  price="1.2"
+                  id="coef12"
+                  value="Без сверления отверстий под анкер, крепление установки вакуумной плитой"
+                />
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </li>
+
+            <li class="coef__item">
+              <label class="label calc__label" for="coef13">
+                С продувкой (сухим способом), армированный бетон, арматура
+                не более 16 мм и двух слоев
+              </label>
+              <div class="calc coef__calc">
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <input
+                  class="input-reset calc__input input"
+                  type="number"
+                  pk="13"
+                  price="3"
+                  id="coef13"
+                  value="С продувкой(сухим способом), армированный бетон, арматура не более 16мм и двух слоев"
+                />
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </li>
+
+            <li class="coef__item">
+              <label class="label calc__label" for="coef14">
+                С продувкой (сухим способом), кирпич/газоблок
+              </label>
+              <div class="calc coef__calc">
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <input
+                  class="input-reset calc__input input"
+                  type="number"
+                  pk="14"
+                  price="2"
+                  id="coef14"
+                  value="С продувкой (сухим способом), кирпич/газоблок"
+                />
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </li>
+
+            <li class="coef__item">
+              <label class="label calc__label" for="coef15">
+                Сверление снизу вверх
+              </label>
+              <div class="calc coef__calc">
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <input
+                  class="input-reset calc__input input"
+                  type="number"
+                  pk="15"
+                  price="3"
+                  id="coef15"
+                  value="Сверление снизу вверх"
+                />
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </li>
+
+            <li class="coef__item">
+              <label class="label calc__label" for="coef17">
+                сверление под углом более 5 градусов
+              </label>
+              <div class="calc coef__calc">
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <input
+                  class="input-reset calc__input input"
+                  type="number"
+                  pk="17"
+                  price="1.5"
+                  id="coef17"
+                  value="сверление под углом более 5 градусов"
+                />
+                <button class="btn-reset btn btn--counter">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </li>
+          </ul>
+        </form>
+      </section>
+
+      <div class="calculator__add">
+        <!-- скидка-->
+        <section class="sale">
+          <div class="container sale__container section-container">
+            <h2 class="sale__title title title--h3">Скидка</h2>
+            <form action="#" class="sale__form form">
+              <label class="form__label label sale__label">
+                <!-- <span>Процент скидки</span> -->
+                <input
+                  type="text"
+                  name="название"
+                  class="input-reset input sale__input form__input"
+                  placeholder="Процент скидки"
+                />
+                <div class="tooltip">
+                  <i class="fa-solid fa-circle-info"></i>
+                  <span class="tooltip__text">Введите процент скидки</span>
+                </div>
+              </label>
+            </form>
+          </div>
+        </section>
+
+        <!-- скидка end -->
+
+        <section class="distance">
+          <div class="container distance__container section-container">
+            <h2 class="distance__title title title--h3">Удаленность от МКАД</h2>
+            <form action="#" class="distance__form form">
+              <label class="form__label label distance__label">
+                <!-- <span>Название НП</span> -->
+                <input
+                  type="text"
+                  name="название"
+                  class="input-reset input distance__input form__input"
+                  placeholder="Название НП"
+                />
+                <div class="tooltip">
+                  <i class="fa-solid fa-circle-info"></i>
+                  <span class="tooltip__text"
+                    >Название населенного пункта до МКАД</span
+                  >
+                </div>
+              </label>
+              <button class="btn-reset btn distance__btn">Рассчитать</button>
+            </form>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <!-- sidebar -->
+  {% include 'lk/sidebar.html' %}
+
+</main>
+<!-- modal -->
+<div class="graph-modal">
+  <div
+    class="graph-modal__container"
+    role="dialog"
+    aria-modal="true"
+    data-graph-target="estimate"
+  >
+    <button
+      class="btn-reset js-modal-close graph-modal__close"
+      aria-label="Закрыть модальное окно"
+    >
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="graph-modal__content">
+      <table class="table table-estimate">
+        <caption>
+          Смета
+          <span>вся стоимсоть в рублях</span>
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col" rowspan="2">№</th>
+            <th scope="col" rowspan="2">Позиция</th>
+            <th scope="col" colspan="2">Коронка</th>
+            <th scope="col" colspan="2">Толщина стены</th>
+            <th scope="col" colspan="2">Количество отверстий</th>
+            <th scope="col" colspan="2">Материал стены</th>
+            <th scope="col" colspan="2">Коэффициенты</th>
+            <th scope="col" rowspan="2">Итоговая стоимость</th>
+          </tr>
+          <tr>
+            <th>Диаметр</th>
+            <th>Стоимость</th>
+            <th>Толщина</th>
+            <th>Стоимость</th>
+            <th>Количество</th>
+            <th>Стоимость</th>
+            <th>Материал</th>
+            <th>Стоимость</th>
+            <th>Коэффициент</th>
+            <th>Стоимость</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- item -->
+          <tr>
+            <td data-label="№">1</td>
+            <td data-label="Позиция">Стена 1</td>
+            <!-- коронка -->
+            <td data-label="Диаметр коронки">100 см</td>
+            <td data-label="Стоимость коронки">100</td>
+            <!-- толщина стены -->
+            <td data-label="Толщина стены">10 см</td>
+            <td data-label="Стоимость стены">1000</td>
+            <!-- количество отверстий -->
+            <td data-label="Количество отверстий">2</td>
+            <td data-label="Стоиость отверстий">200</td>
+            <!-- материал стены -->
+            <td data-label="Материал стены">Бетон</td>
+            <td data-label="Стоимость стены">5000</td>
+            <!-- коэффициенты -->
+            <td data-label="Коэффициенты">Глубина отверстия менее 20 см</td>
+            <td data-label="Стоимость коэффициента">2000</td>
+            <!-- итоговая стоимость -->
+            <td data-label="Итоговая стоимость">5000</td>
+          </tr>
+          <!-- item -->
+          <tr>
+            <td data-label="№">1</td>
+            <td data-label="Позиция">Стена 1</td>
+            <!-- коронка -->
+            <td data-label="Диаметр коронки">100 см</td>
+            <td data-label="Стоимость коронки">100</td>
+            <!-- толщина стены -->
+            <td data-label="Толщина стены">10 см</td>
+            <td data-label="Стоимость стены">1000</td>
+            <!-- количество отверстий -->
+            <td data-label="Количество отверстий">2</td>
+            <td data-label="Стоиость отверстий">200</td>
+            <!-- материал стены -->
+            <td data-label="Материал стены">Бетон</td>
+            <td data-label="Стоимость стены">5000</td>
+            <!-- коэффициенты -->
+            <td data-label="Коэффициенты">Глубина отверстия менее 20 см</td>
+            <td data-label="Стоимость коэффициента">2000</td>
+            <!-- итоговая стоимость -->
+            <td data-label="Итоговая стоимость">5000</td>
+          </tr>
+
+          <!-- total -->
+          <tr>
+            <td colspan="12"></td>
+            <td data-label="Общий итог">10000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- форма добавления пользователя (перешла из сайдбара)-->
+  <div
+    class="graph-modal__container graph-modal__container--form"
+    role="dialog"
+    aria-modal="true"
+    data-graph-target="add-client"
+  >
+    <button
+      class="btn-reset js-modal-close graph-modal__close"
+      aria-label="Закрыть модальное окно"
+    >
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="graph-modal__content">
+      <h2 class="graph-modal__title title--h2">Добавление клиента</h2>
+      <form action="#" class="form sidebar__form">
+        <label class="form__label label">
+          <span>Номер телефона</span>
+          <input
+            type="tel"
+            name="Номер телефона"
+            class="input-reset input sidebar__input"
+            placeholder="Номер телефона"
+            id="tel"
+          />
+          <button
+            type="button"
+            class="btn-reset sidebar__btn-clean"
+            onclick="document.getElementById('tel').value = ''"
+            style="display: none"
+            id="tel-btn"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </label>
+        <!-- new -2 -->
+        <div class="form-tel">
+          <ul class="list-reset form-tel__list">
+            <li>+7 929 346-85-81</li>
+            <li>+7 968 526-61-58</li>
+            <li>+7 916 307-72-79</li>
+            <li>+7 926 326-19-18</li>
+            <li>+7 985 118-12-79</li>
+          </ul>
+        </div>
+        <!-- end -->
+        <label class="form__label label">
+          <span>ФИО клиента</span>
+          <input
+            type="text"
+            name="ФИО"
+            class="input-reset input sidebar__input"
+            placeholder="Фамилия, Имя, Отчество"
+            id="name"
+          />
+          <button
+            type="button"
+            class="btn-reset sidebar__btn-clean"
+            onclick="document.getElementById('name').value = ''"
+            style="display: none"
+            id="name-btn"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </label>
+        <label class="form__label label">
+          <span>Email клиента</span>
+          <input
+            type="email"
+            name="Почта"
+            class="input-reset input sidebar__input"
+            placeholder="Почта"
+            id="mail"
+          />
+          <button
+            type="button"
+            class="btn-reset sidebar__btn-clean"
+            onclick="document.getElementById('mail').value = ''"
+            style="display: none"
+            id="mail-btn"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </label>
+        <label class="form__label label">
+          <span>Заметка</span>
+          <textarea
+            class="sidebar__textarea input textarea"
+            name="notes"
+            id="notes"
+            placeholder="Подробности"
+          ></textarea>
+          <button
+            type="button"
+            class="btn-reset sidebar__btn-clean"
+            onclick="document.getElementById('notes').value = ''"
+            style="display: none"
+            id="notes-btn"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </label>
+        <label class="form__label label">
+          <span>Дата</span>
+          <input
+            type="date"
+            name="Дата"
+            class="input-reset input sidebar__input"
+            placeholder="Дата"
+            id="date"
+          />
+        </label>
+        <label class="form__label label">
+          <span>Время</span>
+          <input
+            type="time"
+            name="Время"
+            class="input-reset input sidebar__input"
+            placeholder="Время"
+            id="time"
+          />
+        </label>
+        <button class="btn-reset btn form__btn">Добавить клиента</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

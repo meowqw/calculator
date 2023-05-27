@@ -167,3 +167,10 @@ class NoteAPIPost(APIView):
 
     serializer_class = ClientNoteSerializer
     
+
+class ClientsViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Only read Clients
+    """
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer

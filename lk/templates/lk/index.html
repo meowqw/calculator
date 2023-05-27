@@ -1,0 +1,308 @@
+{% extends 'lk/base.html' %} {% block content %} {% load static %}
+<div id="app">
+  <main class="main">
+    <header class="header">
+      <div
+        class="container-fluid header__container section-container section-container--no-border"
+      >
+        <button class="btn-reset sidebar-btn">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <h1 class="header__title title title--h1">Список клиентов</h1>
+      </div>
+    </header>
+
+    <div class="container main__container">
+      <!-- кнопка добавления клиента -->
+      <button
+        class="btn-reset btn main__btn-add-client"
+        data-graph-path="add-client"
+      >
+        <i class="fa-solid fa-plus"></i>
+        Добавить клиента
+      </button>
+    </div>
+    <section class="clients">
+      <div class="container clients__container">
+        <div class="clients-base">
+          <div class="clients-base__top">
+            <table class="table table-clients">
+              <thead>
+                <tr>
+                  <th scope="col">№</th>
+                  <th scope="col">Имя пользователя</th>
+                  <th scope="col">Почта</th>
+                  <th scope="col">Номер телефона</th>
+                  <th scope="col">Заметки</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- item -->
+                <tr v-for="client in clients">
+                  <td data-label="№">{* client.id *}</td>
+                  <td data-label="Имя пользователя">{* client.fio *}</td>
+                  <td data-label="Почта">
+                    <a :href="'mailto:'+ client.email" class="table__link"
+                      >{* client.email *}</a
+                    >
+                  </td>
+                  <td data-label="Номер телефона">
+                    <a :href="'tel:' + client.phone" class="table__link"
+                      >{* client.phone *}</a
+                    >
+                  </td>
+                  <td data-label="Заметки">Какие-то заметки</td>
+                  <td>
+                    <button class="btn-reset btn btn--table">
+                      Калькулятор
+                    </button>
+                    <button class="btn-reset btn btn--table">
+                      <i class="fa-solid fa-xmark"></i>
+                    </button>
+                  </td>
+                </tr>
+                <!-- item -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- sidebar -->
+  {% include 'lk/sidebar.html' %}
+
+  <!-- modal -->
+  <div class="graph-modal">
+    <div
+      class="graph-modal__container"
+      role="dialog"
+      aria-modal="true"
+      data-graph-target="estimate"
+    >
+      <button
+        class="btn-reset js-modal-close graph-modal__close"
+        aria-label="Закрыть модальное окно"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="graph-modal__content">
+        <table class="table table-estimate">
+          <caption>
+            Смета
+            <span>вся стоимсоть в рублях</span>
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col" rowspan="2">№</th>
+              <th scope="col" rowspan="2">Позиция</th>
+              <th scope="col" colspan="2">Коронка</th>
+              <th scope="col" colspan="2">Толщина стены</th>
+              <th scope="col" colspan="2">Количество отверстий</th>
+              <th scope="col" colspan="2">Материал стены</th>
+              <th scope="col" colspan="2">Коэффициенты</th>
+              <th scope="col" rowspan="2">Итоговая стоимость</th>
+            </tr>
+            <tr>
+              <th>Диаметр</th>
+              <th>Стоимость</th>
+              <th>Толщина</th>
+              <th>Стоимость</th>
+              <th>Количество</th>
+              <th>Стоимость</th>
+              <th>Материал</th>
+              <th>Стоимость</th>
+              <th>Коэффициент</th>
+              <th>Стоимость</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- item -->
+            <tr>
+              <td data-label="№">1</td>
+              <td data-label="Позиция">Стена 1</td>
+              <!-- коронка -->
+              <td data-label="Диаметр коронки">100 см</td>
+              <td data-label="Стоимость коронки">100</td>
+              <!-- толщина стены -->
+              <td data-label="Толщина стены">10 см</td>
+              <td data-label="Стоимость стены">1000</td>
+              <!-- количество отверстий -->
+              <td data-label="Количество отверстий">2</td>
+              <td data-label="Стоиость отверстий">200</td>
+              <!-- материал стены -->
+              <td data-label="Материал стены">Бетон</td>
+              <td data-label="Стоимость стены">5000</td>
+              <!-- коэффициенты -->
+              <td data-label="Коэффициенты">Глубина отверстия менее 20 см</td>
+              <td data-label="Стоимость коэффициента">2000</td>
+              <!-- итоговая стоимость -->
+              <td data-label="Итоговая стоимость">5000</td>
+            </tr>
+            <!-- item -->
+            <tr>
+              <td data-label="№">1</td>
+              <td data-label="Позиция">Стена 1</td>
+              <!-- коронка -->
+              <td data-label="Диаметр коронки">100 см</td>
+              <td data-label="Стоимость коронки">100</td>
+              <!-- толщина стены -->
+              <td data-label="Толщина стены">10 см</td>
+              <td data-label="Стоимость стены">1000</td>
+              <!-- количество отверстий -->
+              <td data-label="Количество отверстий">2</td>
+              <td data-label="Стоиость отверстий">200</td>
+              <!-- материал стены -->
+              <td data-label="Материал стены">Бетон</td>
+              <td data-label="Стоимость стены">5000</td>
+              <!-- коэффициенты -->
+              <td data-label="Коэффициенты">Глубина отверстия менее 20 см</td>
+              <td data-label="Стоимость коэффициента">2000</td>
+              <!-- итоговая стоимость -->
+              <td data-label="Итоговая стоимость">5000</td>
+            </tr>
+
+            <!-- total -->
+            <tr>
+              <td colspan="12"></td>
+              <td data-label="Общий итог">10000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- форма добавления пользователя (перешла из сайдбара)-->
+    <div
+      class="graph-modal__container graph-modal__container--form"
+      role="dialog"
+      aria-modal="true"
+      data-graph-target="add-client"
+    >
+      <button
+        class="btn-reset js-modal-close graph-modal__close"
+        aria-label="Закрыть модальное окно"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="graph-modal__content">
+        <h2 class="graph-modal__title title--h2">Добавление клиента</h2>
+        <form action="#" class="form sidebar__form">
+          <label class="form__label label">
+            <span>Номер телефона</span>
+            <input
+              type="tel"
+              name="Номер телефона"
+              class="input-reset input sidebar__input"
+              placeholder="Номер телефона"
+              id="tel"
+            />
+            <button
+              type="button"
+              class="btn-reset sidebar__btn-clean"
+              onclick="document.getElementById('tel').value = ''"
+              style="display: none"
+              id="tel-btn"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </label>
+          <!-- new -2 -->
+          <div class="form-tel">
+            <ul class="list-reset form-tel__list">
+              <li>+7 929 346-85-81</li>
+              <li>+7 968 526-61-58</li>
+              <li>+7 916 307-72-79</li>
+              <li>+7 926 326-19-18</li>
+              <li>+7 985 118-12-79</li>
+            </ul>
+          </div>
+          <!-- end -->
+          <label class="form__label label">
+            <span>ФИО клиента</span>
+            <input
+              type="text"
+              name="ФИО"
+              class="input-reset input sidebar__input"
+              placeholder="Фамилия, Имя, Отчество"
+              id="name"
+            />
+            <button
+              type="button"
+              class="btn-reset sidebar__btn-clean"
+              onclick="document.getElementById('name').value = ''"
+              style="display: none"
+              id="name-btn"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </label>
+          <label class="form__label label">
+            <span>Email клиента</span>
+            <input
+              type="email"
+              name="Почта"
+              class="input-reset input sidebar__input"
+              placeholder="Почта"
+              id="mail"
+            />
+            <button
+              type="button"
+              class="btn-reset sidebar__btn-clean"
+              onclick="document.getElementById('mail').value = ''"
+              style="display: none"
+              id="mail-btn"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </label>
+          <label class="form__label label">
+            <span>Заметка</span>
+            <textarea
+              class="sidebar__textarea input textarea"
+              name="notes"
+              id="notes"
+              placeholder="Подробности"
+            ></textarea>
+            <button
+              type="button"
+              class="btn-reset sidebar__btn-clean"
+              onclick="document.getElementById('notes').value = ''"
+              style="display: none"
+              id="notes-btn"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </label>
+          <label class="form__label label">
+            <span>Дата</span>
+            <input
+              type="date"
+              name="Дата"
+              class="input-reset input sidebar__input"
+              placeholder="Дата"
+              id="date"
+            />
+          </label>
+          <label class="form__label label">
+            <span>Время</span>
+            <input
+              type="time"
+              name="Время"
+              class="input-reset input sidebar__input"
+              placeholder="Время"
+              id="time"
+            />
+          </label>
+          <button class="btn-reset btn form__btn">Добавить клиента</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-the-mask/0.11.1/vue-the-mask.min.js"></script>
+<script src="{% static 'lk/js/index.js' %}"></script>
+{% endblock %}
