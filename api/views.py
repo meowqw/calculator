@@ -121,9 +121,6 @@ class ClientByPhoneAPIView(viewsets.ReadOnlyModelViewSet):
         queryset = Client.objects.filter(phone__icontains=phone)
         return queryset
     
-    
-    
-    
 class NoteAPIPost(APIView):
     """Добавить заметку"""
 
@@ -167,6 +164,12 @@ class NoteAPIPost(APIView):
 
     serializer_class = ClientNoteSerializer
     
+class ClientOrderByClientId(viewsets.ReadOnlyModelViewSet):
+    def get_queryset(self):
+        orders = ClientNote.objects.filter(client=self.kwargs['id'])
+        return orders
+        
+    serializer_class = ClientNoteSerializer
 
 class ClientsViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -174,3 +177,11 @@ class ClientsViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
+    
+    
+class ClientDelete(APIView):
+
+   def delete(self, request, id=None):
+        client = Client.objects.filter(id=id)
+        client.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

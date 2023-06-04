@@ -33,36 +33,65 @@
                   <th scope="col">Имя пользователя</th>
                   <th scope="col">Почта</th>
                   <th scope="col">Номер телефона</th>
-                  <th scope="col">Заметки</th>
+                  <th scope="col">Заказы</th>
                   <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>
                 <!-- item -->
-                <tr v-for="client in clients">
-                  <td data-label="№">{* client.id *}</td>
-                  <td data-label="Имя пользователя">{* client.fio *}</td>
-                  <td data-label="Почта">
-                    <a :href="'mailto:'+ client.email" class="table__link"
-                      >{* client.email *}</a
-                    >
-                  </td>
-                  <td data-label="Номер телефона">
-                    <a :href="'tel:' + client.phone" class="table__link"
-                      >{* client.phone *}</a
-                    >
-                  </td>
-                  <td data-label="Заметки">Какие-то заметки</td>
-                  <td>
-                    <button class="btn-reset btn btn--table">
-                      Калькулятор
-                    </button>
-                    <button class="btn-reset btn btn--table">
-                      <i class="fa-solid fa-xmark"></i>
-                    </button>
-                  </td>
-                </tr>
-                <!-- item -->
+                <template v-for="client in clients">
+                  <tr>
+                    <td data-label="№">1</td>
+                    <td data-label="Имя пользователя">{* client.fio *}</td>
+                    <td data-label="Почта">
+                      <a :href="'mailto:' + client.email" class="table__link"
+                        >{* client.email *}</a
+                      >
+                    </td>
+                    <td data-label="Номер телефона">
+                      <a :href="'tel:' + client.phone" class="table__link"
+                        >89235622848</a
+                      >
+                    </td>
+                    <td data-label="Заказы">
+                      <button
+                        v-on:click="showOrders(client.id)"
+                        class="btn-reset btn btn--table"
+                        :data-target="'order-panel-' + client.id"
+                        style="min-width: 101px"
+                      >
+                        Заказы
+                        <i class="fa-solid fa-caret-down"></i>
+                      </button>
+                    </td>
+                    <td>
+                      <button class="btn-reset btn btn--table">
+                        <i class="fa-solid fa-xmark"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <!-- order -->
+                  <tr
+                    v-for="order in client.orders"
+                    class="order-panel"
+                    :id="'order-panel-' + client.id"
+                  >
+                    <td></td>
+                    <td data-label="Дата">{* order.date *}</td>
+                    <td data-label="Время">{* order.time *}</td>
+                    <td data-label="Адрес">{* order.address *}</td>
+                    <td data-label="Калькулятор">
+                      <button class="btn-reset btn btn--table">
+                        Калькулятор
+                      </button>
+                    </td>
+                    <td>
+                      <button class="btn-reset btn btn--table">
+                        <i class="fa-solid fa-xmark"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </template>
               </tbody>
             </table>
           </div>
@@ -187,7 +216,10 @@
       </button>
       <div class="graph-modal__content">
         <h2 class="graph-modal__title title--h2">Добавление клиента</h2>
-        <form action="#" class="form sidebar__form">
+        <h2 id="clientError" style="color: red; display: none">
+          {* clientFormError *}
+        </h2>
+        <form class="form sidebar__form">
           <label class="form__label label">
             <span>Номер телефона</span>
             <input
@@ -195,6 +227,8 @@
               name="Номер телефона"
               class="input-reset input sidebar__input"
               placeholder="Номер телефона"
+              v-model="clientForm.phone"
+              v-mask="'+7(###)###-##-##'"
               id="tel"
             />
             <button
@@ -208,21 +242,13 @@
             </button>
           </label>
           <!-- new -2 -->
-          <div class="form-tel">
-            <ul class="list-reset form-tel__list">
-              <li>+7 929 346-85-81</li>
-              <li>+7 968 526-61-58</li>
-              <li>+7 916 307-72-79</li>
-              <li>+7 926 326-19-18</li>
-              <li>+7 985 118-12-79</li>
-            </ul>
-          </div>
           <!-- end -->
           <label class="form__label label">
             <span>ФИО клиента</span>
             <input
               type="text"
               name="ФИО"
+              v-model="clientForm.fio"
               class="input-reset input sidebar__input"
               placeholder="Фамилия, Имя, Отчество"
               id="name"
@@ -242,6 +268,7 @@
             <input
               type="email"
               name="Почта"
+              v-model="clientForm.email"
               class="input-reset input sidebar__input"
               placeholder="Почта"
               id="mail"
@@ -256,45 +283,13 @@
               <i class="fa-solid fa-xmark"></i>
             </button>
           </label>
-          <label class="form__label label">
-            <span>Заметка</span>
-            <textarea
-              class="sidebar__textarea input textarea"
-              name="notes"
-              id="notes"
-              placeholder="Подробности"
-            ></textarea>
-            <button
-              type="button"
-              class="btn-reset sidebar__btn-clean"
-              onclick="document.getElementById('notes').value = ''"
-              style="display: none"
-              id="notes-btn"
-            >
-              <i class="fa-solid fa-xmark"></i>
-            </button>
-          </label>
-          <label class="form__label label">
-            <span>Дата</span>
-            <input
-              type="date"
-              name="Дата"
-              class="input-reset input sidebar__input"
-              placeholder="Дата"
-              id="date"
-            />
-          </label>
-          <label class="form__label label">
-            <span>Время</span>
-            <input
-              type="time"
-              name="Время"
-              class="input-reset input sidebar__input"
-              placeholder="Время"
-              id="time"
-            />
-          </label>
-          <button class="btn-reset btn form__btn">Добавить клиента</button>
+          <button
+            class="btn-reset btn form__btn"
+            type="button"
+            v-on:click="addClient()"
+          >
+            Добавить клиента
+          </button>
         </form>
       </div>
     </div>

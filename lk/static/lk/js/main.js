@@ -18,12 +18,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_select__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_components_select__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _components_sidebar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/sidebar */ "./src/js/components/sidebar.js");
 /* harmony import */ var _components_sidebar__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_components_sidebar__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _components_order__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/order */ "./src/js/components/order.js");
+/* harmony import */ var _components_order__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_components_order__WEBPACK_IMPORTED_MODULE_5__);
 
 
 
 
 
 // import './components/choices';
+
 
 /***/ }),
 
@@ -193,6 +196,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var graph_modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! graph-modal */ "./node_modules/graph-modal/src/graph-modal.js");
 
 const modal = new graph_modal__WEBPACK_IMPORTED_MODULE_0__["default"]();
+
+/***/ }),
+
+/***/ "./src/js/components/order.js":
+/*!************************************!*\
+  !*** ./src/js/components/order.js ***!
+  \************************************/
+/***/ (() => {
+
+const orderButtons = document.querySelectorAll('[data-target^="order-panel-"]');
+orderButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    const target = button.getAttribute("data-target");
+    const panel = document.getElementById(target);
+    panel.classList.toggle("active");
+    button.classList.toggle("active");
+  });
+});
 
 /***/ }),
 
