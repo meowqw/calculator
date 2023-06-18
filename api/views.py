@@ -170,13 +170,30 @@ class ClientOrderByClientId(viewsets.ReadOnlyModelViewSet):
         return orders
         
     serializer_class = ClientNoteSerializer
+    
+class ClientOrder(viewsets.ReadOnlyModelViewSet):
+    def get_queryset(self):
+        order = ClientNote.objects.filter(id=self.kwargs['id'])
+        return order
+        
+    serializer_class = ClientNoteSerializer
+
+class ClientsAPIListPagination(PageNumberPagination):
+    """
+    CUSTOM PAGINSTION PROJECTS
+    """
+    page_size = 5
+    page_size_query_param = 'page_size'
+    max_page_size = 10000
+
 
 class ClientsViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Only read Clients
     """
-    queryset = Client.objects.all()
+    queryset = Client.objects.order_by('-id').all()
     serializer_class = ClientSerializer
+    pagination_class = ClientsAPIListPagination
     
     
 class ClientDelete(APIView):

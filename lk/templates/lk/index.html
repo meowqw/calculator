@@ -41,7 +41,7 @@
                 <!-- item -->
                 <template v-for="client in clients">
                   <tr>
-                    <td data-label="№">1</td>
+                    <td data-label="№">{* client.id *}</td>
                     <td data-label="Имя пользователя">{* client.fio *}</td>
                     <td data-label="Почта">
                       <a :href="'mailto:' + client.email" class="table__link"
@@ -50,7 +50,7 @@
                     </td>
                     <td data-label="Номер телефона">
                       <a :href="'tel:' + client.phone" class="table__link"
-                        >89235622848</a
+                        >{* client.phone *}</a
                       >
                     </td>
                     <td data-label="Заказы">
@@ -71,17 +71,18 @@
                     </td>
                   </tr>
                   <!-- order -->
+
                   <tr
                     v-for="order in client.orders"
-                    class="order-panel"
                     :id="'order-panel-' + client.id"
+                    class="table-order-panel"
                   >
                     <td></td>
-                    <td data-label="Дата">{* order.date *}</td>
-                    <td data-label="Время">{* order.time *}</td>
-                    <td data-label="Адрес">{* order.address *}</td>
-                    <td data-label="Калькулятор">
-                      <button class="btn-reset btn btn--table">
+                    <td data-label="Дата: ">{* order.date *}</td>
+                    <td data-label="Время: ">{* order.time *}</td>
+                    <td data-label="Адрес: ">{* order.address *}</td>
+                    <td data-label="">
+                      <button class="btn-reset btn btn--table" @click="goCalc(order.id)">
                         Калькулятор
                       </button>
                     </td>
@@ -91,10 +92,20 @@
                       </button>
                     </td>
                   </tr>
+
                 </template>
               </tbody>
             </table>
           </div>
+        </div>
+        <div class="pagination">
+          <button
+            v-for="link in pagesLinks"
+            @click="goToPage(link.page)"
+            :class="currentPage == link.page ? 'btn-reset pagination__btn btn pagination__btn--active' : 'btn-reset pagination__btn btn'"
+          >
+            {* link.page *}
+          </button>
         </div>
       </div>
     </section>

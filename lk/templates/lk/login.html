@@ -1,0 +1,32 @@
+{% extends 'lk/base.html' %} {% block content %} {% load static %}
+<main class="main" style="padding-bottom: 0">
+  <section class="login">
+    <div class="login__container container">
+      <h1 class="title">Авторизация</h1>
+      <form action="{% url 'auth' %}" method="post"  class="form login__form">
+        {% csrf_token %}
+        <label class="form__label label login__label">
+          <input
+            type="string"
+            name="username"
+            class="input-reset form__input input login__input"
+            placeholder="Имя пользователя"
+          />
+        </label>
+        <label class="form__label label login__label">
+          <input
+            type="password"
+            name="password"
+            id="password-input"
+            class="input-reset form__input input login__input"
+            placeholder="Пароль"
+          />
+        </label>
+        <button class="btn-reset btn form__btn login__btn" type="submit">
+          Войти
+        </button>
+      </form>
+    </div>
+  </section>
+</main>
+{% endblock %}

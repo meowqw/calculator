@@ -53,7 +53,8 @@ new Vue({
       client: null,
       date: null,
       time: null,
-      address: ""
+      address: "",
+      data: null
     },
 
     clients: [],
@@ -845,7 +846,26 @@ new Vue({
     },
 
     postClientData: async function () {
-      
+
+      data = {
+        result: JSON.stringify(this.result),
+        clientData: JSON.stringify(this.clientData),
+        discount: this.discount,
+        realTotal: this.realTotal,
+        secondCalcTotal: this.secondCalcTotal,
+        countSecondCalc: this.countSecondCalc,
+        noteCalcOne: this.noteCalcOne,
+        noteCalcTwo: this.noteCalcTwo,
+        noteTotal: this.noteTotal,
+        items: JSON.stringify(this.items),
+        count: this.count,
+        resultSecondCalc: JSON.stringify(this.resultSecondCalc),
+        itemsSecondCalc: JSON.stringify(this.itemsSecondCalc),
+      }
+
+      this.clientData.data = data;
+
+
       // берем адрес из поля адрес
       let address = document.getElementById('remValueSidebar').value
       this.clientData.address = address;
@@ -917,6 +937,24 @@ new Vue({
       this.clients = []
     },
 
+    async renderDataByNote(note) {
+      var order = await this.getData(`/api/v1/order/${note}`);
+      let data = order.data[0].data;
+      this.clientData = JSON.parse(data.clientData);
+      this.result = JSON.parse(data.result);
+      this.countSecondCalc = data.countSecondCalc;
+      this.discount = data.discount;
+      this.noteCalcOne = data.noteCalcOne;
+      this.noteCalcTwo = data.noteCalcTwo;
+      this.noteTotal = data.noteTotal;
+      this.realTotal = data.realTotal;
+      this.secondCalcTotal = data.secondCalcTotal;
+      this.items = JSON.parse(data.items);
+      this.count = data.count;
+      this.resultSecondCalc = JSON.parse(data.resultSecondCalc);
+      this.itemsSecondCalc = JSON.parse(data.itemsSecondCalc);
+    },
+
   },
   async mounted() {
     let script = document.createElement("script");
@@ -970,6 +1008,14 @@ new Vue({
       diameterSecondCalc.data[0].material[
       diameterSecondCalc.data[0].material.length - 1
       ];
+
+
+    let params = (new URL(document.location)).searchParams; 
+    note = params.get("note");
+
+    if (note) {
+      this.renderDataByNote(note);
+    }
   },
   watch: {
     // whenever changes, this function will run

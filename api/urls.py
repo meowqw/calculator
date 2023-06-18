@@ -18,6 +18,7 @@ urlpatterns = [
    path('clientNote/', NoteAPIPost.as_view()),
    path('client/orders/<int:id>', ClientOrderByClientId.as_view({'get': 'list'})),
    path('clients/', ClientsViewSet.as_view({'get': 'list'})),
+   path('order/<int:id>', ClientOrder.as_view({'get': 'list'})),
    
    path('client/<int:id>', ClientAPIView.as_view({'get': 'list'})),
    path('client/delete/<int:id>', ClientDelete.as_view()),

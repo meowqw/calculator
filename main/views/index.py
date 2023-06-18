@@ -8,5 +8,4 @@ def index(request):
     """Main page"""
     context = {'title': 'Главная'}
 
-
     return render(request, 'main/index.html', context)
