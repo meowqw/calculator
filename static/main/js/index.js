@@ -62,6 +62,8 @@ new Vue({
     noteCalcOne: "",
     noteCalcTwo: "",
     noteTotal: "",
+
+    totalPriceWithDiscount: 0
   },
   methods: {
     // add new item
@@ -149,8 +151,18 @@ new Vue({
         //   (this.result.total / 100) * this.discount
         // ).toFixed(0);
       }
+      this.calcTotalPriceWithDiscount();
 
       this.itemsToString();
+    },
+
+    calcTotalPriceWithDiscount: function() {
+      let secondCalcTotal = this.secondCalcTotal;
+      let firstCalcTotal = this.result.total;
+
+      this.totalPriceWithDiscount = ((Number(secondCalcTotal) + Number(firstCalcTotal)) - ((Number(secondCalcTotal) + Number(firstCalcTotal)) / 100) *
+                            this.discount).toFixed(0)
+
     },
 
     itemsToString: function () {
@@ -163,7 +175,9 @@ new Vue({
         let material = `Материал: ${resItem.material.value}`;
         let thickness = `Толщина: ${resItem.thickness.value}`;
 
-        resText += `Отверситие #${i.id}\n${count}\n${coef}\n${diameter}\n${material}\n${thickness}\nЦена #${i.id}: ${resItem.total}\n\n`;
+        let id = i.id == 0 ? 1 : i.id;
+
+        resText += `Отверситие #${id}\n${count}\n${coef}\n${diameter}\n${material}\n${thickness}\nЦена #${i.id}: ${resItem.total}\n\n`;
       }
 
       if (resText.length != 0) {
@@ -690,6 +704,8 @@ new Vue({
       }
       this.secondCalcTotal = total;
 
+      this.calcTotalPriceWithDiscount();
+
       // запись в note
 
       let resText = "";
@@ -701,7 +717,9 @@ new Vue({
         let circlePrice = `Цена за 1 отвертсие ${i.circlePrice}`;
         let total = `Цена за проем #${i.id}: ${i.total}`;
 
-        resText += `Проем # ${i.id}\n${perimeter}\n${thickness}\n${material}\n${circleCount}\n${circlePrice}\n${total}\n\n`;
+        let id = i.id == 0 ? 1 : i.id;
+
+        resText += `Проем # ${id}\n${perimeter}\n${thickness}\n${material}\n${circleCount}\n${circlePrice}\n${total}\n\n`;
       }
 
       if (resText.length != 0) {
@@ -736,14 +754,14 @@ new Vue({
           extraRemotnessText = `---ЛОГИСТИКА---\nПунки: ${this.result.remoteness.value}\nРасстояние от МКАД: ${this.result.remoteness.range}\nСтоимость: ${this.result.remoteness.total}\n\n`;
         }
 
-        let total = ((Number(this.secondCalcTotal) + Number(this.result.total)) - ((Number(this.secondCalcTotal) + Number(this.result.total) / 100) * this.discount)).toFixed(0)
+        // let total = ((Number(this.secondCalcTotal) + Number(this.result.total)) - ((Number(this.secondCalcTotal) + Number(this.result.total) / 100) * this.discount)).toFixed(0)
 
         let textDiscount = ''
         if (this.discount != 0) {
           textDiscount = `---СКИДКА---: ${this.discount}\n\n`
         }
 
-        resText += extraRemotnessText + extraWorkText + textDiscount + `ИТОГОВАЯ СТОИМОСТЬ: ${total}`;
+        resText += extraRemotnessText + extraWorkText + textDiscount + `ИТОГОВАЯ СТОИМОСТЬ: ${this.totalPriceWithDiscount}`;
       }
 
       this.clientData.note = this.noteCalcOne + this.noteCalcTwo + resText;

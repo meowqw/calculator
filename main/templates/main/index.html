@@ -349,9 +349,7 @@
                         <h3 class="result-block__title result-block__title--total">
                             Итоговая стоимость:
                         </h3>
-                        <span class="result-block__price result-block__price--total">{* ((Number(secondCalcTotal) +
-                            Number(result.total)) - ((Number(secondCalcTotal) + Number(result.total) / 100) *
-                            discount)).toFixed(0) *} руб</span>
+                        <span class="result-block__price result-block__price--total">{* totalPriceWithDiscount *} руб</span>
                     </div>
                 </div>
                 <!-- <button class="btn-reset btn result__btn">Рассчитать стоимость</button> -->
